@@ -1,0 +1,104 @@
+﻿<html>
+<head>
+<title>awifi-pay</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<script type="text/javascript" src="./jquery-2.1.4.js"></script>
+
+<script type="text/javascript">
+function formSubmit(obj){
+	var svrIp = document.getElementById("svr_ip").value;
+	var formObj = obj.parentNode;
+	var uri = formObj.attributes.getNamedItem('action').value;
+	formObj.action = svrIp + '/' + uri;
+	formObj.submit();
+	setTimeout(function() { formObj.action = uri; }, 500);
+}
+function tradeFormSubmit(obj){
+	tradeNo();
+	var payType = document.getElementById("payTypeSelect").value;
+	if(payType == "yipay"){
+		accessToken();
+	}
+	var svrIp = document.getElementById("svr_ip").value;
+	var formObj = obj.parentNode;
+	var uri = formObj.attributes.getNamedItem('action').value;
+	formObj.action = svrIp + '/' + uri;
+	formObj.submit();
+	setTimeout(function() { formObj.action = uri; }, 500);
+}
+function tradeNo(){
+	var tradeNo = "20150811142530" + parseInt(Math.random() * 1000000);
+	document.getElementById("orderNoInput").value = tradeNo;
+}
+function accessToken(){
+	$.ajax({
+		type: 'GET',
+		url: "/awifi-pay/tianyi/token" ,
+	    data: {
+	    	account:"18989893671"
+		},
+	    success: function(a, b, c){
+	    	console.log(a);
+	    	console.log(b);
+	    	console.log(c);
+	    },
+	    dataType: "json"
+	});
+}
+</script>
+<style>
+.field_span {
+	width: 100px;
+	text-align: right;
+	margin: 0 20px 0 0;
+	display: inline-block;
+}
+
+.sub_btn {
+	margin: 10px 0 10px 100px;
+}
+</style>
+</head>
+<body>
+	<div style="text-align: center;">
+		<h1>iwifi-pay</h1>
+	</div>
+
+	服务器接口地址：
+	<input id="svr_ip" type="text" size="50px"
+		value="http://localhost:8080" />
+	<br />
+
+	<div>
+		<h2>1.支付接口</h2>
+	</div>
+	<div>
+		<h3>1.1商品交易支付接口（POST请求）</h3>
+	</div>
+	<form action="awifi-pay/pay/trade" method="POST" target="_blank">
+		<span class="field_span">orderno:</span>
+		<input id="orderNoInput" type="text" name="orderno" readonly="readonly"/>
+		<span class="field_span">ordername:</span>
+		<input type="text" name="ordername" value="爱wifi交易" /><br />
+		<span class="field_span">totalfee:</span>
+		<input type="text" name="totalfee" value="1" />
+		<span class="field_span">showurl:</span>
+		<input type="text" name="showurl" value="http://www.baidu.com" size="50" /><br />
+		<span class="field_span">paytype:</span>
+		<select id="payTypeSelect" name="paytype" style="width:173px;">
+			<option value="union">银联支付</option>
+			<option value="alipay">支付宝</option>
+			<option value="yipay">翼支付</option>
+		</select>
+		<span class="field_span">payuser:</span>
+		<input type="text" name="payuser" value="18989893671" /><br />
+		<span class="field_span">touser:</span>
+		<input type="text" name="touser" value="18989893611" />
+		<span class="field_span">systype:</span>
+		<input type="text" name="systype" value="kaqm" /><br />
+		<br />
+		<input class="sub_btn" type="submit" value="提交" onclick="tradeFormSubmit(this);" />
+	</form>
+	
+</body>
+</html>
