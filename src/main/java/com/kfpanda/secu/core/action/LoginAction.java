@@ -1,12 +1,10 @@
-package com.kfpanda.secu.core;
+package com.kfpanda.secu.core.action;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.lang3.StringUtils;
+
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.shiro.SecurityUtils;
@@ -16,22 +14,28 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import com.kfpanda.util.VerifyCodeUtil;
+
+import com.kfpanda.secu.base.BaseAction;
+import com.kfpanda.secu.base.ResultDTO;
+import com.kfpanda.secu.bean.sys.SysUser;
+import com.kfpanda.secu.config.ConfigParmsClass;
+//import com.kfpanda.util.VerifyCodeUtil;
 
 @Controller("loginAction")
 @RequestMapping("/auth")
-public class LoginAction {
+public class LoginAction extends BaseAction{
 
 	/**
 	 * 获取验证码图片和文本(验证码文本会保存在HttpSession中)
 	 */
-	@RequestMapping("/verifycode/image")
+/*	@RequestMapping("/verifycode/image")
 	public void getVerifyCodeImage(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// 设置页面不缓存
 		response.setHeader("Pragma", "no-cache");
@@ -47,16 +51,18 @@ public class LoginAction {
 				Color.BLACK, null);
 		// 写给浏览器
 		ImageIO.write(bufferedImage, "JPEG", response.getOutputStream());
-	}
+	}*/
 
 	/**
 	 * 用户登录
 	 */
+    @ResponseBody
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(HttpServletRequest request) {
+	public ResultDTO login(HttpServletRequest request) {
 		String resultPageURL = InternalResourceViewResolver.FORWARD_URL_PREFIX + "/";
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		Map<String, Object> ret = new HashMap<String, Object>();
 		// 获取HttpSession中的验证码
 		/*String verifyCode = (String) request.getSession().getAttribute("verifyCode");
 		// 获取用户请求表单中输入的验证码
@@ -81,30 +87,40 @@ public class LoginAction {
 			System.out.println("对用户[" + username + "]进行登录验证..验证通过");
 			resultPageURL = "main";
 		} catch (UnknownAccountException uae) {
-			System.out.println("对用户[" + username + "]进行登录验证..验证未通过,未知账户");
-			request.setAttribute("message_login", "未知账户");
+			System.out.println("用户[" + username + "]不存在");
+			ret.put("message_login", "账号不存在");
+			return getResult(ret);
 		} catch (IncorrectCredentialsException ice) {
-			System.out.println("对用户[" + username + "]进行登录验证..验证未通过,错误的凭证");
-			request.setAttribute("message_login", "密码不正确");
+			System.out.println("用户[" + username + "]密码错误");
+			ret.put("message_login", "密码不正确");
+			return getResult(ret);
 		} catch (LockedAccountException lae) {
-			System.out.println("对用户[" + username + "]进行登录验证..验证未通过,账户已锁定");
-			request.setAttribute("message_login", "账户已锁定");
+			System.out.println("用户[" + username + "]账户已锁定");
+			ret.put("message_login", "账户已锁定");
+			return getResult(ret);
 		} catch (ExcessiveAttemptsException eae) {
-			System.out.println("对用户[" + username + "]进行登录验证..验证未通过,错误次数过多");
-			request.setAttribute("message_login", "用户名或密码错误次数过多");
+			System.out.println("用户[" + username + "]错误次数过多");
+			ret.put("message_login", "错误次数过多");
+			return getResult(ret);
 		} catch (AuthenticationException ae) {
 			// 通过处理Shiro的运行时AuthenticationException就可以控制用户登录失败或密码错误时的情景
-			System.out.println("对用户[" + username + "]进行登录验证..验证未通过,堆栈轨迹如下");
-			ae.printStackTrace();
-			request.setAttribute("message_login", "用户名或密码不正确");
+			System.out.println("用户[" + username + "]用户名或密码不正确");
+			ret.put("message_login", "用户名或密码不正确");
+			return getResult(ret);
+//			ae.printStackTrace();
 		}
 		// 验证是否登录成功
 		if (currentUser.isAuthenticated()) {
-			System.out.println("用户[" + username + "]登录认证通过(这里可以进行一些认证通过后的一些系统参数初始化操作)");
+			SysUser sysUser = new SysUser();  
+			sysUser.setUserName(username);
+			sysUser.setPassword(password);
+			ret.put("auth_login", 1);
+			//放入用户信息到session
+			request.getSession().setAttribute(ConfigParmsClass.USER_SESSION_KEY, sysUser);
 		} else {
 			token.clear();
 		}
-		return resultPageURL;
+		return getResult(ret);
 	}
 
 	/**
@@ -115,4 +131,5 @@ public class LoginAction {
 		SecurityUtils.getSubject().logout();
 		return InternalResourceViewResolver.REDIRECT_URL_PREFIX + "/";
 	}
+	
 }

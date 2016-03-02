@@ -53,7 +53,7 @@
                 /auth/verifycode/image=anon
                 /main**=authc
                 /user/info**=authc
-                /admin/listUser**=authc,perms[admin:manage]
+                /auth/listUser**=authc,perms[admin:manage]
             </value>
         </property>
     </bean>

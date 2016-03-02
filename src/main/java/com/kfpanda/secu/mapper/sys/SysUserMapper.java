@@ -1,5 +1,7 @@
 package com.kfpanda.secu.mapper.sys;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.ResultMap;
@@ -33,5 +35,5 @@ public interface SysUserMapper {
      */
     @ResultMap(value="sysUserResult")
     @Select(SysUserSql.FINDURR_SQL)
-    SysUser findURR(String userName);
+    List<SysUser> findURR(String userName);
 }

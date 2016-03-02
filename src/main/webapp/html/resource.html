@@ -23,15 +23,12 @@
 		<h1>iwifi-secu</h1>
 	</div>
 	<div>
-		<h3>登陆</h3>
+		<h3>resource_auth</h3>
 	</div>
-	<form action="http://192.168.34.115:8080/secu/auth/login" method="POST" target="_blank">
-		<span class="field_span">username:</span>
-		<input id="username" type="text" name="username"/>
-		<span class="field_span">password:</span>
-		<input type="text" name="password" value="" /><br />
-		
-		<input class="sub_btn" type="submit" value="登陆" onclick="tradeFormSubmit(this);" />
+	<form action="http://192.168.34.115:8080/secu/resource" method="POST" target="_blank">
+		<span class="field_span">resource_key:</span>
+		<input id="key" type="text" name="key"/>
+		<input class="sub_btn" type="submit" value="验证" onclick="tradeFormSubmit(this);" />
 	</form>
 	
 </body>

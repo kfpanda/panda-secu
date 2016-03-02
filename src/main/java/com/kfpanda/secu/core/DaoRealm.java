@@ -22,6 +22,8 @@ import org.apache.shiro.util.ThreadContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+
+import com.alibaba.fastjson.JSON;
 import com.kfpanda.secu.bean.sys.SysResource;
 import com.kfpanda.secu.bean.sys.SysRole;
 import com.kfpanda.secu.bean.sys.SysUser;
@@ -49,31 +51,35 @@ public class DaoRealm extends AuthorizingRealm{
 		List<String> roleList = new ArrayList<String>();
 		List<String> permissionList = new ArrayList<String>();
 		// 从数据库中获取当前登录用户的详细信息
-		SysUser sysUser = sysUserMapper.findURR(userName);
-		if (null != sysUser) {
-			// 实体类User中包含有用户角色的实体类信息
-			if (null != sysUser.getRoles() && sysUser.getRoles().size() > 0) {
-				// 获取当前登录用户的角色
-				for (SysRole role : sysUser.getRoles()) {
-					roleList.add(role.getName());
-					// 实体类Role中包含有角色权限的实体类信息
-					if (null != role.getResources() && role.getResources().size() > 0) {
-						// 获取权限
-						for (SysResource resource : role.getResources()) {
-							if (StringUtils.isNotEmpty(resource.getCode())) {
-								permissionList.add(resource.getCode());
+		List<SysUser> sysUserList = sysUserMapper.findURR(userName);
+		for (SysUser sysUser : sysUserList) {
+			if (null != sysUser) {
+				// 实体类User中包含有用户角色的实体类信息
+				if (null != sysUser.getRoles() && sysUser.getRoles().size() > 0) {
+					// 获取当前登录用户的角色
+					for (SysRole role : sysUser.getRoles()) {
+						roleList.add(role.getName());
+						// 实体类Role中包含有角色权限的实体类信息
+						if (null != role.getResources() && role.getResources().size() > 0) {
+							// 获取权限
+							for (SysResource resource : role.getResources()) {
+								if (StringUtils.isNotEmpty(resource.getCode())) {
+									permissionList.add(resource.getCode());
+									System.out.println(JSON.toJSONString(permissionList));
+								}
 							}
 						}
 					}
 				}
+			} else {
+				throw new AuthorizationException();
 			}
-		} else {
-			throw new AuthorizationException();
 		}
 		// 为当前用户设置角色和权限
 		SimpleAuthorizationInfo simpleAuthorInfo = new SimpleAuthorizationInfo();
 		simpleAuthorInfo.addRoles(roleList);
 		simpleAuthorInfo.addStringPermissions(permissionList);
+		System.out.println(JSON.toJSONString(permissionList));
 		/*
 		 * SimpleAuthorizationInfo simpleAuthorInfo = new
 		 * SimpleAuthorizationInfo(); //实际中可能会像上面注释的那样从数据库取得
