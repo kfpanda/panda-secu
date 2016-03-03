@@ -3,6 +3,8 @@ package com.kfpanda.secu.core;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
+
+import com.kfpanda.secu.config.SessionConfig;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.shiro.SecurityUtils;
@@ -79,7 +81,7 @@ public class DaoRealm extends AuthorizingRealm{
 		SimpleAuthorizationInfo simpleAuthorInfo = new SimpleAuthorizationInfo();
 		simpleAuthorInfo.addRoles(roleList);
 		simpleAuthorInfo.addStringPermissions(permissionList);
-		System.out.println(JSON.toJSONString(permissionList));
+		logger.debug("current user rolelist:(", JSON.toJSONString(roleList), "); permissionlist:(", JSON.toJSONString(permissionList),")");
 		/*
 		 * SimpleAuthorizationInfo simpleAuthorInfo = new
 		 * SimpleAuthorizationInfo(); //实际中可能会像上面注释的那样从数据库取得
@@ -108,14 +110,14 @@ public class DaoRealm extends AuthorizingRealm{
 		// 实际上这个authcToken是从LoginController里面currentUser.login(token)传过来的
 		// 两个token的引用都是一样的,本例中是org.apache.shiro.authc.UsernamePasswordToken@33799a1e
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-		logger.info("验证当前Subject时获取到token为"
+		logger.info("验证当前Subject时获取到token:"
 				+ ReflectionToStringBuilder.toString(token, ToStringStyle.MULTI_LINE_STYLE));
 		
 		SysUser sysUser = sysUserMapper.findByUserName(token.getUsername());
 		if (null != sysUser) {
 			AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(sysUser.getUserName(), sysUser.getPassword(),
 					sysUser.getNkName());
-			this.setSession("currentUser", sysUser);
+			this.setSession(SessionConfig.USER_SESSION_KEY, sysUser);
 			return authcInfo;
 		}
 		// 没有返回登录用户名对应的SimpleAuthenticationInfo对象时,就会在LoginController中抛出UnknownAccountException异常

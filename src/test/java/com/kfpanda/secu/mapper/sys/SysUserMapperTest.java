@@ -1,15 +1,17 @@
 package com.kfpanda.secu.mapper.sys;
 
-import java.sql.Timestamp;
-import java.util.Date;
-import javax.annotation.Resource;
+import com.kfpanda.secu.bean.sys.SysUser;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import com.kfpanda.secu.bean.sys.SysUser;
+
+import javax.annotation.Resource;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -67,7 +69,7 @@ public class SysUserMapperTest {
 	
 	@Test
 	public void findURR(){
-		SysUser sysUser = (SysUser) sysUserMapper.findURR("superadmin");
-		Assert.assertTrue(sysUser != null);
+		List<SysUser> sysUserList = sysUserMapper.findURR("superadmin");
+		Assert.assertTrue(sysUserList.size() > 0);
 	}
 }

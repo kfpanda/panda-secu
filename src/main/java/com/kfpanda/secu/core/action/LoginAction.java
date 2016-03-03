@@ -14,7 +14,6 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +24,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import com.kfpanda.secu.base.BaseAction;
 import com.kfpanda.secu.base.ResultDTO;
 import com.kfpanda.secu.bean.sys.SysUser;
-import com.kfpanda.secu.config.ConfigParmsClass;
+import com.kfpanda.secu.config.SessionConfig;
 //import com.kfpanda.util.VerifyCodeUtil;
 
 @Controller("loginAction")
@@ -116,7 +115,7 @@ public class LoginAction extends BaseAction{
 			sysUser.setPassword(password);
 			ret.put("auth_login", 1);
 			//放入用户信息到session
-			request.getSession().setAttribute(ConfigParmsClass.USER_SESSION_KEY, sysUser);
+			request.getSession().setAttribute(SessionConfig.USER_SESSION_KEY, sysUser);
 		} else {
 			token.clear();
 		}

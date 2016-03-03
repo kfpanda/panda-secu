@@ -7,6 +7,8 @@ import javax.annotation.Resource;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.ValidatingSession;
 import org.apache.shiro.session.mgt.eis.CachingSessionDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import com.kfpanda.secu.bean.sys.SysSession;
 import com.kfpanda.secu.mapper.sys.SysSessionMapper;
@@ -14,6 +16,7 @@ import com.util.common.SerializableUtils;
 
 @Repository
 public class PandaSessionDao extends CachingSessionDAO {
+	private static final Logger logger = LoggerFactory.getLogger(PandaSessionDao.class);
 	@Resource
 	private SysSessionMapper sysSessionMapper;
 	
