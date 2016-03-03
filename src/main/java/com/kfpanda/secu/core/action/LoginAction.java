@@ -19,6 +19,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -26,6 +27,7 @@ import com.kfpanda.secu.base.BaseAction;
 import com.kfpanda.secu.base.ResultDTO;
 import com.kfpanda.secu.bean.sys.SysUser;
 import com.kfpanda.secu.config.ConfigParmsClass;
+import com.util.common.safe.MD5;
 //import com.kfpanda.util.VerifyCodeUtil;
 
 @Controller("loginAction")
@@ -58,10 +60,11 @@ public class LoginAction extends BaseAction{
 	 */
     @ResponseBody
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResultDTO login(HttpServletRequest request) {
+	public ResultDTO login(@RequestParam(value = "username") String username,
+			@RequestParam(value = "password") String password,
+			@RequestParam(value = "remember" ,required = false ,defaultValue = "2") Integer remember,
+			HttpServletRequest request) {
 		String resultPageURL = InternalResourceViewResolver.FORWARD_URL_PREFIX + "/";
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
 		Map<String, Object> ret = new HashMap<String, Object>();
 		// 获取HttpSession中的验证码
 		/*String verifyCode = (String) request.getSession().getAttribute("verifyCode");
@@ -72,10 +75,9 @@ public class LoginAction extends BaseAction{
 			request.setAttribute("message_login", "验证码不正确");
 			return resultPageURL;
 		}*/
-		UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-		token.setRememberMe(true);
-		System.out.println("为了验证登录用户而封装的token为"
-				+ ReflectionToStringBuilder.toString(token, ToStringStyle.MULTI_LINE_STYLE));
+		
+		UsernamePasswordToken token = new UsernamePasswordToken(username, MD5.MD5Salt(username, password));
+	      	token.setRememberMe(true);
 		// 获取当前的Subject
 		Subject currentUser = SecurityUtils.getSubject();
 		try {
