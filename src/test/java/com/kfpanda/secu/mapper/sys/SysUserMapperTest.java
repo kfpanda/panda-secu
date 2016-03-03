@@ -67,7 +67,7 @@ public class SysUserMapperTest {
 	
 	@Test
 	public void findURR(){
-		SysUser sysUser = sysUserMapper.findURR("superadmin");
+		SysUser sysUser = (SysUser) sysUserMapper.findURR("superadmin");
 		Assert.assertTrue(sysUser != null);
 	}
 }
