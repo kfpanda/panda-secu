@@ -26,7 +26,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import com.kfpanda.secu.base.BaseAction;
 import com.kfpanda.secu.base.ResultDTO;
 import com.kfpanda.secu.bean.sys.SysUser;
-import com.kfpanda.secu.config.ConfigParmsClass;
+import com.kfpanda.secu.config.SessionConfig;
 import com.util.common.safe.MD5;
 //import com.kfpanda.util.VerifyCodeUtil;
 
@@ -77,7 +77,7 @@ public class LoginAction extends BaseAction{
 		}*/
 		
 		UsernamePasswordToken token = new UsernamePasswordToken(username, MD5.MD5Salt(username, password));
-	      	token.setRememberMe(true);
+	     token.setRememberMe(true);
 		// 获取当前的Subject
 		Subject currentUser = SecurityUtils.getSubject();
 		try {
@@ -118,7 +118,7 @@ public class LoginAction extends BaseAction{
 			sysUser.setPassword(password);
 			ret.put("auth_login", 1);
 			//放入用户信息到session
-			request.getSession().setAttribute(ConfigParmsClass.USER_SESSION_KEY, sysUser);
+			request.getSession().setAttribute(SessionConfig.USER_SESSION_KEY, sysUser);
 		} else {
 			token.clear();
 		}
