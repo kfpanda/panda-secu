@@ -96,6 +96,7 @@ th {
 .back-orange {
 	background: #F79647;
 }
+
 .back-green {
 	background: #7DBD90;
 }
@@ -106,7 +107,7 @@ th {
 .sidebar {
 	width: 188px;
 	height: 100vh;
-	
+	position: relative;
 	float: left;
 	overflow: hidden;
 	background: #2a2b3c;
@@ -183,11 +184,10 @@ th {
 	top: 1rem;
 	right: 3rem;
 }
-.top-right img{
-	display: inline-block;
-	
-}
 
+.top-right img {
+	display: inline-block;
+}
 
 .top>ul {
 	background: #6d6e79;
@@ -348,8 +348,6 @@ th {
 	border-top: 1px solid #ddd;
 }
 
-
-
 .table thead {
 	background-color: #FEFFEC;
 	font-weight: normal;
@@ -359,10 +357,12 @@ th {
 	font-weight: normal;
 	background-color: #F8F8F8;
 }
+
 .table th:first-child {
 	position: relative;
 	width: 50px;
 }
+
 .table tbody tr:first-child {
 	position: relative;
 	width: 50px;
@@ -375,9 +375,11 @@ th {
 .table tbody tr:nth-child(odd) {
 	background-color: #FAFCFF;
 }
+
 .table tbody tr:hover {
 	background-color: #CCC;
 }
+
 .table input[type=checkbox] {
 	opacity: 1;
 }
@@ -471,7 +473,145 @@ th {
 	padding-right: 3%;
 }
 
-.role-set>a {
+
+/*模态框*/
+
+.modal {
+	position: absolute;
+	top: 61px;
+	left: 35%;
+	z-index: 1;
+	background-color: #fff;
+	height: 620px;
+	width: 582px;
+	/*display: none;*/
+	text-align: center;
+	border-radius: 6px;
+	border: 1px solid rgba(0, 0, 0, .2);
+	/*-webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+	box-shadow: 0 5px 15px rgba(0, 0, 0, .5);*/
+	outline: 0;
+}
+.modal .error {
+	color: red;
+	text-align: center;
+	min-height: 1rem;
+	line-height: 1rem;
+	font-size: 1.5rem;
+	margin-top: 5px;
+}
+.modal header {
+	height: 30px;
+	line-height: 30px;
+	color: #000000;
+	border-bottom: 1px solid #e5e5e5;
+	padding: 6px 10px;
+}
+
+.modal header .title {
+	float: left;
+	font-size: 1.3rem;
+	font-weight: 100;
+}
+
+.modal header .close {
+	float: right;
+	font-size: 1.9rem;
+	font-weight: 700;
+	line-height: 1;
+	color: #000;
+	text-shadow: 0 1px 0 #fff;
+	filter: alpha(opacity=20);
+	opacity: .2;
+}
+
+.modal a {
+	border-radius: 15px;
+}
+
+.modal-body {
+	height: 480px;
+	/*background: #ccc;*/
+	padding: 15px;
+}
+
+.modal-row {
+	width: 100%;
+	/*min-height:60px;*/
+	margin-bottom: 15px;
+	/*background: blue;*/
+	
+}
+
+.modal footer {
+	padding: 15px;
+	text-align: right;
+	border-top: 1px solid #e5e5e5;
+}
+
+
+
+
+.modal .form-group {
+	width:100%;
+	height: 3rem;
+	line-height: 3rem;
+	font-size: 1.5rem;
+	outline: none;
+	border: 1px solid #e5e5e5;
+	border-radius: 5px;
+	margin-bottom: 10px;
+}
+
+.modal .form-check {
+	width: 2rem;
+	height: 2rem;
+	height: 3rem;
+	line-height: 3rem;
+}
+
+.modal .label {
+	border: 0;
+	float: left;
+}
+
+
+.row-10 {
+	width: 10%;
+	margin: 0 auto;
+	float: left;
+}
+.row-20 {
+	width: 20%;
+	margin: 0 auto;
+	float: left;
+}
+.row-30 {
+	width: 30%;
+	margin: 0 auto;
+	float: left;
+}
+.row-40 {
+	width: 40%;
+	margin: 0 auto;
+	float: left;
+}
+.row-50 {
+	width: 50%;
+	margin: 0 auto;
+	float: left;
+}
+.row-60 {
+	width: 60%;
+	margin: 0 auto;
+	float: left;
+}
+.row-70 {
+	width: 70%;
+	margin: 0 auto;
+	float: left;
+}
+/*.role-set>a {
 	width: 84px;
 	height: 28px;
 	background: #f7b820;
@@ -483,9 +623,10 @@ th {
 	font-family: "微软雅黑";
 	margin-right: 2rem;
 	text-decoration: none;
-}
+}*/
 
-.modify>a {
+
+/*.modify>a {
 	width: 84px;
 	height: 28px;
 	background: #3cd3bf;
@@ -520,4 +661,4 @@ th {
 
 .td11>a:hover {
 	color: #f7b820;
-}
+}*/

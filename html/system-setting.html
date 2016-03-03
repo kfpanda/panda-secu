@@ -34,39 +34,37 @@
 		<!-- 主要内容 -->
 		<div class="content">
 			<div class="top">
-				
-			<div class="top-right">
-				<img  src="image/yonghu.png" id="logout">
-				<label class="arrow" ></label>
-			</div>
-					<ul id="logform">
-						<li><a href="#">修改资料</a></li>
-						<li><a href="#">设置密码</a></li>
-						<li><a href="#">退出当前</a></li>
-					</ul>
-			
+
+				<div class="top-right">
+					<img src="image/yonghu.png" id="logout">
+					<label class="arrow"></label>
+				</div>
+				<ul id="logform">
+					<li><a href="javascript:void(0);">修改资料</a></li>
+					<li><a href="javascript:void(0);">设置密码</a></li>
+					<li><a href="javascript:void(0);">退出当前</a></li>
+				</ul>
 
 			</div>
 			<div class="bottom">
 				<div class="middle">
-					
+
 					<div class="input">
 						<label class="input-span back-blue" for="name">姓名</label>
-						<input type="text" id="name"/>
+						<input type="text" id="name" />
 					</div>
-                 
-                    
-                    <div class="input">
-                    	<label class="input-span back-yellow" >选择</label>
-                    	<select >
-                    		<option>1</option>
-                    		<option>1</option>
-                    		<option>1</option>
-                    	</select>
-                    </div>
-                    
-                    	<a href="javascript:void(0);"  class="button back-red">查询</a>
-                       
+
+					<div class="input">
+						<label class="input-span back-yellow">选择</label>
+						<select>
+							<option>1</option>
+							<option>1</option>
+							<option>1</option>
+						</select>
+					</div>
+
+					<a href="javascript:void(0);" class="button back-red">查询</a>
+
 				</div>
 				<div class="main">
 					<div class="table-title">
@@ -98,10 +96,65 @@
 								<td>呼呼呼呼呼呼呼</td>
 								<td>啊啊啊啊啊啊啊啊</td>
 								<td>
-									<a class="button option back-orange">角色设置</a>
-								<a class="button option back-green">修改用户</a>
-								<a class="button option back-blue">重置密码</a>
+									<a href="javascript:void(0);" class="button option back-orange">角色设置</a>
+									<a href="javascript:void(0);" class="button option back-green">修改用户</a>
+									<a href="javascript:void(0);" class="button option back-blue">重置密码</a>
 								</td>
+							</tr>
+							<tr>
+								<td class="tdSelect">
+									<input type="checkbox" name="selectRow" />
+								</td>
+								<td>1</td>
+								<td>2</td>
+								<td>3</td>
+								<td>4</td>
+								<td>5</td>
+								<td>option</td>
+							</tr>
+							<tr>
+								<td class="tdSelect">
+									<input type="checkbox" name="selectRow" />
+								</td>
+								<td>1</td>
+								<td>2</td>
+								<td>3</td>
+								<td>4</td>
+								<td>5</td>
+								<td>option</td>
+							</tr>
+							<tr>
+								<td class="tdSelect">
+									<input type="checkbox" name="selectRow" />
+								</td>
+								<td>1</td>
+								<td>2</td>
+								<td>3</td>
+								<td>4</td>
+								<td>5</td>
+								<td>option</td>
+							</tr>
+							<tr>
+								<td class="tdSelect">
+									<input type="checkbox" name="selectRow" />
+								</td>
+								<td>1</td>
+								<td>2</td>
+								<td>3</td>
+								<td>4</td>
+								<td>5</td>
+								<td>option</td>
+							</tr>
+							<tr>
+								<td class="tdSelect">
+									<input type="checkbox" name="selectRow" />
+								</td>
+								<td>1</td>
+								<td>2</td>
+								<td>3</td>
+								<td>4</td>
+								<td>5</td>
+								<td>option</td>
 							</tr>
 							<tr>
 								<td class="tdSelect">
@@ -171,7 +224,52 @@
 			</div>
 
 		</div>
-
+		<div class="modal">
+			<header>
+				<span class="title">增加/修改</span>
+				<a href="javascript:void(0);" class="close">
+					<span>×</span>
+				</a>
+			</header>
+			<div class="error">
+				error
+			</div>
+			<div class="modal-body">
+				<div class="modal-row">
+					<div class="row-30">
+						<label class="form-group label">姓名</label>
+					</div>
+					<div class="row-70">
+						<input class="form-group" />
+					</div>
+				</div>
+				<div class="modal-row">
+					<div class="row-30">
+						<label class="form-group label">生日</label>
+					</div>
+					<div class="row-40">
+						<select class="form-group">
+							<option>1</option>
+							<option>1</option>
+						</select>
+					</div>
+					<div class="row-30">
+						<select class="form-group">
+							<option>1</option>
+							<option>1</option>
+						</select>
+					</div>
+					
+				</div>
+				<div class="modal-row"></div>
+				<div class="modal-row"></div>
+				<div class="modal-row"></div>
+			</div>
+			<footer>
+                <a href="javascript:void(0);" class="button option back-blue">确认</a>
+                 <a href="javascript:void(0);" class="button option back-gray">关闭</a>
+			</footer>
+		</div>
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 		<script src="js/system-setting.js"></script>
 	</body>
