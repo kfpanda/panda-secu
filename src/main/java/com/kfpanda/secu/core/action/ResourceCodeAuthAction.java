@@ -3,6 +3,7 @@ package com.kfpanda.secu.core.action;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
@@ -17,12 +18,11 @@ import com.kfpanda.secu.base.BaseAction;
 import com.kfpanda.secu.base.ResultDTO;
 import com.kfpanda.secu.bean.sys.SysUser;
 import com.kfpanda.secu.config.ConfigParmsClass;
+import com.kfpanda.secu.mapper.sys.SysUserMapper;
 
 @Controller
 public class ResourceCodeAuthAction extends BaseAction{
-	/**
-	 * 资源验证
-	 */
+	/** * 资源验证 */
     @ResponseBody
 	@RequestMapping(value = "/resource", method = RequestMethod.POST)
 	public ResultDTO resource(HttpServletRequest request) {

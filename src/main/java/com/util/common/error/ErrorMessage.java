@@ -35,7 +35,7 @@ public class ErrorMessage {
      */
     public static String getErrorMsg(String key){
         loadMsgProp();
-        return msgProp.get(key).toString();
+        return msgProp.get(key + ".msg").toString();
     }
 
     /**
