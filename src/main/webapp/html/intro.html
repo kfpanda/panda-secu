@@ -3,8 +3,29 @@
 <title>awifi-secu</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <script type="text/javascript" src="./jquery-2.1.4.js"></script>
+<script type="text/javascript">
 
 
+function formSubmit(obj){
+	var svrIp = document.getElementById("svr_ip").value;
+	var formObj = obj.parentNode;
+	var uri = formObj.attributes.getNamedItem('action').value;
+	formObj.action = svrIp + '/' + uri;
+	formObj.submit();
+	setTimeout(function() { formObj.action = uri; }, 500);
+}
+function tradeFormSubmit(obj){
+
+	var svrIp = document.getElementById("svr_ip").value;
+	var formObj = obj.parentNode;
+	var uri = formObj.attributes.getNamedItem('action').value;
+	formObj.action = svrIp + '/' + uri;
+	formObj.submit();
+	setTimeout(function() { formObj.action = uri; }, 500);
+}
+
+
+</script>
 <style>
 .field_span {
 	width: 100px;
@@ -22,10 +43,15 @@
 	<div style="text-align: center;">
 		<h1>iwifi-secu</h1>
 	</div>
+	<!-- 	<input id="svr_ip" type="text" size="50px"
+		value="http://localhost:8080" /> -->
+			<input id="svr_ip" type="text" size="50px"
+		value="http://192.168.34.115:8080" /> 
+	<br />
 	<div>
 		<h3>登陆</h3>
 	</div>
-	<form action="http://localhost:8080/secu/auth/login" method="POST" target="_blank">
+	<form action="secu/auth/login" method="POST" target="_blank">
 		<span class="field_span">username:</span>
 		<input id="username" type="text" name="username"/>
 		<span class="field_span">password:</span>
