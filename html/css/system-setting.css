@@ -8,7 +8,7 @@
 }
 
 html {
-	font: 12px 'Microsoft Yahei', Tahoma, Helvetica, Arial, '\5b8b\4f53', sans-serif;
+	font: 14px 'Microsoft Yahei', Tahoma, Helvetica, Arial, '\5b8b\4f53', sans-serif;
 	overflow-y: scroll;
 }
 
@@ -63,7 +63,42 @@ th {
 /*背景*/
 
 .back-blue {
-	background: #827EDF;
+	background: #2C8FFF;
+}
+
+.back-yellow {
+	background: #ffbc2c;
+}
+
+.back-red {
+	background: #ff4a2c;
+}
+
+.back-cyan {
+	background: #20ce97;
+}
+
+.back-purple {
+	background: #ce20c8;
+}
+
+.back-gray {
+	background: #ECECEC;
+}
+
+.back-light-gray {
+	background: #F7F7F7;
+}
+
+.back-lighter-gray {
+	background: #f1f1f1;
+}
+
+.back-orange {
+	background: #F79647;
+}
+.back-green {
+	background: #7DBD90;
 }
 
 
@@ -128,7 +163,7 @@ th {
 
 .top {
 	width: 100%;
-	height: 8%;
+	height: 60px;
 	background: #fff;
 	border-bottom: 1px solid #cdcdcd;
 	min-width: 420px;
@@ -254,10 +289,8 @@ th {
 	width: 50px;
 	height: 30px;
 	line-height: 30px;
-	margin: 0 3px;
 	border-radius: 3px;
 	color: rgb(255, 255, 255);
-	font-size: 1.2rem;
 	text-align: center;
 }
 
@@ -265,6 +298,7 @@ th {
 	height: 2rem;
 	line-height: 2rem;
 	width: 5rem;
+	border-radius: 5px;
 }
 
 
