@@ -67,7 +67,6 @@ public class DaoRealm extends AuthorizingRealm{
 							for (SysResource resource : role.getResources()) {
 								if (StringUtils.isNotEmpty(resource.getCode())) {
 									permissionList.add(resource.getCode());
-									System.out.println(JSON.toJSONString(permissionList));
 								}
 							}
 						}
@@ -117,6 +116,8 @@ public class DaoRealm extends AuthorizingRealm{
 		if (null != sysUser) {
 			AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(sysUser.getUserName(), sysUser.getPassword(),
 					sysUser.getNkName());
+			//隐藏密码
+			sysUser.setPassword(null);
 			this.setSession(SessionConfig.USER_SESSION_KEY, sysUser);
 			return authcInfo;
 		}
@@ -140,8 +141,4 @@ public class DaoRealm extends AuthorizingRealm{
         }
     }
     
-    public static void main(String[] args) {
-    	String a = ThreadContext.class.getName();
-    	System.out.println(a);
-    }
 }
