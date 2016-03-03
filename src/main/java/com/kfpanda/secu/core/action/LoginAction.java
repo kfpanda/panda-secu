@@ -16,6 +16,8 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +35,7 @@ import com.util.common.safe.MD5;
 @Controller("loginAction")
 @RequestMapping("/auth")
 public class LoginAction extends BaseAction{
+	private static final Logger logger = LoggerFactory.getLogger(LoginAction.class);
 
 	/**
 	 * 获取验证码图片和文本(验证码文本会保存在HttpSession中)
@@ -62,10 +65,8 @@ public class LoginAction extends BaseAction{
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResultDTO login(@RequestParam(value = "username") String username,
 			@RequestParam(value = "password") String password,
-			@RequestParam(value = "remember" ,required = false ,defaultValue = "2") Integer remember,
-			HttpServletRequest request) {
-		String resultPageURL = InternalResourceViewResolver.FORWARD_URL_PREFIX + "/";
-		Map<String, Object> ret = new HashMap<String, Object>();
+			@RequestParam(value = "remember" ,required = false ,defaultValue = "2") Integer remember) {
+		//String resultPageURL = InternalResourceViewResolver.FORWARD_URL_PREFIX + "/";
 		// 获取HttpSession中的验证码
 		/*String verifyCode = (String) request.getSession().getAttribute("verifyCode");
 		// 获取用户请求表单中输入的验证码
@@ -77,52 +78,39 @@ public class LoginAction extends BaseAction{
 		}*/
 		
 		UsernamePasswordToken token = new UsernamePasswordToken(username, MD5.MD5Salt(username, password));
-	     token.setRememberMe(true);
+		token.setRememberMe(true);
 		// 获取当前的Subject
 		Subject currentUser = SecurityUtils.getSubject();
 		try {
 			// 在调用了login方法后,SecurityManager会收到AuthenticationToken,并将其发送给已配置的Realm执行必须的认证检查
 			// 每个Realm都能在必要时对提交的AuthenticationTokens作出反应
 			// 所以这一步在调用login(token)方法时,它会走到MyRealm.doGetAuthenticationInfo()方法中,具体验证方式详见此方法
-			System.out.println("对用户[" + username + "]进行登录验证..验证开始");
 			currentUser.login(token);
-			System.out.println("对用户[" + username + "]进行登录验证..验证通过");
-			resultPageURL = "main";
 		} catch (UnknownAccountException uae) {
-			System.out.println("用户[" + username + "]不存在");
-			ret.put("message_login", "账号不存在");
-			return getResult(ret);
+			logger.info("user(", username, ") is not exists.");
+			return getResult(-2, "用户帐号不存在.");
 		} catch (IncorrectCredentialsException ice) {
 			System.out.println("用户[" + username + "]密码错误");
-			ret.put("message_login", "密码不正确");
-			return getResult(ret);
+			logger.info("user(", username, ") password(", password, ") is error.");
+			return getResult(-3, "用户密码不正确.");
 		} catch (LockedAccountException lae) {
-			System.out.println("用户[" + username + "]账户已锁定");
-			ret.put("message_login", "账户已锁定");
-			return getResult(ret);
+			logger.info("user(", username, ") is lock.");
+			return getResult(-4, "用户账户锁定.");
 		} catch (ExcessiveAttemptsException eae) {
-			System.out.println("用户[" + username + "]错误次数过多");
-			ret.put("message_login", "错误次数过多");
-			return getResult(ret);
+			logger.info("user(", username, ") error more.");
+			return getResult(-5, "错误次数过多.");
 		} catch (AuthenticationException ae) {
 			// 通过处理Shiro的运行时AuthenticationException就可以控制用户登录失败或密码错误时的情景
-			System.out.println("用户[" + username + "]用户名或密码不正确");
-			ret.put("message_login", "用户名或密码不正确");
-			return getResult(ret);
-//			ae.printStackTrace();
+			logger.info("user(", username, ") or password(", password, ") error.");
+			return getResult(-6, "用户名或密码不正确.");
 		}
 		// 验证是否登录成功
 		if (currentUser.isAuthenticated()) {
-			SysUser sysUser = new SysUser();  
-			sysUser.setUserName(username);
-			sysUser.setPassword(password);
-			ret.put("auth_login", 1);
-			//放入用户信息到session
-			request.getSession().setAttribute(SessionConfig.USER_SESSION_KEY, sysUser);
+			return getResult(currentUser.getSession().getAttribute(SessionConfig.USER_SESSION_KEY));
 		} else {
 			token.clear();
 		}
-		return getResult(ret);
+		return getResult(-1, "认证错误.");
 	}
 
 	/**

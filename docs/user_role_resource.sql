@@ -19,10 +19,10 @@ DROP TABLE IF EXISTS `sys_resource`;
 CREATE TABLE `sys_resource` (
   `id` bigint(10) NOT NULL AUTO_INCREMENT,
   `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
-  `pid` bigint(10) NOT NULL,
-  `name` varchar(20) NOT NULL,
-  `code` varchar(20) NOT NULL,
-  `type` varchar(20) DEFAULT NULL,
+  `pid` bigint(10) NOT NULL DEFAULT 0,
+  `name` varchar(30) NOT NULL,
+  `code` varchar(30) NOT NULL,
+  `type` varchar(10) DEFAULT NULL,
   `url` varchar(255) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `order` int(11) DEFAULT NULL,
@@ -45,8 +45,8 @@ DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
   `id` bigint(10) NOT NULL AUTO_INCREMENT,
   `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
-  `name` varchar(20) NOT NULL,
-  `code` varchar(20) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `code` varchar(30) NOT NULL,
   `status` int(11) DEFAULT NULL,
   `order` int(11) DEFAULT NULL,
   `remark` varchar(200) DEFAULT NULL,
@@ -100,8 +100,8 @@ CREATE TABLE `sys_user` (
   `weichat` char(20) DEFAULT NULL COMMENT '微信号6-20个字母、数字、下划线和减号，必须以字母开头',
   `qq` bigint(11) DEFAULT NULL COMMENT 'QQ号  4-11位数字组成',
   `face` varchar(100) DEFAULT NULL COMMENT '头像',
-  `remark` varchar(200) DEFAULT NULL,
-  `openid` bigint(20) DEFAULT NULL,
+  `remark` varchar(400) DEFAULT NULL,
+  `openid` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `sys_user_username_index` (`username`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=33384 DEFAULT CHARSET=utf8;
