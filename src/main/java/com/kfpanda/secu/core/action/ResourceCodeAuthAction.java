@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.kfpanda.secu.config.SessionConfig;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kfpanda.secu.base.BaseAction;
 import com.kfpanda.secu.base.ResultDTO;
 import com.kfpanda.secu.bean.sys.SysUser;
-import com.kfpanda.secu.config.ConfigParmsClass;
 
 @Controller
 public class ResourceCodeAuthAction extends BaseAction{
@@ -28,7 +28,7 @@ public class ResourceCodeAuthAction extends BaseAction{
 	public ResultDTO resource(HttpServletRequest request) {
 		Map<String, Object> ret = new HashMap<String, Object>();
 		//获取session中的用户信息
-		Object user_session = request.getSession().getAttribute(ConfigParmsClass.USER_SESSION_KEY);
+		Object user_session = request.getSession().getAttribute(SessionConfig.USER_SESSION_KEY);
 		if(user_session == null){
 			return null;
 		}
@@ -43,7 +43,7 @@ public class ResourceCodeAuthAction extends BaseAction{
 			System.out.println(request.getParameter("key"));
 			ret.put("auth_resource", currentUser.isPermitted(request.getParameter("key")));
 			//放入用户信息到session
-//			request.getSession().setAttribute(ConfigParmsClass.USER_SESSION_KEY, value)
+//			request.getSession().setAttribute(SessionConfig.USER_SESSION_KEY, value)
 		} else {
 			token.clear();
 		}
