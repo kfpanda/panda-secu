@@ -1,4 +1,4 @@
-package com.kfpanda.secu.base;
+package com.kfpanda.secu.action;
 
 import java.util.ArrayList;
 import java.util.List;

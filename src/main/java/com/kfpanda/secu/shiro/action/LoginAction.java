@@ -1,4 +1,4 @@
-package com.kfpanda.secu.core.action;
+package com.kfpanda.secu.shiro.action;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import com.kfpanda.secu.base.BaseAction;
-import com.kfpanda.secu.base.ResultDTO;
+import com.kfpanda.secu.action.BaseAction;
+import com.kfpanda.secu.action.ResultDTO;
 import com.kfpanda.secu.bean.sys.SysUser;
 import com.kfpanda.secu.config.SessionConfig;
 import com.util.common.safe.MD5;
@@ -90,7 +90,6 @@ public class LoginAction extends BaseAction{
 			logger.info("user(", username, ") is not exists.");
 			return getResult(-2, "用户帐号不存在.");
 		} catch (IncorrectCredentialsException ice) {
-			System.out.println("用户[" + username + "]密码错误");
 			logger.info("user(", username, ") password(", password, ") is error.");
 			return getResult(-3, "用户密码不正确.");
 		} catch (LockedAccountException lae) {

@@ -1,4 +1,4 @@
-package com.kfpanda.secu.base;
+package com.kfpanda.secu.action;
 
 public class ResultDTO {
 	private int r;
