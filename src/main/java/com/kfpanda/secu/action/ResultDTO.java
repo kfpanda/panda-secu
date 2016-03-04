@@ -1,36 +1,45 @@
 package com.kfpanda.secu.action;
 
+import com.kfpanda.core.page.Page;
+import com.util.common.ResultUtil;
+
+
 public class ResultDTO {
-	private int r;
+	private Integer r;
 	private Object data;
 	private String msg;
-	private String msgKey;
 	private Page page;
 	
-	public ResultDTO(int r, Object data, String msg){
+	public ResultDTO(Integer r, Object data, String msg){
 		this.r = r;
 		this.data = data;
 		this.msg = msg;
 	}
 	
-	public ResultDTO(int r, Object data, String msg, int totalPage, long totalElem){
-		this.r = r;
-		this.data = data;
-		this.msg = msg;
-		this.page = new Page(totalPage, totalElem);
-	}
-	
-	public ResultDTO(int r, Object data, String msg, Page page){
+	public ResultDTO(Integer r, Object data, String msg, Page page){
 		this.r = r;
 		this.data = data;
 		this.msg = msg;
 		this.page = page;
 	}
 	
-	public int getR() {
+	public ResultDTO() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public ResultDTO(int i, String msg) {
+		this.r=1;
+		this.msg=msg;
+	}
+
+	
+
+	
+
+	public Integer getR() {
 		return r;
 	}
-	public void setR(int r) {
+	public void setR(Integer r) {
 		this.r = r;
 	}
 	public Object getData() {
@@ -45,40 +54,28 @@ public class ResultDTO {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
-	public String getMsgKey() {
-		return msgKey;
-	}
-	public void setMsgKey(String msgKey) {
-		this.msgKey = msgKey;
-	}
-
 	public Page getPage() {
 		return page;
 	}
 	public void setPage(Page page) {
 		this.page = page;
 	}
-}
-
-class Page{
-	private int tPage;
-	private long tElem;
+	public void clone(ResultDTO result){
+		this.r=result.r;
+		this.data=result.data;
+		this.msg=result.msg;
+		this.page=result.page;
+	}
 	
-	public Page(int tPage, long tElem){
-		this.tPage = tPage;
-		this.tElem = tElem;
-	}
-
-	public int gettPage() {
-		return tPage;
-	}
-	public void settPage(int tPage) {
-		this.tPage = tPage;
-	}
-	public long gettElem() {
-		return tElem;
-	}
-	public void settElem(long tElem) {
-		this.tElem = tElem;
+	/**
+	 * 说明:判断是否正确
+	 * @return
+	 * @return boolean
+	 * @author dozen.zhang
+	 * @date 2015年12月14日上午11:44:59
+	 */
+	public boolean isRight(){
+		return this.r==ResultUtil.succ;
 	}
 }
+

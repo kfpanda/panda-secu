@@ -38,10 +38,10 @@ public class BaseAction {
 				ErrorMessage.getErrorMsg(errorMsgKey));
 	}
 
-	/**
+/*	*//**
 	 * @param result
 	 * @return
-	 */
+	 *//*
 	protected ResultDTO getResult(ResultDTO result) {
 		if (result.getMsgKey() != null) {
 			result.setMsg(ErrorMessage.getErrorMsg(result.getMsgKey()));
@@ -49,20 +49,20 @@ public class BaseAction {
 			result.setMsgKey(null);
 		}
 		return result;
-	}
+	}*/
 
 	protected ResultDTO getResult(int result, Object data, String msg) {
 		return new ResultDTO(result, data, msg);
 	}
 
-	protected ResultDTO getResult(Object data, int totalPage, long totalElem) {
+	/*protected ResultDTO getResult(Object data, int totalPage, long totalElem) {
 		return this.getResult(0, data, null, totalPage, totalElem);
-	}
+	}*/
 
-	protected ResultDTO getResult(int result, Object data, String msg,
+	/*protected ResultDTO getResult(int result, Object data, String msg,
 			int totalPage, long totalElem) {
 		return new ResultDTO(result, data, msg, totalPage, totalElem);
-	}
+	}*/
 
 	public List<String> newList(String[] objList) {
 		List<String> list = new ArrayList<String>();
