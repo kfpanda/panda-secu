@@ -10,16 +10,14 @@ package com.kfpanda.secu.service;
 
 import java.util.HashMap;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import com.kfpanda.secu.action.ResultDTO;
 import com.kfpanda.secu.bean.sys.SysResource;
 import com.kfpanda.secu.mapper.sys.SysResourceMapper;
+import com.util.common.ResultUtil;
 import com.util.common.ValidateUtil;
 
 
@@ -79,7 +77,7 @@ public class SysResourceService extends BaseService {
     * @date 2015年12月27日下午10:56:38
     */
     public void delete(Long  id){
-        sysResourceMapper.deleteByPrimaryKey(id);
+        sysResourceMapper.deleteById(id);
     }   
     /**
     * 说明:根据主键获取数据
@@ -90,7 +88,7 @@ public class SysResourceService extends BaseService {
     * @date 2015年12月27日下午10:56:38
     */
     public SysResource selectByPrimaryKey(Long id){
-       return sysResourceMapper.selectByPrimaryKey(id);
+       return sysResourceMapper.findOne(id);
     }
     /**多id删除
      * @param idAry
@@ -99,7 +97,7 @@ public class SysResourceService extends BaseService {
      */
     public ResultDTO multilDelete(Long[] idAry) {
         for(int i=0;i<idAry.length;i++){
-            sysResourceMapper.deleteByPrimaryKey(idAry[i]);
+            sysResourceMapper.deleteById(idAry[i]);
         }
         return ResultUtil.getSuccResult();
     }
