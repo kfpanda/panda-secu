@@ -6,3 +6,5 @@
 /id_rsa.pub
 /id_rsa
 /.idea
+src/main/HTML/node_modules/
+src/main/HTML/dist/

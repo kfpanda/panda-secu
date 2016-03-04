@@ -11,15 +11,17 @@
 		<!-- 侧边栏 -->
 		<div class="sidebar">
 			<div class="logo">
-				<img src="image/logo .png">
+				<img src="image/logo.png">
 			</div>
 			<div class="bar">
 				<ul>
 					<li>
-						<a href="javascript:void(0);" name="first"><img src="image/home.png">首页</a>
+						<a href="javascript:void(0);" class="menu-row"><img src="image/home.png">首页</a>
 					</li>
+					
 					<li>
-						<a href="javascript:void(0);" name="first"><img src="image/shebei.png">人员管理</a>
+						<a href="javascript:void(0);" class="menu-row"><img src="image/shebei.png">人员管理</a>
+						
 						<ul class="in-ul">
 							<li><a href="javascript:void(0);">权限管理</a></li>
 							<li><a href="javascript:void(0);">Chinanet设备</a></li>
@@ -71,8 +73,9 @@
 						<span>用户列表</span>
 						<a id="addUser" href="javascript:void(0);"><img src="image/adduser.png" />添加用户</a>
 					</div>
-					<table class="table">
-						<thead>
+					<div id="grid" class="grid">
+						<table class="table">
+						<!--<thead>
 							<tr>
 								<th class="thSelect">
 									<input type="checkbox" name="selectAll" />
@@ -200,9 +203,11 @@
 								<td>5</td>
 								<td>option</td>
 							</tr>
-						</tbody>
+						</tbody>-->
 
 					</table>
+					</div>
+					
 					<!--分页-->
 					<div id="grid-pager" class="pager">
 						<nav class="nav">
@@ -236,7 +241,7 @@
 			</div>
 			<div class="modal-body">
 				<div class="modal-row">
-					<div class="row-30">
+					<div class="row-20">
 						<label class="form-group label">姓名</label>
 					</div>
 					<div class="row-70">
@@ -244,7 +249,7 @@
 					</div>
 				</div>
 				<div class="modal-row">
-					<div class="row-30">
+					<div class="row-20">
 						<label class="form-group label">生日</label>
 					</div>
 					<div class="row-40">
@@ -271,7 +276,48 @@
 			</footer>
 		</div>
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+		<script type="text/javascript" src="js/grid.js" ></script>
+		<script type="text/javascript" src="js/BaseController.js" ></script>
 		<script src="js/system-setting.js"></script>
+		<script>
+			var gridParam = {
+						multiselect: false,
+						url: 'http://192.168.34.114/hotel/mng/list',
+						grid_selector: "#grid",
+						pager_selector: "#grid-pager",
+						page: {
+							curpage: 1,
+							pagesize: 10
+						},
+						searchParams: {},
+						loadComplete: function() {
+							if (this.p.data.length == 0) {
+								zalert("未查询到相关酒店，请重新查询！", "提示");
+							}
+						},
+						colNames: ['酒店名称', '酒店地址', '联系方式', '操作'],
+						colModel: [{
+							name: 'merchantname',
+							width: 10
+						}, {
+							name: 'address',
+							width: 10
+						}, {
+							name: 'telephone',
+							width: 10
+						}, {
+							name: 'operatioin',
+							width: 10,
+							formatter: function(value, data, row) {
+								var merchantname=row.merchantname||'';
+								return "<a onclick='preview(\"" + row.accountid + "\")'>预览</a>" +
+									"<a name ='config' href='javascript:void();' onclick='config(" + row.id +','+ '\"'+merchantname+'\"' + ")'>切换默认首页</a>";
+							}
+						}]
+					};
+					mygrid = $("#grid").jqGrid(this.gridParam);
+		</script>
 	</body>
 
 </html>
