@@ -10,6 +10,8 @@ package com.kfpanda.secu.action;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.kfpanda.core.page.Page;
+
 public class ResultAction {
     protected  int SUCC =0;
     protected  int FAIL =1;
