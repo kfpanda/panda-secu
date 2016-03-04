@@ -1,4 +1,4 @@
-package com.kfpanda.secu.core.action;
+package com.kfpanda.secu.shiro.action;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kfpanda.secu.base.BaseAction;
-import com.kfpanda.secu.base.ResultDTO;
+import com.kfpanda.secu.action.BaseAction;
+import com.kfpanda.secu.action.ResultDTO;
 import com.kfpanda.secu.bean.sys.SysUser;
 
 @Controller

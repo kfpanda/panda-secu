@@ -1,4 +1,4 @@
-package com.kfpanda.secu.core;
+package com.kfpanda.secu.shiro;
 
 import java.util.ArrayList;
 import java.util.List;
