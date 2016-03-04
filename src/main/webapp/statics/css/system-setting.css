@@ -112,7 +112,9 @@ th {
 	overflow: hidden;
 	background: #2a2b3c;
 }
-
+.menu-row {
+	text-decoration: none;
+}
 .logo {
 	width: 100%;
 	height: 104px;
@@ -484,7 +486,7 @@ th {
 	background-color: #fff;
 	height: 620px;
 	width: 582px;
-	/*display: none;*/
+	display: none;
 	text-align: center;
 	border-radius: 6px;
 	border: 1px solid rgba(0, 0, 0, .2);

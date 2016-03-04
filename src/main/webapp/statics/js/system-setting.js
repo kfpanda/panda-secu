@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$(".bar").find('a[name=first]').on('click', function() {
+	$(".bar").find('menu-row').on('click', function() {
 		$(this).parent().find(".in-ul").slideToggle(600);
 	});
 
