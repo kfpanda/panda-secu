@@ -87,9 +87,9 @@ public class SysUserRoleController extends BaseController{
         if(!StringUtil.isBlank(id)){
                 params.put("id",id);
         }
-        String userid = request.getParameter("userid");
-        if(!StringUtil.isBlank(userid)){
-                params.put("userid",userid);
+        String uid = request.getParameter("uid");
+        if(!StringUtil.isBlank(uid)){
+                params.put("uid",uid);
         }
         String roleid = request.getParameter("roleid");
         if(!StringUtil.isBlank(roleid)){
@@ -161,9 +161,9 @@ return this.getResult(result);
             sysUserRole.setId(Long.valueOf(id)) ;
         }
         
-        String userid = request.getParameter("userid");
-        if(!StringUtil.isBlank(userid)){
-            sysUserRole.setUserid(Long.valueOf(userid)) ;
+        String uid = request.getParameter("uid");
+        if(!StringUtil.isBlank(uid)){
+            sysUserRole.setUid(Long.valueOf(uid)) ;
         }
         
         String roleid = request.getParameter("roleid");
@@ -175,9 +175,9 @@ return this.getResult(result);
         if(!StringUtil.isBlank(id)){
                 sysUserRole.setId(Long.valueOf(id));
         }
-        String userid = request.getParameter("userid");
-        if(!StringUtil.isBlank(userid)){
-                sysUserRole.setUserid(Long.valueOf(userid));
+        String uid = request.getParameter("uid");
+        if(!StringUtil.isBlank(uid)){
+                sysUserRole.setUid(Long.valueOf(uid));
         }
         String roleid = request.getParameter("roleid");
         if(!StringUtil.isBlank(roleid)){
@@ -188,7 +188,7 @@ return this.getResult(result);
         ValidateUtil vu = new ValidateUtil();
         String validStr="";
         vu.add("id", id, "主键",  new Rule[]{new Digits(15,0)});
-        vu.add("userid", userid, "用户id",  new Rule[]{new Digits(15,0),new NotEmpty()});
+        vu.add("uid", uid, "用户id",  new Rule[]{new Digits(15,0),new NotEmpty()});
         vu.add("roleid", roleid, "角色id",  new Rule[]{new Digits(15,0),new NotEmpty()});
         validStr = vu.validateString();
         if(StringUtil.isNotEmpty(validStr)) {
@@ -261,9 +261,9 @@ return this.getResult(result);
         if(!StringUtil.isBlank(id)){
                 params.put("id",id);
         }
-        String userid = request.getParameter("userid");
-        if(!StringUtil.isBlank(userid)){
-                params.put("userid",userid);
+        String uid = request.getParameter("uid");
+        if(!StringUtil.isBlank(uid)){
+                params.put("uid",uid);
         }
         String roleid = request.getParameter("roleid");
         if(!StringUtil.isBlank(roleid)){
@@ -289,14 +289,14 @@ return this.getResult(result);
         // 得到导出Excle时清单的英中文map
         LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
         colTitle.put("id", "主键");
-        colTitle.put("userid", "用户id");
+        colTitle.put("uid", "用户id");
         colTitle.put("roleid", "角色id");
         List finalList = new ArrayList();
         for (int i = 0; i < list.size(); i++) {
             SysUserRole sm = list.get(i);
             HashMap map = new HashMap();
             map.put("id",  list.get(i).getId());
-            map.put("userid",  list.get(i).getUserid());
+            map.put("uid",  list.get(i).getUid());
             map.put("roleid",  list.get(i).getRoleid());
             finalList.add(map);
         }

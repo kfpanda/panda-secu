@@ -51,7 +51,7 @@ public class ResultUtil {
 		return getResult(succ, null, null,null);
 	}
 	
-	public static ResultDTO getFailResult(String errcode){
+	public static ResultDTO getFailResult(){
 		return getResult(fail, null, null,null);
 	}
 	/**

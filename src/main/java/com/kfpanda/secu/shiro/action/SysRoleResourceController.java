@@ -91,9 +91,9 @@ public class SysRoleResourceController extends BaseController{
         if(!StringUtil.isBlank(roleid)){
                 params.put("roleid",roleid);
         }
-        String resourceid = request.getParameter("resourceid");
-        if(!StringUtil.isBlank(resourceid)){
-                params.put("resourceid",resourceid);
+        String rid = request.getParameter("rid");
+        if(!StringUtil.isBlank(rid)){
+                params.put("rid",rid);
         }
 
         params.put("page",page);
@@ -166,9 +166,9 @@ return this.getResult(result);
             sysRoleResource.setRoleid(Long.valueOf(roleid)) ;
         }
         
-        String resourceid = request.getParameter("resourceid");
-        if(!StringUtil.isBlank(resourceid)){
-            sysRoleResource.setResourceid(Long.valueOf(resourceid)) ;
+        String rid = request.getParameter("rid");
+        if(!StringUtil.isBlank(rid)){
+            sysRoleResource.setRid(Long.valueOf(rid)) ;
         }
         */
         String id = request.getParameter("id");
@@ -179,9 +179,9 @@ return this.getResult(result);
         if(!StringUtil.isBlank(roleid)){
                 sysRoleResource.setRoleid(Long.valueOf(roleid));
         }
-        String resourceid = request.getParameter("resourceid");
-        if(!StringUtil.isBlank(resourceid)){
-                sysRoleResource.setResourceid(Long.valueOf(resourceid));
+        String rid = request.getParameter("rid");
+        if(!StringUtil.isBlank(rid)){
+                sysRoleResource.setRid(Long.valueOf(rid));
         }
 
         //valid
@@ -189,7 +189,7 @@ return this.getResult(result);
         String validStr="";
         vu.add("id", id, "主键",  new Rule[]{new Digits(15,0)});
         vu.add("roleid", roleid, "角色id",  new Rule[]{new Digits(15,0),new NotEmpty()});
-        vu.add("resourceid", resourceid, "资源id",  new Rule[]{new Digits(15,0),new NotEmpty()});
+        vu.add("rid", rid, "资源id",  new Rule[]{new Digits(15,0),new NotEmpty()});
         validStr = vu.validateString();
         if(StringUtil.isNotEmpty(validStr)) {
             return ResultUtil.getResult(302,validStr);
@@ -265,9 +265,9 @@ return this.getResult(result);
         if(!StringUtil.isBlank(roleid)){
                 params.put("roleid",roleid);
         }
-        String resourceid = request.getParameter("resourceid");
-        if(!StringUtil.isBlank(resourceid)){
-                params.put("resourceid",resourceid);
+        String rid = request.getParameter("rid");
+        if(!StringUtil.isBlank(rid)){
+                params.put("rid",rid);
         }
 
         // 查询list集合
@@ -290,14 +290,14 @@ return this.getResult(result);
         LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
         colTitle.put("id", "主键");
         colTitle.put("roleid", "角色id");
-        colTitle.put("resourceid", "资源id");
+        colTitle.put("rid", "资源id");
         List finalList = new ArrayList();
         for (int i = 0; i < list.size(); i++) {
             SysRoleResource sm = list.get(i);
             HashMap map = new HashMap();
             map.put("id",  list.get(i).getId());
             map.put("roleid",  list.get(i).getRoleid());
-            map.put("resourceid",  list.get(i).getResourceid());
+            map.put("rid",  list.get(i).getRid());
             finalList.add(map);
         }
         try {

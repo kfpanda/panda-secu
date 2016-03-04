@@ -87,13 +87,13 @@ public class SysUserResourceController extends BaseController{
         if(!StringUtil.isBlank(id)){
                 params.put("id",id);
         }
-        String userid = request.getParameter("userid");
-        if(!StringUtil.isBlank(userid)){
-                params.put("userid",userid);
+        String uid = request.getParameter("uid");
+        if(!StringUtil.isBlank(uid)){
+                params.put("uid",uid);
         }
-        String resourceid = request.getParameter("resourceid");
-        if(!StringUtil.isBlank(resourceid)){
-                params.put("resourceid",resourceid);
+        String rid = request.getParameter("rid");
+        if(!StringUtil.isBlank(rid)){
+                params.put("rid",rid);
         }
 
         params.put("page",page);
@@ -161,35 +161,35 @@ return this.getResult(result);
             sysUserResource.setId(Long.valueOf(id)) ;
         }
         
-        String userid = request.getParameter("userid");
-        if(!StringUtil.isBlank(userid)){
-            sysUserResource.setUserid(Long.valueOf(userid)) ;
+        String uid = request.getParameter("uid");
+        if(!StringUtil.isBlank(uid)){
+            sysUserResource.setUid(Long.valueOf(uid)) ;
         }
         
-        String resourceid = request.getParameter("resourceid");
-        if(!StringUtil.isBlank(resourceid)){
-            sysUserResource.setResourceid(Long.valueOf(resourceid)) ;
+        String rid = request.getParameter("rid");
+        if(!StringUtil.isBlank(rid)){
+            sysUserResource.setRid(Long.valueOf(rid)) ;
         }
         */
         String id = request.getParameter("id");
         if(!StringUtil.isBlank(id)){
                 sysUserResource.setId(Long.valueOf(id));
         }
-        String userid = request.getParameter("userid");
-        if(!StringUtil.isBlank(userid)){
-                sysUserResource.setUserid(Long.valueOf(userid));
+        String uid = request.getParameter("uid");
+        if(!StringUtil.isBlank(uid)){
+                sysUserResource.setUid(Long.valueOf(uid));
         }
-        String resourceid = request.getParameter("resourceid");
-        if(!StringUtil.isBlank(resourceid)){
-                sysUserResource.setResourceid(Long.valueOf(resourceid));
+        String rid = request.getParameter("rid");
+        if(!StringUtil.isBlank(rid)){
+                sysUserResource.setRid(Long.valueOf(rid));
         }
 
         //valid
         ValidateUtil vu = new ValidateUtil();
         String validStr="";
-        vu.add("id", id, "主键",  new Rule[]{new Digits(15,0)});
-        vu.add("userid", userid, "用户id",  new Rule[]{new Digits(15,0),new NotEmpty()});
-        vu.add("resourceid", resourceid, "资源id",  new Rule[]{new Digits(15,0),new NotEmpty()});
+        vu.add("id", id, "主键",  new Rule[]{new Digits(10,0)});
+        vu.add("uid", uid, "用户id",  new Rule[]{new Digits(10,0),new NotEmpty()});
+        vu.add("rid", rid, "资源id",  new Rule[]{new Digits(10,0),new NotEmpty()});
         validStr = vu.validateString();
         if(StringUtil.isNotEmpty(validStr)) {
             return ResultUtil.getResult(302,validStr);
@@ -261,13 +261,13 @@ return this.getResult(result);
         if(!StringUtil.isBlank(id)){
                 params.put("id",id);
         }
-        String userid = request.getParameter("userid");
-        if(!StringUtil.isBlank(userid)){
-                params.put("userid",userid);
+        String uid = request.getParameter("uid");
+        if(!StringUtil.isBlank(uid)){
+                params.put("uid",uid);
         }
-        String resourceid = request.getParameter("resourceid");
-        if(!StringUtil.isBlank(resourceid)){
-                params.put("resourceid",resourceid);
+        String rid = request.getParameter("rid");
+        if(!StringUtil.isBlank(rid)){
+                params.put("rid",rid);
         }
 
         // 查询list集合
@@ -289,15 +289,15 @@ return this.getResult(result);
         // 得到导出Excle时清单的英中文map
         LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
         colTitle.put("id", "主键");
-        colTitle.put("userid", "用户id");
-        colTitle.put("resourceid", "资源id");
+        colTitle.put("uid", "用户id");
+        colTitle.put("rid", "资源id");
         List finalList = new ArrayList();
         for (int i = 0; i < list.size(); i++) {
             SysUserResource sm = list.get(i);
             HashMap map = new HashMap();
             map.put("id",  list.get(i).getId());
-            map.put("userid",  list.get(i).getUserid());
-            map.put("resourceid",  list.get(i).getResourceid());
+            map.put("uid",  list.get(i).getUid());
+            map.put("rid",  list.get(i).getRid());
             finalList.add(map);
         }
         try {

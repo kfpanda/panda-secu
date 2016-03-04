@@ -91,13 +91,13 @@ public class SysRoleController extends BaseController{
         if(!StringUtil.isBlank(name)){
                 params.put("name",name);
         }
-        String intro = request.getParameter("intro");
-        if(!StringUtil.isBlank(intro)){
-                params.put("intro",intro);
+        String code = request.getParameter("code");
+        if(!StringUtil.isBlank(code)){
+                params.put("code",code);
         }
-        String sort = request.getParameter("sort");
-        if(!StringUtil.isBlank(sort)){
-                params.put("sort",sort);
+        String order = request.getParameter("order");
+        if(!StringUtil.isBlank(order)){
+                params.put("order",order);
         }
         String status = request.getParameter("status");
         if(!StringUtil.isBlank(status)){
@@ -106,6 +106,30 @@ public class SysRoleController extends BaseController{
         String remark = request.getParameter("remark");
         if(!StringUtil.isBlank(remark)){
                 params.put("remark",remark);
+        }
+        String createtime = request.getParameter("createtime");
+        if(!StringUtil.isBlank(createtime)){
+            if(StringUtil.checkNumeric(createtime)){
+                params.put("createtime",createtime);
+            }else if(StringUtil.checkDateStr(createtime, "yyyy-MM-dd HH:mm:ss")){
+                params.put("createtime",new Timestamp( DateUtil.parseToDate(createtime, "yyyy-MM-dd HH:mm:ss").getTime()));
+            }
+        }
+        String createtimeBegin = request.getParameter("createtimeBegin");
+        if(!StringUtil.isBlank(createtimeBegin)){
+            if(StringUtil.checkNumeric(createtimeBegin)){
+                params.put("createtimeBegin",createtimeBegin);
+            }else if(StringUtil.checkDateStr(createtimeBegin, "yyyy-MM-dd HH:mm:ss")){
+                params.put("createtimeBegin",new Timestamp( DateUtil.parseToDate(createtimeBegin, "yyyy-MM-dd HH:mm:ss").getTime()));
+            }
+        }
+        String createtimeEnd = request.getParameter("createtimeEnd");
+        if(!StringUtil.isBlank(createtimeEnd)){
+            if(StringUtil.checkNumeric(createtimeEnd)){
+                params.put("createtimeEnd",createtimeEnd);
+            }else if(StringUtil.checkDateStr(createtimeEnd, "yyyy-MM-dd HH:mm:ss")){
+                params.put("createtimeEnd",new Timestamp( DateUtil.parseToDate(createtimeEnd, "yyyy-MM-dd HH:mm:ss").getTime()));
+            }
         }
 
         params.put("page",page);
@@ -178,14 +202,14 @@ return this.getResult(result);
             sysRole.setName(String.valueOf(name)) ;
         }
         
-        String intro = request.getParameter("intro");
-        if(!StringUtil.isBlank(intro)){
-            sysRole.setIntro(String.valueOf(intro)) ;
+        String code = request.getParameter("code");
+        if(!StringUtil.isBlank(code)){
+            sysRole.setCode(String.valueOf(code)) ;
         }
         
-        String sort = request.getParameter("sort");
-        if(!StringUtil.isBlank(sort)){
-            sysRole.setSort(Long.valueOf(sort)) ;
+        String order = request.getParameter("order");
+        if(!StringUtil.isBlank(order)){
+            sysRole.setOrder(Integer.valueOf(order)) ;
         }
         
         String status = request.getParameter("status");
@@ -197,6 +221,11 @@ return this.getResult(result);
         if(!StringUtil.isBlank(remark)){
             sysRole.setRemark(String.valueOf(remark)) ;
         }
+        
+        String createtime = request.getParameter("createtime");
+        if(!StringUtil.isBlank(createtime)){
+            sysRole.setCreatetime(Timestamp.valueOf(createtime)) ;
+        }
         */
         String id = request.getParameter("id");
         if(!StringUtil.isBlank(id)){
@@ -206,13 +235,13 @@ return this.getResult(result);
         if(!StringUtil.isBlank(name)){
                 sysRole.setName(String.valueOf(name));
         }
-        String intro = request.getParameter("intro");
-        if(!StringUtil.isBlank(intro)){
-                sysRole.setIntro(String.valueOf(intro));
+        String code = request.getParameter("code");
+        if(!StringUtil.isBlank(code)){
+                sysRole.setCode(String.valueOf(code));
         }
-        String sort = request.getParameter("sort");
-        if(!StringUtil.isBlank(sort)){
-                sysRole.setSort(Long.valueOf(sort));
+        String order = request.getParameter("order");
+        if(!StringUtil.isBlank(order)){
+                sysRole.setOrder(Integer.valueOf(order));
         }
         String status = request.getParameter("status");
         if(!StringUtil.isBlank(status)){
@@ -222,16 +251,25 @@ return this.getResult(result);
         if(!StringUtil.isBlank(remark)){
                 sysRole.setRemark(String.valueOf(remark));
         }
+        String createtime = request.getParameter("createtime");
+        if(!StringUtil.isBlank(createtime)){
+            if(StringUtil.checkNumeric(createtime)){
+                sysRole.setCreatetime(Timestamp.valueOf(createtime));
+            }else if(StringUtil.checkDateStr(createtime, "yyyy-MM-dd HH:mm:ss")){
+                sysRole.setCreatetime(new Timestamp( DateUtil.parseToDate(createtime, "yyyy-MM-dd HH:mm:ss").getTime()));
+            }
+        }
 
         //valid
         ValidateUtil vu = new ValidateUtil();
         String validStr="";
-        vu.add("id", id, "主键",  new Rule[]{new Digits(15,0)});
-        vu.add("name", name, "角色名",  new Rule[]{new Length(40),new NotEmpty()});
-        vu.add("intro", intro, "角色说明",  new Rule[]{new Length(40),new NotEmpty()});
-        vu.add("sort", sort, "排序",  new Rule[]{new Digits(15,0),new NotEmpty()});
+        vu.add("id", id, "主键",  new Rule[]{new Digits(10,0)});
+        vu.add("name", name, "角色名",  new Rule[]{new Length(20),new NotEmpty()});
+        vu.add("code", code, "角色代码",  new Rule[]{new Length(20),new NotEmpty()});
+        vu.add("order", order, "排序",  new Rule[]{new Digits(11,0),new NotEmpty()});
         vu.add("status", status, "状态",  new Rule[]{new Digits(1,0),new CheckBox(new String[]{"1","2"}),new NotEmpty()});
         vu.add("remark", remark, "备注",  new Rule[]{new Length(255)});
+        vu.add("createtime", createtime, "创建时间",  new Rule[]{new DateValue("yyyy-MM-dd HH:mm:ss")});
         validStr = vu.validateString();
         if(StringUtil.isNotEmpty(validStr)) {
             return ResultUtil.getResult(302,validStr);
@@ -307,13 +345,13 @@ return this.getResult(result);
         if(!StringUtil.isBlank(name)){
                 params.put("name",name);
         }
-        String intro = request.getParameter("intro");
-        if(!StringUtil.isBlank(intro)){
-                params.put("intro",intro);
+        String code = request.getParameter("code");
+        if(!StringUtil.isBlank(code)){
+                params.put("code",code);
         }
-        String sort = request.getParameter("sort");
-        if(!StringUtil.isBlank(sort)){
-                params.put("sort",sort);
+        String order = request.getParameter("order");
+        if(!StringUtil.isBlank(order)){
+                params.put("order",order);
         }
         String status = request.getParameter("status");
         if(!StringUtil.isBlank(status)){
@@ -322,6 +360,30 @@ return this.getResult(result);
         String remark = request.getParameter("remark");
         if(!StringUtil.isBlank(remark)){
                 params.put("remark",remark);
+        }
+        String createtime = request.getParameter("createtime");
+        if(!StringUtil.isBlank(createtime)){
+            if(StringUtil.checkNumeric(createtime)){
+                params.put("createtime",createtime);
+            }else if(StringUtil.checkDateStr(createtime, "yyyy-MM-dd HH:mm:ss")){
+                params.put("createtime",new Timestamp( DateUtil.parseToDate(createtime, "yyyy-MM-dd HH:mm:ss").getTime()));
+            }
+        }
+        String createtimeBegin = request.getParameter("createtimeBegin");
+        if(!StringUtil.isBlank(createtimeBegin)){
+            if(StringUtil.checkNumeric(createtimeBegin)){
+                params.put("createtimeBegin",createtimeBegin);
+            }else if(StringUtil.checkDateStr(createtimeBegin, "yyyy-MM-dd HH:mm:ss")){
+                params.put("createtimeBegin",new Timestamp( DateUtil.parseToDate(createtimeBegin, "yyyy-MM-dd HH:mm:ss").getTime()));
+            }
+        }
+        String createtimeEnd = request.getParameter("createtimeEnd");
+        if(!StringUtil.isBlank(createtimeEnd)){
+            if(StringUtil.checkNumeric(createtimeEnd)){
+                params.put("createtimeEnd",createtimeEnd);
+            }else if(StringUtil.checkDateStr(createtimeEnd, "yyyy-MM-dd HH:mm:ss")){
+                params.put("createtimeEnd",new Timestamp( DateUtil.parseToDate(createtimeEnd, "yyyy-MM-dd HH:mm:ss").getTime()));
+            }
         }
 
         // 查询list集合
@@ -344,20 +406,22 @@ return this.getResult(result);
         LinkedHashMap<String, String> colTitle = new LinkedHashMap<String, String>();
         colTitle.put("id", "主键");
         colTitle.put("name", "角色名");
-        colTitle.put("intro", "角色说明");
-        colTitle.put("sort", "排序");
+        colTitle.put("code", "角色代码");
+        colTitle.put("order", "排序");
         colTitle.put("status", "状态");
         colTitle.put("remark", "备注");
+        colTitle.put("createtime", "创建时间");
         List finalList = new ArrayList();
         for (int i = 0; i < list.size(); i++) {
             SysRole sm = list.get(i);
             HashMap map = new HashMap();
             map.put("id",  list.get(i).getId());
             map.put("name",  list.get(i).getName());
-            map.put("intro",  list.get(i).getIntro());
-            map.put("sort",  list.get(i).getSort());
+            map.put("code",  list.get(i).getCode());
+            map.put("order",  list.get(i).getOrder());
             map.put("status",  list.get(i).getStatus());
             map.put("remark",  list.get(i).getRemark());
+            map.put("createtime",  list.get(i).getCreatetime());
             finalList.add(map);
         }
         try {
