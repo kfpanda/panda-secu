@@ -9,15 +9,14 @@
 
 import java.util.HashMap;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import com.kfpanda.secu.action.ResultDTO;
 import com.kfpanda.secu.bean.sys.SysRoleResource;
+import com.kfpanda.secu.mapper.sys.SysRoleResourceMapper;
+import com.util.common.ResultUtil;
 import com.util.common.ValidateUtil;
 
 @Service("sysRoleResourceService")
@@ -26,20 +25,20 @@ public class SysRoleResourceService extends BaseService {
             .getLogger(SysRoleResourceService.class);
     @Resource
     private SysRoleResourceMapper sysRoleResourceMapper;
-    /**
-     * 说明:list by page and params
-     * @param page
-     * @return
-     * @return List<Role>
-     * @author dozen.zhang
-     * @date 2015年11月15日下午12:36:24
-     */
-    public List<SysRoleResource> listByParams4Page(HashMap params) {
-        return sysRoleResourceMapper.listByParams4Page(params);
-    }
-     public List<SysRoleResource> listByParams(HashMap params) {
-        return sysRoleResourceMapper.listByParams(params);
-    }
+//    /**
+//     * 说明:list by page and params
+//     * @param page
+//     * @return
+//     * @return List<Role>
+//     * @author dozen.zhang
+//     * @date 2015年11月15日下午12:36:24
+//     */
+//    public List<SysRoleResource> listByParams4Page(HashMap params) {
+//        return sysRoleResourceMapper.listByParams4Page(params);
+//    }
+//     public List<SysRoleResource> listByParams(HashMap params) {
+//        return sysRoleResourceMapper.listByParams(params);
+//    }
 
     /*
      * 说明:
@@ -58,13 +57,7 @@ public class SysRoleResourceService extends BaseService {
         }
          //逻辑业务判断判断
        
-       //判断是更新还是插入
-        if (sysRoleResource.getId()==null) {
-               
-            sysRoleResourceMapper.insert(sysRoleResource);
-        } else {
-             sysRoleResourceMapper.updateByPrimaryKey(sysRoleResource);
-        }
+        sysRoleResourceMapper.save(sysRoleResource);
         return ResultUtil.getSuccResult();
     }
     /**
@@ -76,19 +69,19 @@ public class SysRoleResourceService extends BaseService {
     * @date 2015年12月27日下午10:56:38
     */
     public void delete(Long  id){
-        sysRoleResourceMapper.deleteByPrimaryKey(id);
+        sysRoleResourceMapper.deleteById(id);
     }   
-    /**
-    * 说明:根据主键获取数据
-    * description:delete by key
-    * @param id
-    * @return void
-    * @author dozen.zhang
-    * @date 2015年12月27日下午10:56:38
-    */
-    public SysRoleResource selectByPrimaryKey(Long id){
-       return sysRoleResourceMapper.selectByPrimaryKey(id);
-    }
+//    /**
+//    * 说明:根据主键获取数据
+//    * description:delete by key
+//    * @param id
+//    * @return void
+//    * @author dozen.zhang
+//    * @date 2015年12月27日下午10:56:38
+//    */
+//    public SysRoleResource selectByPrimaryKey(Long id){
+//       return sysRoleResourceMapper.selectByPrimaryKey(id);
+//    }
     /**多id删除
      * @param idAry
      * @return
@@ -96,7 +89,7 @@ public class SysRoleResourceService extends BaseService {
      */
     public ResultDTO multilDelete(Long[] idAry) {
         for(int i=0;i<idAry.length;i++){
-            sysRoleResourceMapper.deleteByPrimaryKey(idAry[i]);
+            sysRoleResourceMapper.deleteById(idAry[i]);
         }
         return ResultUtil.getSuccResult();
     }
