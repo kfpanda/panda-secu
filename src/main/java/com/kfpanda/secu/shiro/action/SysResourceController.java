@@ -46,336 +46,245 @@ import com.util.common.rule.Rule;
 @Controller
 @RequestMapping("/sysResource")
 public class SysResourceController extends BaseAction{
-    /** 日志 **/
-    private Logger logger = LoggerFactory.getLogger(SysResourceController.class);
-    /** 权限service **/
-    @Autowired
-    private SysResourceService sysResourceService;
-    
-    /**
-     * 说明: 跳转到角色列表页面
-     * 
-     * @return
-     * @return String
-     * @author dozen.zhang
-     * @date 2015年11月15日下午12:30:45
-     */
-    @RequestMapping(value = "/list.htm", method = RequestMethod.GET)
-    public String list() {
-        return "/static/html/SysResourceList.html";
-    }
+	/** 日志 **/
+	private Logger logger = LoggerFactory.getLogger(SysResourceController.class);
+	/** 权限service **/
+	@Autowired
+	private SysResourceService sysResourceService;
 
- 
-    /**
-     * 说明:ajax请求角色信息
-     * 
-     * @param curPage
-     * @param pageSize
-     * @return
-     * @return Object
-     * @author dozen.zhang
-     * @date 2015年11月15日下午12:31:55
-     */
-    @RequestMapping(value = "/list.json")
-    @ResponseBody
-    public Object list(HttpServletRequest request) {
-        Page page = RequestUtil.getPage(request);
+	/**
+	 * 说明:ajax请求角色信息
+	 * 
+	 * @param curPage
+	 * @param pageSize
+	 * @return
+	 * @return Object
+	 * @author dozen.zhang
+	 * @date 2015年11月15日下午12:31:55
+	 */
+	@RequestMapping(value = "/list")
+	@ResponseBody
+	public Object list(HttpServletRequest request) {
+		Page page = RequestUtil.getPage(request);
 		if (page == null) {
 			return getResult(300, "参数错误");
 		}
-        HashMap<String,Object> params= new HashMap<String,Object>();
-        String id = request.getParameter("id");
-        if(!StringUtil.isBlank(id)){
-                params.put("id",id);
-        }
-        String pid = request.getParameter("pid");
-        if(!StringUtil.isBlank(pid)){
-                params.put("pid",pid);
-        }
-        String name = request.getParameter("name");
-        if(!StringUtil.isBlank(name)){
-                params.put("name",name);
-        }
-        String code = request.getParameter("code");
-        if(!StringUtil.isBlank(code)){
-                params.put("code",code);
-        }
-        String type = request.getParameter("type");
-        if(!StringUtil.isBlank(type)){
-                params.put("type",type);
-        }
-        String url = request.getParameter("url");
-        if(!StringUtil.isBlank(url)){
-                params.put("url",url);
-        }
-        String order = request.getParameter("order");
-        if(!StringUtil.isBlank(order)){
-                params.put("order",order);
-        }
-        String status = request.getParameter("status");
-        if(!StringUtil.isBlank(status)){
-                params.put("status",status);
-        }
-        String remark = request.getParameter("remark");
-        if(!StringUtil.isBlank(remark)){
-                params.put("remark",remark);
-        }
-        String createtime = request.getParameter("createtime");
-        if(!StringUtil.isBlank(createtime)){
-            if(StringUtil.checkNumeric(createtime)){
-                params.put("createtime",createtime);
-            }else if(StringUtil.checkDateStr(createtime, "yyyy-MM-dd HH:mm:ss")){
-                params.put("createtime",new Timestamp( DateUtil.parseToDate(createtime, "yyyy-MM-dd HH:mm:ss").getTime()));
-            }
-        }
-        String createtimeBegin = request.getParameter("createtimeBegin");
-        if(!StringUtil.isBlank(createtimeBegin)){
-            if(StringUtil.checkNumeric(createtimeBegin)){
-                params.put("createtimeBegin",createtimeBegin);
-            }else if(StringUtil.checkDateStr(createtimeBegin, "yyyy-MM-dd HH:mm:ss")){
-                params.put("createtimeBegin",new Timestamp( DateUtil.parseToDate(createtimeBegin, "yyyy-MM-dd HH:mm:ss").getTime()));
-            }
-        }
-        String createtimeEnd = request.getParameter("createtimeEnd");
-        if(!StringUtil.isBlank(createtimeEnd)){
-            if(StringUtil.checkNumeric(createtimeEnd)){
-                params.put("createtimeEnd",createtimeEnd);
-            }else if(StringUtil.checkDateStr(createtimeEnd, "yyyy-MM-dd HH:mm:ss")){
-                params.put("createtimeEnd",new Timestamp( DateUtil.parseToDate(createtimeEnd, "yyyy-MM-dd HH:mm:ss").getTime()));
-            }
-        }
-        params.put("page",page);
-        List<SysResource> sysResources = sysResourceService.listByParams4Page(params);
-        return ResultUtil.getResult(sysResources, page);
-    }
-    
-    
-    
-    /**
-     * @param id 参数
-     * @param request 发请求
-     * @return Object
-     */
-    @RequestMapping(value = "/edit.htm")
-    public Object edit( HttpServletRequest request) {
-        // 查找所有的角色
-        return "/static/html/SysResourceEdit.html";
-    }
-    @RequestMapping(value = "/view.htm")
-    public Object viewPage( HttpServletRequest request) {
-        return "/static/html/SysResourceView.html";
-    }
-   
-      @RequestMapping(value = "/view.json")
-    @ResponseBody
-    public Object view(HttpServletRequest request) {
-    String id = request.getParameter("id");
-HashMap<String,Object> result =new HashMap<String,Object>();
-if(!StringUtil.isBlank(id)){
-    SysResource bean = sysResourceService.selectByPrimaryKey(Long.valueOf(id));
-    result.put("bean", bean);
-}
-return this.getResult(result);
+		HashMap<String,Object> params= new HashMap<String,Object>();
+		String id = request.getParameter("id");
+		if(!StringUtil.isBlank(id)){
+			params.put("id",id);
+		}
+		String pid = request.getParameter("pid");
+		if(!StringUtil.isBlank(pid)){
+			params.put("pid",pid);
+		}
+		String name = request.getParameter("name");
+		if(!StringUtil.isBlank(name)){
+			params.put("name",name);
+		}
+		String code = request.getParameter("code");
+		if(!StringUtil.isBlank(code)){
+			params.put("code",code);
+		}
+		String type = request.getParameter("type");
+		if(!StringUtil.isBlank(type)){
+			params.put("type",type);
+		}
+		String url = request.getParameter("url");
+		if(!StringUtil.isBlank(url)){
+			params.put("url",url);
+		}
+		String order = request.getParameter("order");
+		if(!StringUtil.isBlank(order)){
+			params.put("order",order);
+		}
+		String status = request.getParameter("status");
+		if(!StringUtil.isBlank(status)){
+			params.put("status",status);
+		}
+		String remark = request.getParameter("remark");
+		if(!StringUtil.isBlank(remark)){
+			params.put("remark",remark);
+		}
+		String createtime = request.getParameter("createtime");
+		if(!StringUtil.isBlank(createtime)){
+			if(StringUtil.checkNumeric(createtime)){
+				params.put("createtime",createtime);
+			}else if(StringUtil.checkDateStr(createtime, "yyyy-MM-dd HH:mm:ss")){
+				params.put("createtime",new Timestamp( DateUtil.parseToDate(createtime, "yyyy-MM-dd HH:mm:ss").getTime()));
+			}
+		}
+		String createtimeBegin = request.getParameter("createtimeBegin");
+		if(!StringUtil.isBlank(createtimeBegin)){
+			if(StringUtil.checkNumeric(createtimeBegin)){
+				params.put("createtimeBegin",createtimeBegin);
+			}else if(StringUtil.checkDateStr(createtimeBegin, "yyyy-MM-dd HH:mm:ss")){
+				params.put("createtimeBegin",new Timestamp( DateUtil.parseToDate(createtimeBegin, "yyyy-MM-dd HH:mm:ss").getTime()));
+			}
+		}
+		String createtimeEnd = request.getParameter("createtimeEnd");
+		if(!StringUtil.isBlank(createtimeEnd)){
+			if(StringUtil.checkNumeric(createtimeEnd)){
+				params.put("createtimeEnd",createtimeEnd);
+			}else if(StringUtil.checkDateStr(createtimeEnd, "yyyy-MM-dd HH:mm:ss")){
+				params.put("createtimeEnd",new Timestamp( DateUtil.parseToDate(createtimeEnd, "yyyy-MM-dd HH:mm:ss").getTime()));
+			}
+		}
+		params.put("page",page);
+		List<SysResource> sysResources = sysResourceService.listByParams4Page(params);
+		return ResultUtil.getResult(sysResources, page);
+	}
+
+	@RequestMapping(value = "/view")
+	@ResponseBody
+	public Object view(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		HashMap<String,Object> result =new HashMap<String,Object>();
+		if(!StringUtil.isBlank(id)){
+			SysResource bean = sysResourceService.selectByPrimaryKey(Long.valueOf(id));
+			result.put("bean", bean);
+		}
+		return this.getResult(result);
+	}
 
 
+	/**
+	 * 说明:保存角色信息
+	 * 
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 * @return Object
+	 * @author dozen.zhang
+	 * @date 2015年11月15日下午1:33:00
+	 */
+	// @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
+	@RequestMapping(value = "/save")
+	@ResponseBody
+	public Object save(HttpServletRequest request) throws Exception {
+		SysResource sysResource =new  SysResource();
+		String id = request.getParameter("id");
+		if(!StringUtil.isBlank(id)){
+			sysResource.setId(Long.valueOf(id));
+		}
+		String pid = request.getParameter("pid");
+		if(!StringUtil.isBlank(pid)){
+			sysResource.setPId(Long.valueOf(pid));
+		}
+		String name = request.getParameter("name");
+		if(!StringUtil.isBlank(name)){
+			sysResource.setName(String.valueOf(name));
+		}
+		String code = request.getParameter("code");
+		if(!StringUtil.isBlank(code)){
+			sysResource.setCode(String.valueOf(code));
+		}
+		String type = request.getParameter("type");
+		if(!StringUtil.isBlank(type)){
+			sysResource.setType(String.valueOf(type));
+		}
+		String url = request.getParameter("url");
+		if(!StringUtil.isBlank(url)){
+			sysResource.setUrl(String.valueOf(url));
+		}
+		String order = request.getParameter("order");
+		if(!StringUtil.isBlank(order)){
+			sysResource.setOrder(Integer.valueOf(order));
+		}
+		String status = request.getParameter("status");
+		if(!StringUtil.isBlank(status)){
+			sysResource.setStatus(Integer.valueOf(status));
+		}
+		String remark = request.getParameter("remark");
+		if(!StringUtil.isBlank(remark)){
+			sysResource.setRemark(String.valueOf(remark));
+		}
+		String createtime = request.getParameter("createtime");
+		if(!StringUtil.isBlank(createtime)){
+			if(StringUtil.checkNumeric(createtime)){
+				sysResource.setCreateTime(Timestamp.valueOf(createtime));
+			}else if(StringUtil.checkDateStr(createtime, "yyyy-MM-dd HH:mm:ss")){
+				sysResource.setCreateTime(new Timestamp( DateUtil.parseToDate(createtime, "yyyy-MM-dd HH:mm:ss").getTime()));
+			}
+		}
 
-    
-      /*  String id = request.getParameter("id");
-        SysResource bean = sysResourceService.selectByPrimaryKey(Long.valueOf(id));
-        HashMap result =new HashMap();
-        result.put("bean", bean);
-        return this.getResult(bean);*/
-    }
+		//valid
+		ValidateUtil vu = new ValidateUtil();
+		String validStr="";
+		vu.add("id", id, "主键",  new Rule[]{new Digits(10,0)});
+		vu.add("pid", pid, "主键",  new Rule[]{new Digits(10,0)});
+		vu.add("name", name, "资源名称",  new Rule[]{new Length(20),new NotEmpty()});
+		vu.add("code", code, "资源代码",  new Rule[]{new Length(20),new NotEmpty()});
+		vu.add("type", type, "资源分类",  new Rule[]{new Length(20),new NotEmpty()});
+		vu.add("url", url, "资源对应URL",  new Rule[]{new Length(255)});
+		vu.add("order", order, "排序id",  new Rule[]{new Digits(15,0)});
+		vu.add("status", status, "状态",  new Rule[]{new Digits(1,0),new CheckBox(new String[]{"1","2"}),new NotEmpty()});
+		vu.add("remark", remark, "备注",  new Rule[]{new Length(20)});
+		vu.add("createtime", createtime, "创建时间",  new Rule[]{new DateValue("yyyy-MM-dd HH:mm:ss")});
+		validStr = vu.validateString();
+		if(StringUtil.isNotEmpty(validStr)) {
+			return ResultUtil.getResult(302,validStr);
+		}
 
-    
-    /**
-     * 说明:保存角色信息
-     * 
-     * @param request
-     * @return
-     * @throws Exception
-     * @return Object
-     * @author dozen.zhang
-     * @date 2015年11月15日下午1:33:00
-     */
-    // @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
-    @RequestMapping(value = "/save.json")
-    @ResponseBody
-    public Object save(HttpServletRequest request) throws Exception {
-        SysResource sysResource =new  SysResource();
-        /*
-        String id = request.getParameter("id");
-        if(!StringUtil.isBlank(id)){
-            sysResource.setId(Long.valueOf(id)) ;
-        }
-        
-        String pid = request.getParameter("pid");
-        if(!StringUtil.isBlank(pid)){
-            sysResource.setPid(Long.valueOf(pid)) ;
-        }
-        
-        String name = request.getParameter("name");
-        if(!StringUtil.isBlank(name)){
-            sysResource.setName(String.valueOf(name)) ;
-        }
-        
-        String code = request.getParameter("code");
-        if(!StringUtil.isBlank(code)){
-            sysResource.setCode(String.valueOf(code)) ;
-        }
-        
-        String type = request.getParameter("type");
-        if(!StringUtil.isBlank(type)){
-            sysResource.setType(String.valueOf(type)) ;
-        }
-        
-        String url = request.getParameter("url");
-        if(!StringUtil.isBlank(url)){
-            sysResource.setUrl(String.valueOf(url)) ;
-        }
-        
-        String order = request.getParameter("order");
-        if(!StringUtil.isBlank(order)){
-            sysResource.setOrder(Long.valueOf(order)) ;
-        }
-        
-        String status = request.getParameter("status");
-        if(!StringUtil.isBlank(status)){
-            sysResource.setStatus(Integer.valueOf(status)) ;
-        }
-        
-        String remark = request.getParameter("remark");
-        if(!StringUtil.isBlank(remark)){
-            sysResource.setRemark(String.valueOf(remark)) ;
-        }
-        
-        String createtime = request.getParameter("createtime");
-        if(!StringUtil.isBlank(createtime)){
-            sysResource.setCreatetime(Timestamp.valueOf(createtime)) ;
-        }
-        */
-        String id = request.getParameter("id");
-        if(!StringUtil.isBlank(id)){
-                sysResource.setId(Long.valueOf(id));
-        }
-        String pid = request.getParameter("pid");
-        if(!StringUtil.isBlank(pid)){
-                sysResource.setPid(Long.valueOf(pid));
-        }
-        String name = request.getParameter("name");
-        if(!StringUtil.isBlank(name)){
-                sysResource.setName(String.valueOf(name));
-        }
-        String code = request.getParameter("code");
-        if(!StringUtil.isBlank(code)){
-                sysResource.setCode(String.valueOf(code));
-        }
-        String type = request.getParameter("type");
-        if(!StringUtil.isBlank(type)){
-                sysResource.setType(String.valueOf(type));
-        }
-        String url = request.getParameter("url");
-        if(!StringUtil.isBlank(url)){
-                sysResource.setUrl(String.valueOf(url));
-        }
-        String order = request.getParameter("order");
-        if(!StringUtil.isBlank(order)){
-                sysResource.setOrder(Long.valueOf(order));
-        }
-        String status = request.getParameter("status");
-        if(!StringUtil.isBlank(status)){
-                sysResource.setStatus(Integer.valueOf(status));
-        }
-        String remark = request.getParameter("remark");
-        if(!StringUtil.isBlank(remark)){
-                sysResource.setRemark(String.valueOf(remark));
-        }
-        String createtime = request.getParameter("createtime");
-        if(!StringUtil.isBlank(createtime)){
-            if(StringUtil.checkNumeric(createtime)){
-                sysResource.setCreatetime(Timestamp.valueOf(createtime));
-            }else if(StringUtil.checkDateStr(createtime, "yyyy-MM-dd HH:mm:ss")){
-                sysResource.setCreatetime(new Timestamp( DateUtil.parseToDate(createtime, "yyyy-MM-dd HH:mm:ss").getTime()));
-            }
-        }
+		return sysResourceService.save(sysResource);
 
-        //valid
-        ValidateUtil vu = new ValidateUtil();
-        String validStr="";
-        vu.add("id", id, "主键",  new Rule[]{new Digits(10,0)});
-        vu.add("pid", pid, "主键",  new Rule[]{new Digits(10,0)});
-        vu.add("name", name, "资源名称",  new Rule[]{new Length(20),new NotEmpty()});
-        vu.add("code", code, "资源代码",  new Rule[]{new Length(20),new NotEmpty()});
-        vu.add("type", type, "资源分类",  new Rule[]{new Length(20),new NotEmpty()});
-        vu.add("url", url, "资源对应URL",  new Rule[]{new Length(255)});
-        vu.add("order", order, "排序id",  new Rule[]{new Digits(15,0)});
-        vu.add("status", status, "状态",  new Rule[]{new Digits(1,0),new CheckBox(new String[]{"1","2"}),new NotEmpty()});
-        vu.add("remark", remark, "备注",  new Rule[]{new Length(20)});
-        vu.add("createtime", createtime, "创建时间",  new Rule[]{new DateValue("yyyy-MM-dd HH:mm:ss")});
-        validStr = vu.validateString();
-        if(StringUtil.isNotEmpty(validStr)) {
-            return ResultUtil.getResult(302,validStr);
-        }
+	}
 
-        return sysResourceService.save(sysResource);
-       
-    }
-    
-    @RequestMapping(value = "/del.json")
-    @ResponseBody
-    public Object delete(HttpServletRequest request) {
-        String idStr = request.getParameter("id");
-        if(StringUtil.isBlank(idStr)){
-            return this.getWrongResultFromCfg("err.param.notnull");
-        }
-        Long id = Long.valueOf(idStr);
-        sysResourceService.delete(id);
-        return this.getResult(SUCC);
-    }
-     /**
-     * 多行删除
-     * @param request
-     * @return
-     * @author dozen.zhang
-     */
-    @RequestMapping(value = "/mdel.json")
-    @ResponseBody
-    public Object multiDelete(HttpServletRequest request) {
-        String idStr = request.getParameter("ids");
-        if(StringUtil.isBlank(idStr)){
-            return this.getWrongResultFromCfg("err.param.notnull");
-        }
-        String idStrAry[]= idStr.split(",");
-        Long idAry[]=new Long[idStrAry.length];
-        for(int i=0,length=idAry.length;i<length;i++){
-            ValidateUtil vu = new ValidateUtil();
-            String validStr="";
-            String id = idStrAry[i];
-                    vu.add("id", id, "主键",  new Rule[]{});
+	@RequestMapping(value = "/del")
+	@ResponseBody
+	public Object delete(HttpServletRequest request) {
+		String idStr = request.getParameter("id");
+		if(StringUtil.isBlank(idStr)){
+			return getResult(300, "参数错误");
+		}
+		Long id = Long.valueOf(idStr);
+		sysResourceService.delete(id);
+		return this.getResult();
+	}
+	/**
+	 * 多行删除
+	 * @param request
+	 * @return
+	 * @author dozen.zhang
+	 */
+	@RequestMapping(value = "/mdel")
+	@ResponseBody
+	public Object multiDelete(HttpServletRequest request) {
+		String idStr = request.getParameter("ids");
+		if(StringUtil.isBlank(idStr)){
+			return getResult(300, "参数错误");  
+		}
+		String idStrAry[]= idStr.split(",");
+		Long idAry[]=new Long[idStrAry.length];
+		for(int i=0,length=idAry.length;i<length;i++){
+			ValidateUtil vu = new ValidateUtil();
+			String validStr="";
+			String id = idStrAry[i];
+			vu.add("id", id, "主键",  new Rule[]{});
 
-            try{
-                validStr=vu.validateString();
-            }catch(Exception e){
-                e.printStackTrace();
-                validStr="验证程序异常";
-                return ResultUtil.getResult(302,validStr);
-            }
-            
-            if(StringUtil.isNotEmpty(validStr)) {
-                return ResultUtil.getResult(302,validStr);
-            }
-            idAry[i]=Long.valueOf(idStrAry[i]);
-        }
-       return  sysResourceService.multilDelete(idAry);
-    }
+			try{
+				validStr=vu.validateString();
+			}catch(Exception e){
+				e.printStackTrace();
+				validStr="验证程序异常";
+				return ResultUtil.getResult(302,validStr);
+			}
 
-    /**
-     * 导出
-     * @param request
-     * @return
-     * @author dozen.zhang
-     */
-    @RequestMapping(value = "/export.json")
+			if(StringUtil.isNotEmpty(validStr)) {
+				return ResultUtil.getResult(302,validStr);
+			}
+			idAry[i]=Long.valueOf(idStrAry[i]);
+		}
+		return  sysResourceService.multilDelete(idAry);
+	}
+
+	/*  *//**
+	 * 导出
+	 * @param request
+	 * @return
+	 * @author dozen.zhang
+	 *//*
+    @RequestMapping(value = "/export")
     @ResponseBody   
     public Object exportExcel(HttpServletRequest request){
                HashMap<String,Object> params= new HashMap<String,Object>();
@@ -473,7 +382,7 @@ return this.getResult(result);
             SysResource sm = list.get(i);
             HashMap map = new HashMap();
             map.put("id",  list.get(i).getId());
-            map.put("pid",  list.get(i).getPid());
+            map.put("pid",  list.get(i).getPId());
             map.put("name",  list.get(i).getName());
             map.put("code",  list.get(i).getCode());
             map.put("type",  list.get(i).getType());
@@ -481,26 +390,27 @@ return this.getResult(result);
             map.put("order",  list.get(i).getOrder());
             map.put("status",  list.get(i).getStatus());
             map.put("remark",  list.get(i).getRemark());
-            map.put("createtime",  list.get(i).getCreatetime());
+            map.put("createtime",  list.get(i).getCreateTime());
             finalList.add(map);
         }
         try {
             if (cola.machine.util.ExcelUtil.getExcelFile(finalList, fileName, colTitle) != null) {
-                return this.getResult(SUCC, "导出成功", fileName);
+                return this.getResult();
             }
-            /*
-             * return new ResponseEntity<byte[]>(
-             * FileUtils.readFileToByteArray(new File(fileName)), headers,
-             * HttpStatus.CREATED);
-             */
+
+	  * return new ResponseEntity<byte[]>(
+	  * FileUtils.readFileToByteArray(new File(fileName)), headers,
+	  * HttpStatus.CREATED);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return this.getResult(0, "数据为空，导出失败");
-    
-    }
-    @RequestMapping(value = "/import.json")
+
+    }*/
+
+	/*    @RequestMapping(value = "/import")
     public void importExcel(){
-        
-    }
+
+    }*/
 }

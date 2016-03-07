@@ -7,6 +7,9 @@
  */
 package com.kfpanda.secu.service;
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -58,6 +61,22 @@ public class SysUserRoleService extends BaseService {
 		} else {
 			return ResultUtil.getSuccResult();
 		}
+	}
+	public List<SysUserRole> listByParams(HashMap<String, String> hashMap) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public Object multilDelete(Long[] idAry) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public List<SysUserRole> listByParams4Page(HashMap<String, Object> params) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public SysUserRole selectByPrimaryKey(Long valueOf) {
+		// TODO Auto-generated method stub
+		return null;
 	}   
 
 }
