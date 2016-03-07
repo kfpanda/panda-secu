@@ -63,13 +63,13 @@ public class SysRoleResourceController extends BaseAction{
 		if(!StringUtil.isBlank(id)){
 			params.put("id",id);
 		}
-		String roleid = request.getParameter("roleid");
+		String roleid = request.getParameter("roleId");
 		if(!StringUtil.isBlank(roleid)){
-			params.put("roleid",roleid);
+			params.put("roleId",roleid);
 		}
-		String rid = request.getParameter("rid");
+		String rid = request.getParameter("rId");
 		if(!StringUtil.isBlank(rid)){
-			params.put("rid",rid);
+			params.put("rId",rid);
 		}
 
 		params.put("page",page);

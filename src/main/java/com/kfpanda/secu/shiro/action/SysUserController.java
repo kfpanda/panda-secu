@@ -231,12 +231,12 @@ public class SysUserController extends BaseAction{
 		if(!StringUtil.isBlank(id)){
 			SysUser bean = sysUserService.selectByPrimaryKey(Long.valueOf(id));
 			result.put("bean", bean);
-			HashMap<String,String> params =new HashMap<String,String>();
+			HashMap<String,Object> params =new HashMap<String,Object>();
 			params.put("SysRole",id);
-			List<SysUserRole> childMaps =sysUserRoleService.listByParams(new HashMap<String,String>());
+			List<SysUserRole> childMaps =sysUserRoleService.listByParams(params);
 			result.put("childMaps", childMaps);
 		}
-		List<SysRole> childs =sysRoleService.listByParams(new HashMap<String,String>());
+		List<SysRole> childs =sysRoleService.listByParams(new HashMap<String,Object>());
 		result.put("childs", childs);
 		return this.getResult(result);
 	}

@@ -93,4 +93,10 @@ public class SysRoleResourceService extends BaseService {
         }
         return ResultUtil.getSuccResult();
     }
+    public List<SysRoleResource> listByParams4Page(HashMap<String, Object> params) {
+        return sysRoleResourceMapper.listByParams4Page(params);
+    }
+    public SysRoleResource selectByPrimaryKey(Long id) {
+        return sysRoleResourceMapper.findOne(id);
+    }
 }

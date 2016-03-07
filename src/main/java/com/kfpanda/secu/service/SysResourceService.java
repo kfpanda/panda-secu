@@ -10,6 +10,7 @@ package com.kfpanda.secu.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,10 +36,10 @@ public class SysResourceService extends BaseService {
      * @author dozen.zhang
      * @date 2015年11月15日下午12:36:24
      */
-    public List<SysResource> listByParams4Page(HashMap params) {
+    public List<SysResource> listByParams4Page(Map<String,Object> params) {
         return sysResourceMapper.listByParams4Page(params);
     }
-     public List<SysResource> listByParams(HashMap params) {
+     public List<SysResource> listByParams(Map<String,Object> params) {
         return sysResourceMapper.listByParams(params);
     }
 
@@ -64,7 +65,7 @@ public class SysResourceService extends BaseService {
         if (sysResource.getId()==null) {
             sysResourceMapper.save(sysResource);
         } else {
-             sysResourceMapper.updateByPrimaryKey(sysResource);
+             sysResourceMapper.updateById(sysResource);
         }
         return ResultUtil.getSuccResult();
     }

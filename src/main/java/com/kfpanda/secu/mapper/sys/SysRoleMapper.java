@@ -1,6 +1,7 @@
 package com.kfpanda.secu.mapper.sys;
 
 import java.util.List;
+import java.util.Map;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
@@ -19,4 +20,10 @@ public interface SysRoleMapper {
     
     @Select(SysRoleSql.FINDROLES_SQL)
     List<SysRole> findRoles(String userName);
+
+    List<SysRole> listByParams4Page(Map<String, Object> params);
+
+    List<SysRole> listByParams(Map<String, Object> params);
+
+    void updateById(SysRole sysRole);
 }
