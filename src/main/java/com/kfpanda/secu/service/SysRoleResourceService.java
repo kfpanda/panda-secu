@@ -7,8 +7,8 @@
  */
  package com.kfpanda.secu.service;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,20 +25,20 @@ public class SysRoleResourceService extends BaseService {
             .getLogger(SysRoleResourceService.class);
     @Resource
     private SysRoleResourceMapper sysRoleResourceMapper;
-//    /**
-//     * 说明:list by page and params
-//     * @param page
-//     * @return
-//     * @return List<Role>
-//     * @author dozen.zhang
-//     * @date 2015年11月15日下午12:36:24
-//     */
-//    public List<SysRoleResource> listByParams4Page(HashMap params) {
-//        return sysRoleResourceMapper.listByParams4Page(params);
-//    }
-//     public List<SysRoleResource> listByParams(HashMap params) {
-//        return sysRoleResourceMapper.listByParams(params);
-//    }
+    /**
+     * 说明:list by page and params
+     * @param page
+     * @return
+     * @return List<Role>
+     * @author dozen.zhang
+     * @date 2015年11月15日下午12:36:24
+     */
+    public List<SysRoleResource> listByParams4Page(Map<String, Object> params) {
+        return sysRoleResourceMapper.listByParams4Page(params);
+    }
+     public List<SysRoleResource> listByParams(Map<String, Object> params) {
+        return sysRoleResourceMapper.listByParams(params);
+    }
 
     /*
      * 说明:
@@ -71,17 +71,17 @@ public class SysRoleResourceService extends BaseService {
     public void delete(Long  id){
         sysRoleResourceMapper.deleteById(id);
     }   
-//    /**
-//    * 说明:根据主键获取数据
-//    * description:delete by key
-//    * @param id
-//    * @return void
-//    * @author dozen.zhang
-//    * @date 2015年12月27日下午10:56:38
-//    */
-//    public SysRoleResource selectByPrimaryKey(Long id){
-//       return sysRoleResourceMapper.selectByPrimaryKey(id);
-//    }
+    /**
+    * 说明:根据主键获取数据
+    * description:delete by key
+    * @param id
+    * @return void
+    * @author dozen.zhang
+    * @date 2015年12月27日下午10:56:38
+    */
+    public SysRoleResource selectByPrimaryKey(Long id){
+       return sysRoleResourceMapper.findOne(id);
+    }
     /**多id删除
      * @param idAry
      * @return
@@ -92,11 +92,5 @@ public class SysRoleResourceService extends BaseService {
             sysRoleResourceMapper.deleteById(idAry[i]);
         }
         return ResultUtil.getSuccResult();
-    }
-    public List<SysRoleResource> listByParams4Page(HashMap<String, Object> params) {
-        return sysRoleResourceMapper.listByParams4Page(params);
-    }
-    public SysRoleResource selectByPrimaryKey(Long id) {
-        return sysRoleResourceMapper.findOne(id);
     }
 }
