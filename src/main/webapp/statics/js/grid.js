@@ -3024,7 +3024,8 @@
 				            		 }
 				            		 
 				            	 }
-				            	 zalert("请求异常");
+				            	// alert("请求异常");
+				            	// zalert("请求异常");
 				            	 return;
 				                 //通常情况下textStatus和errorThrown只有其中一个包含信息
 
