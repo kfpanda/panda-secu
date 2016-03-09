@@ -6,7 +6,7 @@
 		<title>系统设置</title>
 		<link rel="stylesheet" href="css/system-setting.css" />
 		<link rel="stylesheet" href="css/menu.css" />
-		
+		<link rel="stylesheet" href="css/fonts/font-awesome.css" />
 	</head>
 
 	<body>
@@ -76,25 +76,25 @@
 						<a id="addUser" href="javascript:void(0);"><img src="/statics/image/adduser.png" />添加用户</a>
 					</div>
 					<table class="table">
-					<div id="gridhead" style="display:none">
-					<thead>
-							<tr>
-								<th width=10%>
-									<input type="checkbox" name="selectAll" />
-								</th>
-								<th width=15%>导入时间</th>
-								<th width=15%>导入数量</th>
-								<th width=15%>成功数量</th>
-								<th width=15%>失败数量</th>
-								<th width=30%>操作</th>
-							</tr>
-						</thead>
-					</div>
+						<div id="gridhead" style="display:none">
+							<thead>
+								<tr>
+									<th width=10%>
+										<input type="checkbox" name="selectAll" />
+									</th>
+									<th width=15%>导入时间</th>
+									<th width=15%>导入数量</th>
+									<th width=15%>成功数量</th>
+									<th width=15%>失败数量</th>
+									<th width=30%>操作</th>
+								</tr>
+							</thead>
+						</div>
 					</table>
 					<div id="grid" class="grid">
-					
+
 						<table class="table">
-						<!--<thead>
+							<!--<thead>
 							<tr>
 								<th class="thSelect">
 									<input type="checkbox" name="selectAll" />
@@ -224,9 +224,9 @@
 							</tr>
 						</tbody>-->
 
-					</table>
+						</table>
 					</div>
-					
+
 					<!--分页-->
 					<div id="grid-pager" class="pager">
 						<nav class="nav">
@@ -256,7 +256,7 @@
 				</a>
 			</header>
 			<div class="error">
-				
+
 			</div>
 			<div class="modal-body">
 				<div class="modal-row">
@@ -283,135 +283,133 @@
 							<option>1</option>
 						</select>
 					</div>
-					
+
 				</div>
 				<div class="modal-row"></div>
 				<div class="modal-row"></div>
 				<div class="modal-row"></div>
 			</div>
 			<footer>
-                <a href="javascript:void(0);" class="button option back-blue">确认</a>
-                 <a href="javascript:void(0);" class="button option back-gray" id="close">关闭</a>
+				<a href="javascript:void(0);" class="button option back-blue">确认</a>
+				<a href="javascript:void(0);" class="button option back-gray" id="close">关闭</a>
 			</footer>
 		</div>
-		<script type="text/javascript" src="assets/Jquery/jquery-1.11.3.min.js" ></script>
-		<script type="text/javascript" src="js/common.js" ></script>
-		<script type="text/javascript" src="js/grid.js" ></script>
-		<script type="text/javascript" src="js/menu.js" ></script>
-		<script type="text/javascript" src="js/system-setting.js" ></script>
+		<script type="text/javascript" src="assets/Jquery/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/grid.js"></script>
+		<script type="text/javascript" src="js/menu.js"></script>
+		<script type="text/javascript" src="js/system-setting.js"></script>
 		<script>
-		
-
-		var menuList=[
-		              {id:1,name:"日志管理",url:"",pid:0,icon:"fa fa-bank"},
-		              {id:2,name:"访问日志",url:"",pid:1},
-		              {id:3,name:"异常日志",url:PATH+"/log/listRequestLog",pid:1},
-		              {id:21,name:"访问日志A",url:PATH+"/log/listRequestLog",pid:2},
-		              {id:22,name:"访问日志B",url:PATH+"/log/listRequestLog",pid:2},
-		              {id:5,name:"用户管理",url:"",pid:0,icon:"fa fa-diamond"},
-		              {id:6,name:"角色管理",url:PATH+"/auth/role/list.htm",pid:5}, 
-		              {id:7,name:"日历",url:PATH+"/static/html/CalendarView.html",icon:"fa fa-calendar",pid:0},
-		              {id:8,name:"组件库",url:"",icon:"fa fa-bug",pid:0},
-		              {id:9,name:"手机登录页面",url:PATH+"/login/login.htm",icon:"fa fa-spinner",pid:8},
-		              {id:10,name:"上传图片",url:PATH+"/static/html/imageCompress.html",icon:"fa fa-bank",pid:8},
-		              {id:11,name:"列表",url:PATH+"/static/html/example/table.html",icon:"fa fa-spinner",pid:8},
-		              {id:12,name:"alert",url:PATH+"/static/html/example/alert.html",icon:"fa fa-spinner",pid:8},
-		              {id:13,name:"短信",url:PATH+"/smsBatch/list.htm",icon:"fa fa-spinner",pid:0}, 
-		              {id:14,name:"合作伙伴",url:PATH+"/PartnerUserlist.htm",icon:"fa fa-spinner",pid:0}, 
-		              {id:15,name:"用户",url:PATH+"/sysUser/list.htm",icon:"fa fa-spinner",pid:0}, 
-		              {id:16,name:"角色",url:PATH+"/sysRole/list.htm",icon:"fa fa-spinner",pid:0},
-		              {id:17,name:"资源",url:PATH+"/sysResource/list.htm",icon:"fa fa-spinner",pid:0},
-		              {id:18,name:"用户角色",url:PATH+"/sysUserRole/list.htm",icon:"fa fa-spinner",pid:0},
-		              {id:19,name:"角色资源",url:PATH+"/sysRoleResource/list.htm",icon:"fa fa-spinner",pid:0},
-		              {id:20,name:"用户资源",url:PATH+"/sysUserResource/list.htm",icon:"fa fa-spinner",pid:0},
-		              ];
-		
-		(function() {
-			var $modal = $(".modal");
-			$(window).resize(function() {
-				elementResize($modal);
-			});
-			$(window).load(function() {
-				elementResize($modal);
-			});
-		    
-		    $modal.find(".close").on('click',function(){
-		    	$modal.hide();
-		    });
-		    $modal.find("#close").on('click',function(){
-		    	$modal.hide();
-		    });
-		  
-			function elementResize(element) {
-				var wc = $(window).width() - $(".modal").width();		
-				wc = wc > 0 ? wc / 2 : 0;
-				element.css('left',wc);
-			}
-			$("#addUser").on("click",function(){
-				$modal.show();
-			});
-		})()
-		
-		var gridParam = {
-				multiselect : false,
-				url : '/hotel/historyList',
-				grid_selector : "#grid",
-				pager_selector : "#grid-pager",
-				gridHead:"#gridhead",
-				page : {
-					curpage : 1,
-					pagesize : 10
-				},
-				searchParams : {},
-				loadComplete : function() {
-					if (this.p.data.length == 0) {
-						//zalert("未查询到历史记录，请重新查询！", "提示");
-					}
-				},
-				colNames : [ '导入时间', '导入数量', '成功数量', '失败数量', '操作' ],
-				colModel : [
-				            {
-				            	name:'',
-				            	width:10,
-				            	formatter : function(value, data, row) {
-									return '<input type="checkbox" name="selectRow" />';
-								}
-				            	
-				            },
-						{
-							name : 'createtime',
-							width : 15,
-							formatter : function(value, data, row) {
-								return value.substr(0,10);
-							}
-						},
-						{
-							name : 'importcount',
-							width : 15
-						},
-						{
-							name : 'successcount',
-							width : 15
-						},
-						{
-							name : 'failedcount',
-							width : 15
-						},
-						{
-							name : 'operatioin',
-							width : 30,
-							formatter : function(value, data, row) {
-								console.log(row);
-								return '<a href="javascript:void(0);" class="button option back-orange">角色设置</a>'+
-								'<a href="javascript:void(0);" class="button option back-green">修改用户</a>'+
-								'<a href="javascript:void(0);" class="button option back-blue">重置密码</a>';
-							
-							}
-						} ]
-			};
+			var menuList=[
+			              {id:1,name:"日志管理",url:"",pid:0,icon:"fa fa-bank"},
+			              {id:2,name:"访问日志",url:"",pid:1},
+			              {id:3,name:"异常日志",url:PATH+"/log/listRequestLog",pid:1},
+			              {id:21,name:"访问日志A",url:PATH+"/log/listRequestLog",pid:2},
+			              {id:22,name:"访问日志B",url:PATH+"/log/listRequestLog",pid:2},
+			              {id:5,name:"用户管理",url:"",pid:0,icon:"fa fa-diamond"},
+			              {id:6,name:"角色管理",url:PATH+"/auth/role/list.htm",pid:5}, 
+			              {id:7,name:"日历",url:PATH+"/static/html/CalendarView.html",icon:"fa fa-calendar",pid:0},
+			              {id:8,name:"组件库",url:"",icon:"fa fa-bug",pid:0},
+			              {id:9,name:"手机登录页面",url:PATH+"/login/login.htm",icon:"fa fa-spinner",pid:8},
+			              {id:10,name:"上传图片",url:PATH+"/static/html/imageCompress.html",icon:"fa fa-bank",pid:8},
+			              {id:11,name:"列表",url:PATH+"/static/html/example/table.html",icon:"fa fa-spinner",pid:8},
+			              {id:12,name:"alert",url:PATH+"/static/html/example/alert.html",icon:"fa fa-spinner",pid:8},
+			              {id:13,name:"短信",url:PATH+"/smsBatch/list.htm",icon:"fa fa-spinner",pid:0}, 
+			              {id:14,name:"合作伙伴",url:PATH+"/PartnerUserlist.htm",icon:"fa fa-spinner",pid:0}, 
+			              {id:15,name:"用户",url:PATH+"/sysUser/list.htm",icon:"fa fa-spinner",pid:0}, 
+			              {id:16,name:"角色",url:PATH+"/sysRole/list.htm",icon:"fa fa-spinner",pid:0},
+			              {id:17,name:"资源",url:PATH+"/sysResource/list.htm",icon:"fa fa-spinner",pid:0},
+			              {id:18,name:"用户角色",url:PATH+"/sysUserRole/list.htm",icon:"fa fa-spinner",pid:0},
+			              {id:19,name:"角色资源",url:PATH+"/sysRoleResource/list.htm",icon:"fa fa-spinner",pid:0},
+			              {id:20,name:"用户资源",url:PATH+"/sysUserResource/list.htm",icon:"fa fa-spinner",pid:0},
+			              ];
 			
-			mygrid = $("#grid").jqGrid(this.gridParam);
-			zMenu.init("menubar",menuList,{id:"id",url:"url",pid:"pid",name:"name"},'21');
+			(function() {
+				var $modal = $(".modal");
+				$(window).resize(function() {
+					elementResize($modal);
+				});
+				$(window).load(function() {
+					elementResize($modal);
+				});
+			    
+			    $modal.find(".close").on('click',function(){
+			    	$modal.hide();
+			    });
+			    $modal.find("#close").on('click',function(){
+			    	$modal.hide();
+			    });
+			  
+				function elementResize(element) {
+					var wc = $(window).width() - $(".modal").width();		
+					wc = wc > 0 ? wc / 2 : 0;
+					element.css('left',wc);
+				}
+				$("#addUser").on("click",function(){
+					$modal.show();
+				});
+			})()
+			
+			var gridParam = {
+					multiselect : false,
+					url : '/hotel/historyList',
+					grid_selector : "#grid",
+					pager_selector : "#grid-pager",
+					gridHead:"#gridhead",
+					page : {
+						curpage : 1,
+						pagesize : 10
+					},
+					searchParams : {},
+					loadComplete : function() {
+						if (this.p.data.length == 0) {
+							//zalert("未查询到历史记录，请重新查询！", "提示");
+						}
+					},
+					colNames : [ '导入时间', '导入数量', '成功数量', '失败数量', '操作' ],
+					colModel : [
+					            {
+					            	name:'',
+					            	width:10,
+					            	formatter : function(value, data, row) {
+										return '<input type="checkbox" name="selectRow" />';
+									}
+					            	
+					            },
+							{
+								name : 'createtime',
+								width : 15,
+								formatter : function(value, data, row) {
+									return value.substr(0,10);
+								}
+							},
+							{
+								name : 'importcount',
+								width : 15
+							},
+							{
+								name : 'successcount',
+								width : 15
+							},
+							{
+								name : 'failedcount',
+								width : 15
+							},
+							{
+								name : 'operatioin',
+								width : 30,
+								formatter : function(value, data, row) {
+									console.log(row);
+									return '<a href="javascript:void(0);" class="button option back-orange">角色设置</a>'+
+									'<a href="javascript:void(0);" class="button option back-green">修改用户</a>'+
+									'<a href="javascript:void(0);" class="button option back-blue">重置密码</a>';
+								
+								}
+							} ]
+				};
+				
+				mygrid = $("#grid").jqGrid(this.gridParam);
+				zMenu.init("menubar",menuList,{id:"id",url:"url",pid:"pid",name:"name"},'21');
 		</script>
 	</body>
 
