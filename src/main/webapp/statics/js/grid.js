@@ -2890,12 +2890,13 @@
 				goPre : function(event) {
 					var $t = event.data.t;
 
-					if ($t.p.page.curpage == 1)
+					if ($t.p.page.curpage <= 1){
 						return;
-					else
+					}
+					else{
 						$t.p.page.curpage--;
-
-					$($t).jqGrid("ajaxRequest");
+				     	$($t).jqGrid("ajaxRequest");
+					}
 				},
 				selectAll : function() {//alert($(this).jqGrid("getGridParam","selarrrow"));
 					this.each(function() {
@@ -2917,11 +2918,12 @@
 				goNext : function(event) {
 					var $t = event.data.t;
 					//console.log("curpage:"+$t.p.page.curpage+"totalpage")
-					if ($t.p.page.curpage >= $t.p.page.totalpage)
+					if ($t.p.page.curpage >= $t.p.page.totalpage){
 						return;
-					$t.p.page.curpage++;
-					$($t).jqGrid("ajaxRequest");
-
+					}else{
+						$t.p.page.curpage++;
+						$($t).jqGrid("ajaxRequest");
+					}
 				},
 				goPage : function(event) {
 					var $t = event.data.t;
@@ -3243,8 +3245,11 @@
 								//一般是显示5个页数
 								//从 curpage -2 开始 到 curpage+2
 								var total = 1;
-								var pageHtml = "<nav class=\"nav\"> <ul class=\"pagination pagination-sm\"><li><a href=\"javascript:void(0)\" class=\"page_bg pre \" aria-label=\"Previous\">上一页</a>";
-
+								var pageHtml;
+									pageHtml = "<nav class=\"nav\"> <ul class=\"pagination pagination-sm\"><li><a href=\"javascript:void(0)\"  class= \"pre\" aria-label=\"Previous\"><img src=\"/statics/image/noprevious.png\" /></a>";
+									if(page.curpage>1){
+										pageHtml = "<nav class=\"nav\"> <ul class=\"pagination pagination-sm\"><li><a href=\"javascript:void(0)\"  class= \"pre\" aria-label=\"Previous\"><img src=\"/statics/image/previous.png\" /></a>";
+									}
 								var min = 0, max = page.totalpage;
 								var middel = page.curpage;
 								var _min = 0, _max = 0;
@@ -3267,7 +3272,7 @@
 								}
 								for (var i = _min; i <= _max; i++) {
 									if (i == page.curpage)
-										pageHtml += "<li class=\"  num\" ><span class='curr page_bg'>"
+										pageHtml += "<li class=\"  num\" ><span class='page-round page-curr'>"
 												+ i + "</span></li>";
 									else
 										pageHtml += "<li class=\"num\" ><a href=\"javascript:void(0)\" >" + i
@@ -3295,7 +3300,12 @@
 										break;
 								}*/
 								console.log(page);
-								pageHtml += "<li><a href=\"javascript:void(0)\" class=\"page_bg next\" aria-label=\"Next\">下一页</a></li><span>共"+page.totalpage+"页，"+page.totalcount+"条信息</span></ul></nav>";
+								if(page.curpage==page.totalpage){
+									pageHtml += "<li><a href=\"javascript:void(0)\" class= \"next\" aria-label=\"Next\"><img src=\"/statics/image/nonext.png\" /></a></li><span class=\"curpagemsg\">共"+page.totalpage+"页，"+page.totalcount+"条信息</span></ul></nav>";
+								}else{
+									pageHtml += "<li><a href=\"javascript:void(0)\" class= \"next\" aria-label=\"Next\"><img src=\"/statics/image/next.png\" /></a></li><span class=\"curpagemsg\">共"+page.totalpage+"页，"+page.totalcount+"条信息</span></ul></nav>";
+								}
+								
 
 								$(this.p.pager_selector).html(pageHtml);
 								$(this.p.pager_selector).find(".pre")
