@@ -4,17 +4,17 @@ public class SysUserRole {
 
 	private Long id;
 	private Long uId;
-	private Long roleid;
+	private Long roleId;
 
 	public SysUserRole() {
 		super();
 	}
 
-	public SysUserRole(Long id, Long uId, Long roleid) {
+	public SysUserRole(Long id, Long uId, Long roleId) {
 		super();
 		this.id = id;
 		this.uId = uId;
-		this.roleid = roleid;
+		this.roleId = roleId;
 	}
 
 	public Long getId() {
@@ -31,11 +31,11 @@ public class SysUserRole {
 		this.uId = uId;
 	}
 
-	public Long getRoleid() {
-		return roleid;
+	public Long getRoleId() {
+		return roleId;
 	}
 
-	public void setRoleid(Long roleid) {
-		this.roleid = roleid;
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
 	}
 }

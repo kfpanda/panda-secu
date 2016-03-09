@@ -10,16 +10,15 @@ package com.kfpanda.secu.service;
 
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import com.kfpanda.secu.action.ResultDTO;
 import com.kfpanda.secu.bean.sys.SysRole;
 import com.kfpanda.secu.mapper.sys.SysRoleMapper;
+import com.util.common.ResultUtil;
 import com.util.common.ValidateUtil;
 
 @Service("sysRoleService")
@@ -36,10 +35,10 @@ public class SysRoleService extends BaseService {
      * @author dozen.zhang
      * @date 2015年11月15日下午12:36:24
      */
-    public List<SysRole> listByParams4Page(HashMap params) {
+    public List<SysRole> listByParams4Page(Map<String,Object> params) {
         return sysRoleMapper.listByParams4Page(params);
     }
-     public List<SysRole> listByParams(HashMap params) {
+     public List<SysRole> listByParams(Map<String,Object> params) {
         return sysRoleMapper.listByParams(params);
     }
 
@@ -63,9 +62,9 @@ public class SysRoleService extends BaseService {
        //判断是更新还是插入
         if (sysRole.getId()==null) {
                
-            sysRoleMapper.insert(sysRole);
+            sysRoleMapper.save(sysRole);
         } else {
-             sysRoleMapper.updateByPrimaryKey(sysRole);
+             sysRoleMapper.updateById(sysRole);
         }
         return ResultUtil.getSuccResult();
     }
@@ -78,7 +77,7 @@ public class SysRoleService extends BaseService {
     * @date 2015年12月27日下午10:56:38
     */
     public void delete(Long  id){
-        sysRoleMapper.deleteByPrimaryKey(id);
+        sysRoleMapper.deleteById(id);
     }   
     /**
     * 说明:根据主键获取数据
@@ -89,7 +88,7 @@ public class SysRoleService extends BaseService {
     * @date 2015年12月27日下午10:56:38
     */
     public SysRole selectByPrimaryKey(Long id){
-       return sysRoleMapper.selectByPrimaryKey(id);
+       return sysRoleMapper.findOne(id);
     }
     /**多id删除
      * @param idAry
@@ -98,7 +97,7 @@ public class SysRoleService extends BaseService {
      */
     public ResultDTO multilDelete(Long[] idAry) {
         for(int i=0;i<idAry.length;i++){
-            sysRoleMapper.deleteByPrimaryKey(idAry[i]);
+            sysRoleMapper.deleteById(idAry[i]);
         }
         return ResultUtil.getSuccResult();
     }
