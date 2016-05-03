@@ -1,0 +1,34 @@
+/*============可调用==============*/
+.txt_left { text-align: left }
+.txt_right { text-align: right }
+.txt_center { text-align: center }
+.floatleft { float: left }
+.floatright { float: right }
+.bold { font-weight: bold }
+.normal { font-weight: normal }
+.size14 { font-size:14px }
+.pointer { cursor: pointer }
+.cur_default { cursor: default }
+.underline { text-decoration: underline }
+.nounderline { text-decoration: none }
+.black { color: #000 }
+.blue { color:blue; }
+.red { color:red; }
+.yellow { background:#fcf9f4; }
+.orange { color:#ff6600; }
+.linkColor { color:#155fbe; text-decoration:none; }
+.linkColor:hover { color:#417fcd; }
+.nowrap { white-space: nowrap }
+.tablenowrap td, .tablenowrap th { white-space: nowrap }
+.breakword { word-wrap: break-word; word-break: break-all }
+.noime { ime-mode: disabled }
+.clearall { clear: both;}
+.clearl { clear: left; }
+.clearr { clear: right; }
+.noborder { border-width:0 }
+.pos { position:relative; z-index:99 }
+.border_01 { border:1px solid #B0CBE0; margin-bottom:4px; }
+.have { color:green; font-weight:bold; }
+.non { color:red; font-weight:bold; }
+.after:after { content:"."; display:block; visibility:hidden; height:0; clear:both; }
+

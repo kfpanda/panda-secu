@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="app">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>用户行为统计</title>
+		<link rel="stylesheet" href="statics/css/dataStatistic.css" />
+		<link rel="stylesheet" href="statics/css/statAnimates.css" />
+		<link rel="stylesheet" href="statics/css/font-awesome.min.css />
+	</head>
+
+	<body>
+		<div class="header"><img src=""></div>
+		<!-- 导航栏 -->
+		<div class="nav">
+			<span style="background: #fff;height:52px;">
+            <a href="javascript:void(0)">
+                <span id="caidan" class="fa fa-navicon"  style="font-size:28px;text-indent: 28px;line-height:54px;"></span>
+			<label style="font-size: 28px;display: inline-block;position: absolute;text-indent:14px;line-height:46px;color: #E85F3B;"> AiWifi</label>
+			</a>
+			</span>
+			<ol class="navOl">
+				<!--<li class="navLi"><a href=""><i class="fa fa-map-o"></i><span><h6>6</h6></span></a></li>-->
+
+				<!--<li class="navLi"><a href=""><i class="fa fa-envelope-o" ></i><span style="background:#ff6c60;"><h6>3</h6></span></a></li>-->
+
+				<!--<li class="navLi"><a href=""><i class="fa fa-bell-o" ></i><span style="background:#FCB322;"><h6>8</h6></span></a></li>-->
+			</ol>
+
+			<ul class="navUl">
+				<li class="nabLi2">
+				
+
+						<!--<input class="nabLi2-input2" placeholder="请输入...">-->
+						<i class="fa fa-search" type="button"></i>
+					
+				</li>
+
+				<li id="nabLi2" class="nabLi2">
+					<a href="javascript:void(0)">
+						<img src="http://img.mukewang.com/user/5552b88a0001c85801000100-40-40.jpg"><i class="fa fa-caret-down" style="font-size: 18px;color: #333;position: absolute;top: 23px;left: 226px;"></i></a>
+
+					<ul class="nabLi2-ul">
+						<li><a href="javascript:void(0)"><i class="fa fa-angle-right"></i><span >用户设置</span></a></li>
+
+						<li><a href="javascript:void(0)"><i class="fa fa-angle-right"></i><span>其它</span></a></li>
+
+						<li><a href="javascript:void(0)"><i class="fa fa-angle-right"></i><span>退出</span></a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+
+		<div class="container">
+
+			<div class="sidebar">
+				<!-- 列表 -->
+
+				<ul class="sdbUl">
+					<li class="sdbUl-li">
+						<a href="javascript:void(0)"><i class="fa fa-calendar-plus-o"></i><span class="sdbUl-li-span">统计管理</span></a>
+						<ul class="sdbUl-li-ul" >
+						
+							<li class="sdbLi"><a href="#/proList"><i class="fa fa-location-arrow"></i><span>项目列表</span></a></li>
+								<li class="sdbLi"><a href="#/groupList"><i class="fa fa-location-arrow"></i><span>分组列表</span></a></li>
+									<li class="sdbLi"><a href="#/confList"><i class="fa fa-location-arrow"></i><span>统计配置列表</span></a></li>
+						</ul>
+					</li>
+					<div ng-controller="menuCtrl">
+						<!--一级菜单 项目-->
+						<li class="sdbUl-li" ng-repeat="pro in prolist">
+							<a href="javascript:void(0)"><i class="fa fa-calendar-check-o"></i><span class="sdbUl-li-span" ng-bind="pro.name" ng-click="menuToggle(pro.id)"></span></a>
+							<!--二级菜单 分组-->
+							<ul id="sdbUl-li-ul" class="sdbUl-li-ul" ng-show="tab == pro.id">
+								<li class="sdbLi" ng-repeat="group in grouplist">
+									<a href="javascript:void(0)">
+										<i class="fa fa-location-arrow"></i>
+										<span ng-bind="group.name" ng-click="groupToggle(group.id)"> </span>
+									</a>
+									<!--三级菜单 配置条目-->
+									<ul id="sdbUl-li-ul" class="sdbUl-li-ul" ng-show="grouptab == group.id" style="text-indent: 2em;">
+										 <li class="sdbLi" ng-repeat="conf in conflist">
+										 	<a href="#/showChart?confid={{conf.id}}">
+										 		<i class="fa fa-location-arrow"></i>
+										 		<span ng-bind="conf.name" ></span>
+										 	</a>
+										 </li> 
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</div>
+
+				</ul>
+			</div>
+			<!-- 内容 -->
+
+			<div class="content" data-ng-view="">
+				
+
+			</div>
+		</div>
+
+		<!-- 以下是js   -->
+
+		<script type="text/javascript" src="statics/assets/Jquery/jquery-1.11.3.js"></script>
+		<script type="text/javascript" src="statics/js/dataStatistic.js"></script>
+		<script type="text/javascript" src="statics/assets/angular-1.4.7/angular.js"></script>
+		<script type="text/javascript" src="statics/assets/angular-1.4.7/angular-animate.js"></script>
+		<script type="text/javascript" src="statics/assets/angular-1.4.7/angular-route.js"></script>
+		<script type="text/javascript" src="statics/assets/angular-1.4.7/angular-resource.js"></script>
+		<script type="text/javascript" src="statics/assets/angular-1.4.7/chart.js"></script>
+		<script type="text/javascript" src="statics/assets/angular-1.4.7/angular-chart.js"></script>
+        
+		<script type="text/javascript" src="app.js"></script>
+		<script type="text/javascript" src="statics/assets/awifi/md/1.0.1/controller.js"></script>
+		<script type="text/javascript" src="statics/assets/awifi/md/1.0.1/service.js"></script>
+		<script type="text/javascript" src="statics/assets/awifi/md/1.0.1/dao.js"></script>
+      <script type="text/javascript" src="statics/assets/dir/checkRepeat.js"></script>
+	</body>
+
+</html>

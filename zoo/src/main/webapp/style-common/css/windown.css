@@ -1,0 +1,19 @@
+/*==========������js��ʽstart==========*/
+#windownbg { display: none; position: absolute; width: 100%; height: 100%; /*background: #000;body-bg*/ top: 0; left: 0; }
+#windown-box { position: absolute; top:100px; height:100px; z-index:9999;/*For IE 6.0*/ background: #fff; text-align: left; }
+#windown-title { position: relative; border:1px solid #6B97C1; cursor:move;height:28px; overflow: hidden; line-height:28px; background:url(../images/tipswindown_ico.png) repeat-x scroll 0 0 transparent;  }
+#windown-title h2 {position: absolute; font-weight: bold; left: 10px; top:0px; height: 20px; color: #fff; font-size: 13px; letter-spacing:2px;}
+#windown-close { position: absolute; width: 34px; background: url(../images/tipswindown_ico.png) 0px -30px no-repeat; text-indent: -10em; right: 2px; top: 0px; height: 19px; overflow: hidden; cursor: pointer;}
+#windown-close:hover { cursor: pointer; background: url(../images/tipswindown_ico.png) -37px -30px no-repeat; _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/blue/open_close01.png'); /* IE6 ���������˾�Ӱ���ٶ�*/
+_background-image: none; /* IE6 */}
+#windown-content-border { position: relative; border-top:none; padding: 5px 0 5px 5px; border: 1px solid #4271A6; repeat-x left bottom;background: white;}
+#windown-content { position: relative; overflow: auto; text-align: center; }
+#windown-content img, #windown-content iframe { display: block; }
+#windown-content .loading { position: absolute; left: 50%; top: 50%; margin-left: -8px; margin-top: -8px; }
+/*==========������js��ʽend==========*/
+
+.open_prompt .table01{height:70px; line-height:70px;}
+
+
+
+

@@ -1,0 +1,141 @@
+<div class=nav-map-wrap>
+	<div class=nav-map>爱WiFi河南金融行业管理平台<span class=flag>></span>用户管理<span class=flag>></span>用户列表<span class=flag>></span>编辑用户</div>
+</div>
+<div class=content>
+	<div class="user-edit-body awifi-free-width">
+		<div class=add_user_data>
+			<div class=uup_centent>
+				<ul>
+					<li class=uup_explain1>所属域</li>
+					<li class=uup_explain2><span data-ng-bind=oldUser.merchantName></span></li>
+					<li class=uup_connect><span class=uup_span data-ng-click=setMerchantName($event)>设置</span></li>
+				</ul>
+			</div>
+			<div class=uup_uname>
+				<ul>
+					<li class=uup_nowname_explain1>商&#12288;户</li>
+					<li class=uup_nowname_explain2 data-ng-bind=user.merchantName></li>
+				</ul>
+			</div>
+			<div class=uup_centent>
+				<ul>
+					<li class=uup_explain1>用户类型</li>
+					<li class=uup_explain2><span data-ng-bind=oldUser.userTypeDsp></span></li>
+					<li class=uup_connect><span class=uup_span data-ng-click=setUserType($event)>设置</span></li>
+				</ul>
+			</div>
+			<div class=uup_uname>
+				<ul>
+					<li class=uup_nowname_explain1 style="padding-left: 15px">用户类型</li>
+					<li class=uup_nowname_explain2 data-ng-bind=oldUser.userTypeDsp></li>
+				</ul>
+				<ul>
+					<li class=uup_newname_explain1>新用户类型</li>
+					<li class=uup_newname_explain2>
+						<input type=radio id=userType_9 data-ng-model=user.userType value=9 data-ng-click="sysUserTypeDsp()">
+						<label for=userType_2>普通用户</label>
+						<input type=radio id=userType_10 data-ng-model=user.userType value=10 data-ng-click=sysUserTypeDsp() style="margin-left: 55px">
+						<label for=userType_3>VIP用户</label>
+						<input type=radio id=userType_11 data-ng-model=user.userType value=11 data-ng-click=sysUserTypeDsp() style="margin-left: 55px">
+						<label for=userType_3>终端体验区账户</label>
+					</li>
+				</ul>
+			</div>
+			<div class=uup_centent>
+				<ul>
+					<li class=uup_explain1>用户名</li>
+					<li class=uup_explain2><span data-ng-bind=oldUser.userName></span></li>
+					<li class=uup_connect><span class=uup_span data-ng-click=setUserName($event)>设置</span></li>
+				</ul>
+			</div>
+			<div class=uup_uname>
+				<ul>
+					<li class=uup_nowname_explain1>&#12288;用户名</li>
+					<li class=uup_nowname_explain2 data-ng-bind=oldUser.userName></li>
+				</ul>
+			</div>
+			<div class=uup_centent>
+				<ul>
+					<li class=uup_explain1>手机号</li>
+					<li class=uup_explain2><span data-ng-bind=oldUser.cellphone></span></li>
+					<li class=uup_connect><span class=uup_span data-ng-click=setCellphone($event)>设置</span></li>
+				</ul>
+			</div>
+			<div class=uup_uname>
+				<ul>
+					<li class=uup_nowname_explain1>&#12288;手机号</li>
+					<li class=uup_nowname_explain2 data-ng-bind=oldUser.cellphone></li>
+				</ul>
+				<ul>
+					<li class=uup_newname_explain1>新手机号</li>
+					<li class=uup_newname_explain2>
+						<input id=cellphone data-ng-model=user.cellphone class="uup_newname_explain2_input">
+					</li>
+				</ul>
+			</div>
+			<div class=uup_centent>
+				<ul>
+					<li class=uup_explain1>姓名</li>
+					<li class=uup_explain2><span data-ng-bind=oldUser.realName></span></li>
+					<li class=uup_connect><span class=uup_span data-ng-click=setRealName($event)>设置</span></li>
+				</ul>
+			</div>
+			<div class=uup_uname>
+				<ul>
+					<li class=uup_nowname_explain1>姓&#12288;名</li>
+					<li class=uup_nowname_explain2 data-ng-bind=oldUser.realName></li>
+				</ul>
+				<ul>
+					<li class=uup_newname_explain1>新姓名</li>
+					<li class=uup_newname_explain2>
+						<input id=realName data-ng-model=user.realName class="uup_newname_explain2_input">
+					</li>
+				</ul>
+			</div>
+			<div class=uup_centent>
+				<ul>
+					<li class=uup_explain1>部门</li>
+					<li class=uup_explain2><span data-ng-bind=oldUser.deptName></span></li>
+					<li class=uup_connect><span class=uup_span data-ng-click=setDeptName($event)>设置</span></li>
+				</ul>
+			</div>
+			<div class=uup_uname>
+				<ul>
+					<li class=uup_nowname_explain1>部&#12288;门</li>
+					<li class=uup_nowname_explain2 data-ng-bind=oldUser.deptName></li>
+				</ul>
+				<ul>
+					<li class=uup_newname_explain1>新部门</li>
+					<li class=uup_newname_explain2>
+						<input id=deptName data-ng-model=user.deptName class="uup_newname_explain2_input">
+					</li>
+				</ul>
+			</div>
+			<div class=uup_centent>
+				<ul>
+					<li class=uup_explain1>备注</li>
+					<li class=uup_explain3><span data-ng-bind=oldUser.remark></span></li>
+					<li class=uup_connect><span class=uup_span data-ng-click=setRemark($event)>设置</span></li>
+				</ul>
+			</div>
+			<div class=uup_uname>
+				<ul class=uup_uname_ul>
+					<li class=uup_nowname_explain1>备&#12288;注</li>
+					<li class=uup_nowname_explain2>
+						<textarea style=resize:none data-ng-bind=oldUser.remark readonly></textarea>
+					</li>
+				</ul>
+				<ul class=uup_uname_ul>
+					<li class=uup_newname_explain1>新备注</li>
+					<li class=uup_newname_explain2>
+						<textarea id=remark style=resize:none data-ng-model=user.remark></textarea>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class=uup_last_div>
+			<input class=uup_button1 type=button value=保存 data-ng-click="btnSave()">
+			<input class=uup_button2 type=button value=取消 data-ng-click="btnCancel()">
+		</div>
+	</div>
+</div>

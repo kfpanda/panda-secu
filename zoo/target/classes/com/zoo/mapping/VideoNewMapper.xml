@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zoo.dao.VideoNewMapper" >
+  <resultMap id="BaseResultMap" type="com.zoo.bean.VideoNew" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="vname" property="vname" jdbcType="VARCHAR" />
+    <result column="zbname" property="zbname" jdbcType="VARCHAR" />
+    <result column="viewnum" property="viewnum" jdbcType="INTEGER" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="vkey" property="vkey" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, vname, zbname, viewnum, url, type, img, vkey
+  </sql>
+  <select id="selectVideoList" resultMap="BaseResultMap"
+		parameterType="com.zoo.bean.VideoNew">
+		select 
+        <include refid="Base_Column_List" />
+         from video_new
+		<where>
+			1=1
+			<if test="zbname != null and zbname != ''">
+			   and zbname like  #{zbname,jdbcType=VARCHAR} 
+			</if>
+			<if test="vname != null and vname != ''">
+			  and vname like  #{vname,jdbcType=VARCHAR} 
+			</if>
+			<if test="type != null and type != ''">
+			   and type = #{type,jdbcType=VARCHAR} 
+			</if>
+			 ORDER BY viewnum desc
+		</where>
+	</select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from video_new
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from video_new
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zoo.bean.VideoNew" >
+    insert into video_new (id, vname, zbname, 
+      viewnum, url, type, 
+      img, vkey)
+    values (#{id,jdbcType=BIGINT}, #{vname,jdbcType=VARCHAR}, #{zbname,jdbcType=VARCHAR}, 
+      #{viewnum,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{img,jdbcType=VARCHAR}, #{vkey,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zoo.bean.VideoNew" >
+    insert into video_new
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="vname != null" >
+        vname,
+      </if>
+      <if test="zbname != null" >
+        zbname,
+      </if>
+      <if test="viewnum != null" >
+        viewnum,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="img != null" >
+        img,
+      </if>
+      <if test="vkey != null" >
+        vkey,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="vname != null" >
+        #{vname,jdbcType=VARCHAR},
+      </if>
+      <if test="zbname != null" >
+        #{zbname,jdbcType=VARCHAR},
+      </if>
+      <if test="viewnum != null" >
+        #{viewnum,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="vkey != null" >
+        #{vkey,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zoo.bean.VideoNew" >
+    update video_new
+    <set >
+      <if test="vname != null" >
+        vname = #{vname,jdbcType=VARCHAR},
+      </if>
+      <if test="zbname != null" >
+        zbname = #{zbname,jdbcType=VARCHAR},
+      </if>
+      <if test="viewnum != null" >
+        viewnum = #{viewnum,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="vkey != null" >
+        vkey = #{vkey,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zoo.bean.VideoNew" >
+    update video_new
+    set vname = #{vname,jdbcType=VARCHAR},
+      zbname = #{zbname,jdbcType=VARCHAR},
+      viewnum = #{viewnum,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      vkey = #{vkey,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -101,7 +101,7 @@ public class SysRoleResourceController extends BaseAction{
 	 * @date 2015年11月15日下午1:33:00
 	 */
 	// @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
-	@RequestMapping(value = "/save.json")
+	@RequestMapping(value = "/save")
 	@ResponseBody
 	public Object save(HttpServletRequest request) throws Exception {
 		SysRoleResource sysRoleResource =new  SysRoleResource();
@@ -150,7 +150,7 @@ public class SysRoleResourceController extends BaseAction{
 	 * @return
 	 * @author dozen.zhang
 	 */
-	@RequestMapping(value = "/mdel.json")
+	@RequestMapping(value = "/mdel")
 	@ResponseBody
 	public Object multiDelete(HttpServletRequest request) {
 		String idStr = request.getParameter("ids");
@@ -187,7 +187,7 @@ public class SysRoleResourceController extends BaseAction{
 	 * @return
 	 * @author dozen.zhang
 	 *//*
-	@RequestMapping(value = "/export.json")
+	@RequestMapping(value = "/export")
 	@ResponseBody   
 	public Object exportExcel(HttpServletRequest request){
 		HashMap<String,Object> params= new HashMap<String,Object>();
@@ -249,7 +249,7 @@ public class SysRoleResourceController extends BaseAction{
 		return this.getResult(0, "数据为空，导出失败");
 
 	}
-	@RequestMapping(value = "/import.json")
+	@RequestMapping(value = "/import")
 	public void importExcel(){
 
 	}*/

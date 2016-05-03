@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zoo.dao.CollectMapper" >
+  <resultMap id="BaseResultMap" type="com.zoo.bean.Collect" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="uid" property="uid" jdbcType="BIGINT" />
+    <result column="vid" property="vid" jdbcType="BIGINT" />
+    <result column="vtype" property="vtype" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, createtime, uid, vid, vtype
+  </sql>
+  
+   <select id="selectByCollect" resultMap="BaseResultMap" parameterType="com.zoo.bean.Collect" >
+    select 
+    <include refid="Base_Column_List" />
+    from collect
+    where uid = #{uid,jdbcType=BIGINT} and vid = #{vid,jdbcType=BIGINT} 
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from collect
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from collect
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zoo.bean.Collect" >
+    insert into collect (id, createtime, uid, 
+      vid, vtype)
+    values (#{id,jdbcType=BIGINT}, #{createtime,jdbcType=TIMESTAMP}, #{uid,jdbcType=BIGINT}, 
+      #{vid,jdbcType=BIGINT}, #{vtype,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zoo.bean.Collect" >
+    insert into collect
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="vid != null" >
+        vid,
+      </if>
+      <if test="vtype != null" >
+        vtype,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="vid != null" >
+        #{vid,jdbcType=BIGINT},
+      </if>
+      <if test="vtype != null" >
+        #{vtype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zoo.bean.Collect" >
+    update collect
+    <set >
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="vid != null" >
+        vid = #{vid,jdbcType=BIGINT},
+      </if>
+      <if test="vtype != null" >
+        vtype = #{vtype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zoo.bean.Collect" >
+    update collect
+    set createtime = #{createtime,jdbcType=TIMESTAMP},
+      uid = #{uid,jdbcType=BIGINT},
+      vid = #{vid,jdbcType=BIGINT},
+      vtype = #{vtype,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
