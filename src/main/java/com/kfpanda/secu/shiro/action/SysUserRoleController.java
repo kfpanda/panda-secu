@@ -118,7 +118,7 @@ public class SysUserRoleController extends BaseAction
 		}
 		String roleid = request.getParameter("roleid");
 		if(!StringUtil.isBlank(roleid)){
-			sysUserRole.setRoleid(Long.valueOf(roleid));
+			sysUserRole.setRoleId(Long.valueOf(roleid));
 		}
 
 		//valid

@@ -10,6 +10,7 @@ package com.kfpanda.secu.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,10 +35,10 @@ public class SysRoleService extends BaseService {
      * @author dozen.zhang
      * @date 2015年11月15日下午12:36:24
      */
-    public List<SysRole> listByParams4Page(HashMap params) {
+    public List<SysRole> listByParams4Page(Map<String,Object> params) {
         return sysRoleMapper.listByParams4Page(params);
     }
-     public List<SysRole> listByParams(HashMap params) {
+     public List<SysRole> listByParams(Map<String,Object> params) {
         return sysRoleMapper.listByParams(params);
     }
 
@@ -63,7 +64,7 @@ public class SysRoleService extends BaseService {
                
             sysRoleMapper.save(sysRole);
         } else {
-             sysRoleMapper.updateByPrimaryKey(sysRole);
+             sysRoleMapper.updateById(sysRole);
         }
         return ResultUtil.getSuccResult();
     }

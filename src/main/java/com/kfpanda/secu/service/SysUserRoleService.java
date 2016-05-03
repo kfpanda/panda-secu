@@ -9,13 +9,10 @@ package com.kfpanda.secu.service;
 
 import java.util.HashMap;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import com.kfpanda.secu.action.ResultDTO;
 import com.kfpanda.secu.bean.sys.SysUserRole;
 import com.kfpanda.secu.mapper.sys.SysUserRoleMapper;
@@ -62,7 +59,7 @@ public class SysUserRoleService extends BaseService {
 			return ResultUtil.getSuccResult();
 		}
 	}
-	public List<SysUserRole> listByParams(HashMap<String, String> hashMap) {
+	public List<SysUserRole> listByParams(HashMap<String, Object> params) {
 		// TODO Auto-generated method stub
 		return null;
 	}

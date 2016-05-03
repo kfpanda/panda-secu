@@ -1,104 +1,143 @@
-/**@author 宋展辉
- * 动态生成菜单
- * @param menulists
- * @returns
- */
 
-//根据session中menuList的递归生成菜单html
-function creatMenus(menulists){
-	var _MENU=[];
-	for(var i=0;i<menulists.length;i++){
-		var data = menulists[i];
-		_MENU[_MENU.length]=creatMenuDiv(data);
-		if(data.subMenus){
-			_MENU[_MENU.length]=creatMenus(data.subMenus);
+var zMenu = {
+	autoCollapse: true,
+	animation: true,
+	idName: "",
+	urlName: "",
+	pidName: "",
+	menuName: "",
+	currId: "", //当前菜单选中项目节点id
+	init: function(id, data, option, currId) {
+		var ele = document.getElementById(id);
+		if (ele) {
+			var html = "<ul class='nav'>";
+			this.idName = option.id;
+			this.urlName = option.url;
+			this.pidName = option.pid;
+			this.menuName = option.name;
+			this.currId = currId;
+			for (var i = 0; i < data.length; i++) {
+				if (StringUtil.isBlank(data[i][this.pidName]) || data[i][this.pidName] == 0) {
+					html += this.createLi(data, data[i]);
+				}
+			}
+			html += "</ul>";
+			ele.innerHTML = html;
+			this.addEvent(id);
 		}
-	}
-	return _MENU.join('');
-}
+	},
+	reShow: function(currId) {
+		var id = 'm_a_' + currId;
+		$("#" + id).addClass('active');
+		$("#" + id).parents("ul").show();
+		$("#" + id).parents("li").addClass('open');
+	},
+	addEvent: function(id) {
+		var _this = this;
+		_this.reShow(_this.currId);
+		var menuWrap = document.getElementById(id);
+		$("#" + id).find('ul a').click(function(event) {
 
-//拼装html 子方法
-function creatMenuDiv(data){
-	var menuHtml=[];
-	if(data.parentId==0){
-	
-		menuHtml[menuHtml.length]='<div class="menu_row menu_root"  id="'+(data.path||'')+'"><h2 class="menu_title">';
-		menuHtml[menuHtml.length]='<a name="'+(data.url||'')+'" target="'+(data.target||'')+'" onclick="'+(data.onclick+"(this)"||'')+'">';
-		menuHtml[menuHtml.length]='<img  src="'+(data.imageUrl||'')+'">';
-		menuHtml[menuHtml.length]='<p>'+(data.name||'')+'</p></a></h2></div>';
-		
-	}else{
-		menuHtml[menuHtml.length]='<div class="menu_row hidden" id="'+(data.path||'')+'" ><h2 class="menu_title">';
-		menuHtml[menuHtml.length]='<a name="'+(data.url||'')+'" target="'+(data.target||'')+'" onclick="'+(data.onclick+"(this)"||'')+'">';
-		menuHtml[menuHtml.length]='<p>'+(data.name||'')+'</p></a></h2></div>';
-	}
-	return menuHtml.join('');
-}
+			event.preventDefault();
+			//console.log($(".menu-wrap")[0].offsetWidth);
+			if ($(".menu-wrap")[0].offsetWidth < 100) {
+				//return;
+			}
 
-//刷新菜单 传入父菜单对象
-function refreshMenu(that){
-    id = '_'+that.parentNode.parentNode.id;
-	$(".menu_row:not(.menu_root)").each(function(){
-		var subid = '_'+$(this).attr("id");
-		var reg = /^\d+\_/;
-		if((subid.indexOf(id)!=-1)&&(reg.test(subid.substr(subid.indexOf(id)+id.length)))){
-			$(this).toggle();
-		}
-	});
-	return false;
-}
-
-//刷新菜单 传入所在div的id 即refreshMenu中的that.parentNode.parentNode.id;
-function refreshMenuAfter(id){
-    id = '_'+id;
-	$(".menu_row:not(.menu_root)").each(function(){
-		var subid = '_'+$(this).attr("id");
-		var reg = /^\d+\_$/;
-		if((subid.indexOf(id)!=-1)&&(reg.test(subid.substr(subid.indexOf(id)+id.length)))){
-			$(this).toggle();
-		}
-	});
-	return false;
-}
-
-//点击子菜单跳转刷新数据
-function refreshData(event){
-		
-		window.location.href=event.name+"?path="+event.parentNode.parentNode.id;
-	
-	
-}
+			if (isNull($(this).attr("href"))) {
+				var id = $(this).attr("id");
+				var ul = "m_u_" + id.substr(4);
+				//console.log($(this).parent().length);
+				//查找当前所属的li状态是否是打开状态的
+				if ($(this).parent().hasClass('open')) { //console.log("rm open");
+					$(this).parent().removeClass('open');
+					$("#" + ul).slideUp(200, function() {});
+					//$(this).parent().find("ul").eq(0).slideUp(200,function(){});
+				} else { //console.log("add open");
+					//$(".mark").removeClass("mark");
+					//$(this).addClass("mark");
+					//$(this).parent().parent().find('li').removeClass('open');
+					//$(this).parent().parent().find('.open').find("ul").eq(0).slideUp(200);
+					//打开当前节点,关闭同级节点里的open元素.
 
 
-
-
-//菜单初始化+默认展开
-function initMenuStatus(path){
-
-	if(path){
-		$("#"+path).addClass("active");
-		$(".menu_row").each(function(){
-			var subid = $(this).attr("id");
-			if((('_'+path).indexOf('_'+subid)!=-1)&&(subid!=path)){
-				refreshMenuAfter(subid);
+					//$(this).parent().siblings().filter('.open').removeClass('open');
+					//$(this).parent().find("ul").eq(0).slideDown(100);
+					$("#" + ul).slideDown(100, function() {});
+					$(this).parent().addClass('open');
+				}
+			} else {
+				$(this).parent().parent().find('a').removeClass('active');
+				$(this).addClass('active');
+				_this.loadPage($(this).attr("href"));
 			}
 		});
+
+		$('#userprofile').click(function() {
+			_this.userprofile();
+		});
+		$('#userpasswd').click(function() {
+			_this.userpasswd();
+		});
+
+
+
+	},
+	loadPage: function(url, fun) {
+		window.data = {};
+		//截取参数
+		var position = url.indexOf("?");
+		if (position > 0) {
+			var paramsStr = url.substring(position + 1);
+			console.log("paramsStr:" + paramsStr);
+			var arr = paramsStr.split("&");
+
+			for (var i = 0; i < arr.length; i++) {
+				var keyVal = arr[i].split("=");
+				var key = keyVal[0];
+				var val = keyVal[1];
+				console.log(keyVal[0] + ":" + keyVal[1]);
+				window.data[key] = val;
+			}
+		}
+		/*$('.main-content').load(url, {"lname" : "Cai", "fname" : "Adam"}, function(){
+			 $(".main-content").hide();
+		    $(".main-content").fadeIn('slow');}
+		  );return;*/
+		//	jLoading.start();
+		$.ajax({
+			type: 'GET',
+			url: url,
+			dataType: 'html',
+			success: function(data) {
+				//jLoading.close();
+				$('.main-content').html(data);
+				if (typeof fun == 'function') fun();
+			},
+			error: function() {
+				//jLoading.close();
+				//jDialog.alert('加载页面失败', '系统错误')
+			}
+		});
+	},
+	createIcon: function() {
+
+		return "<i class=\"material-icons\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"48\" height=\"48\" viewBox=\"0 0 48 48\">" +
+			"<rect x=\"20\" y=\"32\" width=\"8\" height=\"8\" fill=\"#0cc2aa\"></rect>" +
+			"<rect x=\"8\" y=\"20\" width=\"8\" height=\"8\" fill=\"#0cc2aa\"></rect>" +
+			"<rect x=\"20\" y=\"8\" width=\"8\" height=\"8\" fill=\"#0cc2aa\"></rect>" +
+			"<rect x=\"32\" y=\"20\" width=\"8\" height=\"8\" fill=\"#0cc2aa\"></rect>" +
+			"</svg></i>";
+	},
+	createLi: function(data, row) {
+		var html =
+			"<li ><a id=\"m_a_" + row["id"] + "\" href=\"" + row[this.urlName] + "\" ><span class='nav-icon'><i class='" + row["icon"] + "'></i></span><span class='nav-text'>" + row[this.menuName] + "</span>" + (isNull(row[this.urlName]) ? "<span class='nav-caret'><i class=\"fa fa-caret-down\"></i></span>" : "") + "</a><ul id=\"m_u_" + row["id"] + "\">";
+		for (var i = 0; i < data.length; i++) {
+			if (typeof data[i][this.pidName] != 'undefined' && data[i][this.pidName] != null && data[i][this.pidName] == row[this.idName]) { //说明有子项目
+				html += this.createLi(data, data[i]);
+			}
+		}
+		html += "</ul></li>";
+		return html;
 	}
 }
-
-//截取url中的参数，得到菜单初始化需要的path
-function geturlParam(name) {
-	var reg = new RegExp("(^|\\?|&)"+ name +"=([^&]*)(\\s|&|$)", "i");
-	if (reg.test(location.href)) {
-		return unescape(RegExp.$2.replace(/\+/g, " "));			
-	}else{		
-		return "";	
-	}
-
-	};
-
-	//页面加载任务
-$(document).ready(function(){
-	$(".left_menu").html(creatMenus(menulists));//动态生成菜单
-	initMenuStatus(path);//初始化菜单,传入path控制菜单默认展开
-})
