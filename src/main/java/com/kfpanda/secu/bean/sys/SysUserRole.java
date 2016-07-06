@@ -3,18 +3,18 @@ package com.kfpanda.secu.bean.sys;
 public class SysUserRole {
 
 	private Long id;
-	private Long uId;
-	private Long roleId;
+	private Long uid;
+	private Long rid;
 
 	public SysUserRole() {
 		super();
 	}
 
-	public SysUserRole(Long id, Long uId, Long roleId) {
+	public SysUserRole(Long id, Long uid, Long rid) {
 		super();
 		this.id = id;
-		this.uId = uId;
-		this.roleId = roleId;
+		this.uid = uid;
+		this.rid = rid;
 	}
 
 	public Long getId() {
@@ -24,18 +24,20 @@ public class SysUserRole {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getuId() {
-		return uId;
-	}
-	public void setuId(Long uId) {
-		this.uId = uId;
+
+	public Long getUid() {
+		return uid;
 	}
 
-	public Long getRoleId() {
-		return roleId;
+	public void setUid(Long uid) {
+		this.uid = uid;
 	}
 
-	public void setRoleId(Long roleId) {
-		this.roleId = roleId;
+	public Long getRid() {
+		return rid;
+	}
+
+	public void setRid(Long rid) {
+		this.rid = rid;
 	}
 }

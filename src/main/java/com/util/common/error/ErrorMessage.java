@@ -22,7 +22,7 @@ public class ErrorMessage {
         }
         try {
             msgProp = new Properties();
-            msgProp.load(new FileInputStream(FilePath.getAbsolutePathWithClass() + "/properties/message.properties"));
+            msgProp.load(new FileInputStream(FilePath.getAbsolutePathWithClass() + "/conf/message.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }

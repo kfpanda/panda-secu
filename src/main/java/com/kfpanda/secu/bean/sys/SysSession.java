@@ -9,6 +9,7 @@ public class SysSession implements Serializable{
 	
 	private Long id;
 	private Timestamp createTime;			//创建时间
+	private Timestamp updateTime;			//创建时间
 	private String sessionId;
 	private String session;
 	
@@ -23,6 +24,12 @@ public class SysSession implements Serializable{
 	}
 	public void setCreateTime(Timestamp createTime) {
 		this.createTime = createTime;
+	}
+	public Timestamp getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(Timestamp updateTime) {
+		this.updateTime = updateTime;
 	}
 	public String getSessionId() {
 		return sessionId;

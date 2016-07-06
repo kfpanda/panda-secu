@@ -17,6 +17,9 @@ public interface SysRoleMapper {
     
     @Select(SysRoleSql.FINDBYID_SQL)
     SysRole findOne(Long id);
+
+    @Select(SysRoleSql.FINDROLEBYCODE_SQL)
+    SysRole findRole(String roleCode);
     
     @Select(SysRoleSql.FINDROLES_SQL)
     List<SysRole> findRoles(String userName);

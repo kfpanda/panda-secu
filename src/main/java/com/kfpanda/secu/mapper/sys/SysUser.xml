@@ -34,7 +34,7 @@
 		<result column="sr_name" property="name"/>
 		<result column="sr_code" property="code"/>
 		<result column="sr_status" property="status"/>
-		<result column="sr_order" property="order"/>
+		<result column="sr_sort" property="sort"/>
 		<result column="sr_remark" property="remark"/>
 		<collection property="resources" javaType="java.util.List" resultMap="resourceResult"/>
 	</resultMap>
@@ -48,7 +48,7 @@
 		<result column="rs_type" property="type"/>
 		<result column="rs_url" property="url"/>
 		<result column="rs_status" property="status"/>
-		<result column="rs_order" property="order"/>
+		<result column="rs_sort" property="sort"/>
 		<result column="rs_remark" property="remark"/>
 	</resultMap>
 	

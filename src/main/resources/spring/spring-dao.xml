@@ -10,7 +10,7 @@
 
 	<description>Spring公共配置 </description>
 	<!-- 载入类路径下的properties属性文件 -->
-	<context:property-placeholder location="classpath*:*.properties,classpath*:properties/*.properties" />
+	<context:property-placeholder location="classpath*:*.properties,classpath*:conf/*.properties" />
 
 	<aop:aspectj-autoproxy />
 

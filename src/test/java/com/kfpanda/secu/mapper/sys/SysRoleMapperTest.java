@@ -18,16 +18,20 @@ public class SysRoleMapperTest {
 	
 	@Resource
 	private SysRoleMapper sysRoleMapper;
-	
-	@Test
-	public void save(){
+
+	private SysRole createSysRole(String name, String code){
 		SysRole sysRole = new SysRole();
 		sysRole.setCreateTime(new Timestamp(System.currentTimeMillis()));
-		sysRole.setName("资源添加");
-		sysRole.setCode("ROLE_admin");
+		sysRole.setName(name);
+		sysRole.setCode(code);
 		sysRole.setStatus(1);
-		sysRole.setOrder(0);
+		sysRole.setSort(0);
 		sysRole.setRemark("remark");
+		return sysRole;
+	}
+	@Test
+	public void save(){
+		SysRole sysRole = createSysRole("资源添加", "ROLE_admin");
 		
 		int result = sysRoleMapper.save(sysRole);
 		
@@ -36,15 +40,25 @@ public class SysRoleMapperTest {
 	
 	@Test
 	public void deleteById(){
-		
-		int result = sysRoleMapper.deleteById(new Long(34));
+		SysRole sysRole = createSysRole("资源添加1111", "test1");
+		sysRoleMapper.save(sysRole);
+		sysRole = sysRoleMapper.findRole("test1");
+
+		int result = sysRoleMapper.deleteById(sysRole.getId());
 		Assert.assertTrue(result == 1);
+	}
+
+	@Test
+	public void findRole(){
+		SysRole sysRole = sysRoleMapper.findRole("ROLE_admin");
+		Assert.assertTrue(sysRole != null);
 	}
 	
 	@Test
 	public void findOne(){
-		
-		SysRole sysRole = sysRoleMapper.findOne(new Long(1));
+		SysRole sysRole = sysRoleMapper.findRole("ROLE_admin");
+
+		sysRole = sysRoleMapper.findOne(sysRole.getId());
 		Assert.assertTrue(sysRole != null);
 	}
 	

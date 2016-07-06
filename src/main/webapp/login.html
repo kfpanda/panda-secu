@@ -1,27 +1,109 @@
-﻿<html>
+﻿<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html lang="en" class="ie6 ielt8"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="ie7 ielt8"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="ie8"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
 <head>
-<title>登录页面</title>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-
-<style>
-.div-img{
-	margin:10px 0px 10px 100px;
-}
-</style>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>Paper Stack</title>
+	<link rel="stylesheet" type="text/css" href="./statics/css/login.css" />
 </head>
 <body>
-<div>
-	<form id="loginForm" action="/secu/auth/login" method="post">
-		<input name="username" value=""></input>
-		<input name="password" value=""></input>
-		<input type="submit" name="登录" />
-	</form>
-</div>
+<div class="container">
+	<section id="content">
+		<form action="">
+			<h1>登入</h1>
+            <div id="errorDiv" style="color:red"></div>
+			<div>
+				<input type="text" placeholder="用户名" required="" id="username" />
+			</div>
+			<div>
+				<input type="password" placeholder="密码" required="" id="password" />
+			</div>
+			<div style="text-align:left;padding-left:10px;">
+				<input type="text" id="captcha" required="" value="" placeholder="验证码" maxlength="4" style="background: #eae7e7;width: 40%;"/>
+				<img src="./auth/verifycode/image" alt="验证码" id="randomImg" style="cursor: pointer; margin-left:30px;"/>
+			</div>
+			<div>
+				<input type="button" value="登入" id="login_btn"/>
+				<a href="#">忘记密码?</a>
+				<a href="#">注册</a>
+			</div>
+		</form><!-- form -->
+		<div class="button">
+			<a href="#">Download source file</a>
+		</div><!-- button -->
+	</section><!-- content -->
+</div><!-- container -->
 </body>
 </html>
-<script type="text/javascript">
-function formSubmit(formId){
-	var form = document.getElementById(formId);
-	form.submit();
-}
+<script src="./statics/assets/jquery/jquery-1.11.3.min.js"></script>
+<script>
+$(document).ready(function(){
+    // 回车登录
+    $('#code').on('keypress', function(e){
+        if(e.keyCode == 13){ // Enter
+            $(this).blur();
+            $('#login_btn').click();
+        }
+    });
+    
+    // 切换验证码
+    $('#randomImg').on('click', function(){
+        $("#randomImg").attr('src', "./auth/verifycode/image?r=" + new Date().getTime());
+    });
+    
+    $('#login_btn').on('click', function(){
+        var $username = $('#username');
+        var $password = $('#password');
+        var $captcha = $('#captcha');
+        var username,
+            password,
+            captcha;
+        var $showError = $('#errorDiv');
+        username = $username.val();
+        password = $password.val();
+        captcha = $captcha.val();
+
+        if(username.length === 0){
+            $showError.text('请输入用户名');
+            return ;
+        }else{
+            $showError.text('');
+        }
+        if(password.length === 0){
+            $showError.text('请输入密码');
+            return ;
+        }else{
+            $showError.text('');
+        }
+        if(captcha.length === 0){
+            $showError.text('请输入验证码');
+            return ;
+        }else{
+            $showError.text('');
+        }
+
+        $.post('./auth/login/verifycode', {
+                username: username,
+                password: password,
+                captcha: captcha
+            }
+        ).done(function(data) {
+        	if(data.code == "success"){
+        		 window.location.href = data.data;
+        	}else{
+                $showError.text(data.message);
+        	}
+        	return ;
+        })
+        .fail(function(XHR, textStatus) {
+            $showError.text(textStatus);
+        })
+        .always(function() {
+
+        });
+    });
+});
+
 </script>

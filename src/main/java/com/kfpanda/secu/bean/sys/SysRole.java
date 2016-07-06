@@ -15,7 +15,7 @@ public class SysRole implements Serializable {
 	private String name;
 	private String code;
 	private Integer status;
-	private Integer order;
+	private Integer sort;
 	private String remark;
 	
 	private List<SysResource> resources;
@@ -58,12 +58,12 @@ public class SysRole implements Serializable {
 		this.status = status;
 	}
 
-	public Integer getOrder() {
-		return order;
+	public Integer getSort() {
+		return sort;
 	}
 
-	public void setOrder(Integer order) {
-		this.order = order;
+	public void setSort(Integer sort) {
+		this.sort = sort;
 	}
 
 	public String getRemark() {
@@ -79,24 +79,24 @@ public class SysRole implements Serializable {
 	}
 
 	public SysRole(Long id, Timestamp createTime, String name, String code, Integer status,
-			Integer order, String remark) {
+			Integer sort, String remark) {
 		super();
 		this.id = id;
 		this.createTime = createTime;
 		this.name = name;
 		this.code = code;
 		this.status = status;
-		this.order = order;
+		this.sort = sort;
 		this.remark = remark;
 	}
 	public SysRole( Timestamp createTime, String name, String code, Integer status,
-			Integer order, String remark) {
+			Integer sort, String remark) {
 		super();
 		this.createTime = createTime;
 		this.name = name;
 		this.code = code;
 		this.status = status;
-		this.order = order;
+		this.sort = sort;
 		this.remark = remark;
 	}
 

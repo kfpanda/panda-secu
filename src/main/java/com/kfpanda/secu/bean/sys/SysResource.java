@@ -7,45 +7,45 @@ public class SysResource implements Serializable {
 	private static final long serialVersionUID = -3167749849144835451L;
 	private Long id;
 	private Timestamp createTime;			//创建时间
-	private Long pId;
+	private Long pid;
 	private String name;
 	private String code;
 	private String type;
 	private String url;
 	private Integer status;
-	private Integer order;
+	private Integer sort;
 	private String remark;
 
 	public SysResource() {
 		super();
 	}
-	public SysResource(Long id, Timestamp createTime, Long pId, String name, String code,
-			String type, String url, Integer status, Integer order,
+	public SysResource(Long id, Timestamp createTime, Long pid, String name, String code,
+			String type, String url, Integer status, Integer sort,
 			String remark) {
 		super();
 		this.createTime = createTime;
 		this.id = id;
-		this.pId = pId;
+		this.pid = pid;
 		this.name = name;
 		this.code = code;
 		this.type = type;
 		this.url = url;
 		this.status = status;
-		this.order = order;
+		this.sort = sort;
 		this.remark = remark;
 	}
-	public SysResource( Timestamp createTime, Long pId, String name, String code,
-			String type, String url, Integer status, Integer order,
+	public SysResource( Timestamp createTime, Long pid, String name, String code,
+			String type, String url, Integer status, Integer sort,
 			String remark) {
 		super();
 		this.createTime = createTime;
-		this.pId = pId;
+		this.pid = pid;
 		this.name = name;
 		this.code = code;
 		this.type = type;
 		this.url = url;
 		this.status = status;
-		this.order = order;
+		this.sort = sort;
 		this.remark = remark;
 	}
 
@@ -57,12 +57,12 @@ public class SysResource implements Serializable {
 		this.id = id;
 	}
 
-	public Long getPId() {
-		return pId;
+	public Long getPid() {
+		return pid;
 	}
 	
-	public void setPId(Long pId) {
-		this.pId = pId;
+	public void setPid(Long pid) {
+		this.pid = pid;
 	}
 	public Timestamp getCreateTime() {
 		return createTime;
@@ -111,12 +111,12 @@ public class SysResource implements Serializable {
 		this.status = status;
 	}
 
-	public Integer getOrder() {
-		return order;
+	public Integer getSort() {
+		return sort;
 	}
 
-	public void setOrder(Integer order) {
-		this.order = order;
+	public void setSort(Integer sort) {
+		this.sort = sort;
 	}
 
 	public String getRemark() {

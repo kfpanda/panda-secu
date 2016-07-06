@@ -1,12 +1,17 @@
 package com.kfpanda.secu.shiro.action;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.kfpanda.util.VerifyCodeUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
@@ -14,10 +19,8 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,20 +30,20 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.kfpanda.secu.action.BaseAction;
 import com.kfpanda.secu.action.ResultDTO;
-import com.kfpanda.secu.bean.sys.SysUser;
 import com.kfpanda.secu.config.SessionConfig;
-import com.util.common.safe.MD5;
+import com.kfpanda.secu.shiro.MD5;
 //import com.kfpanda.util.VerifyCodeUtil;
 
 @Controller("loginAction")
 @RequestMapping("/auth")
-public class LoginAction extends BaseAction{
-	private static final Logger logger = LoggerFactory.getLogger(LoginAction.class);
+public class LoginAction extends BaseAction {
+	private static final Logger logger = LogManager.getLogger(LoginAction.class);
+	private static String VERIFY_CODE_ATTR = "verifyCode";
 
 	/**
 	 * 获取验证码图片和文本(验证码文本会保存在HttpSession中)
 	 */
-/*	@RequestMapping("/verifycode/image")
+	@RequestMapping("/verifycode/image")
 	public void getVerifyCodeImage(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// 设置页面不缓存
 		response.setHeader("Pragma", "no-cache");
@@ -48,7 +51,7 @@ public class LoginAction extends BaseAction{
 		response.setDateHeader("Expires", 0);
 		String verifyCode = VerifyCodeUtil.generateTextCode(VerifyCodeUtil.TYPE_NUM_ONLY, 4, null);
 		// 将验证码放到HttpSession里面
-		request.getSession().setAttribute("verifyCode", verifyCode);
+		request.getSession().setAttribute(VERIFY_CODE_ATTR, verifyCode);
 		System.out.println("本次生成的验证码为[" + verifyCode + "],已存放到HttpSession中");
 		// 设置输出的内容的类型为JPEG图像
 		response.setContentType("image/jpeg");
@@ -56,27 +59,38 @@ public class LoginAction extends BaseAction{
 				Color.BLACK, null);
 		// 写给浏览器
 		ImageIO.write(bufferedImage, "JPEG", response.getOutputStream());
-	}*/
+	}
 
 	/**
 	 * 用户登录
 	 */
-    @ResponseBody
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResultDTO login(@RequestParam(value = "username") String username,
-			@RequestParam(value = "password") String password,
-			@RequestParam(value = "remember" ,required = false ,defaultValue = "2") Integer remember) {
-		//String resultPageURL = InternalResourceViewResolver.FORWARD_URL_PREFIX + "/";
+	@ResponseBody
+	@RequestMapping(value = "/login/verifycode", method = RequestMethod.POST)
+	public Object loginVerifyCode(@RequestParam(value = "username") String username,
+						   @RequestParam(value = "password") String password, @RequestParam(value = "captcha") String captcha,
+						   @RequestParam(value = "remember", required = false, defaultValue = "2") Integer remember,
+									 HttpServletRequest request) {
 		// 获取HttpSession中的验证码
-		/*String verifyCode = (String) request.getSession().getAttribute("verifyCode");
+		String verifyCode = (String) request.getSession().getAttribute(VERIFY_CODE_ATTR);
 		// 获取用户请求表单中输入的验证码
 		String submitCode = WebUtils.getCleanParam(request, "verifyCode");
 		System.out.println("用户[" + username + "]登录时输入的验证码为[" + submitCode + "],HttpSession中的验证码为[" + verifyCode + "]");
 		if (StringUtils.isEmpty(submitCode) || !StringUtils.equals(verifyCode, submitCode.toLowerCase())) {
 			request.setAttribute("message_login", "验证码不正确");
-			return resultPageURL;
-		}*/
-		
+			return getResult(-10, "验证码不正确.");
+		}
+
+		return login(username, password, remember);
+	}
+	/**
+	 * 用户登录
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ResultDTO login(@RequestParam(value = "username") String username,
+						   @RequestParam(value = "password") String password,
+						   @RequestParam(value = "remember", required = false, defaultValue = "2") Integer remember) {
+
 		UsernamePasswordToken token = new UsernamePasswordToken(username, MD5.MD5Salt(username, password));
 		token.setRememberMe(true);
 		// 获取当前的Subject
@@ -87,20 +101,20 @@ public class LoginAction extends BaseAction{
 			// 所以这一步在调用login(token)方法时,它会走到MyRealm.doGetAuthenticationInfo()方法中,具体验证方式详见此方法
 			currentUser.login(token);
 		} catch (UnknownAccountException uae) {
-			logger.info("user(", username, ") is not exists.");
+			logger.info("user({}) is not exists.", username);
 			return getResult(-2, "用户帐号不存在.");
 		} catch (IncorrectCredentialsException ice) {
-			logger.info("user(", username, ") password(", password, ") is error.");
+			logger.info("user({}) password({}) is error.", username, password);
 			return getResult(-3, "用户密码不正确.");
 		} catch (LockedAccountException lae) {
-			logger.info("user(", username, ") is lock.");
+			logger.info("user({}) is lock.", username);
 			return getResult(-4, "用户账户锁定.");
 		} catch (ExcessiveAttemptsException eae) {
-			logger.info("user(", username, ") error more.");
+			logger.info("user({}) error more.", username);
 			return getResult(-5, "错误次数过多.");
 		} catch (AuthenticationException ae) {
 			// 通过处理Shiro的运行时AuthenticationException就可以控制用户登录失败或密码错误时的情景
-			logger.info("user(", username, ") or password(", password, ") error.");
+			logger.info("user({}) or password({}) error.", username, password);
 			return getResult(-6, "用户名或密码不正确.");
 		}
 		// 验证是否登录成功
@@ -120,5 +134,5 @@ public class LoginAction extends BaseAction{
 		SecurityUtils.getSubject().logout();
 		return InternalResourceViewResolver.REDIRECT_URL_PREFIX + "/";
 	}
-	
+
 }

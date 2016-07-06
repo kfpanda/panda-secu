@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import com.kfpanda.secu.bean.sys.SysRoleResource;
+import org.apache.ibatis.annotations.Select;
 
 
 public interface SysRoleResourceMapper {
@@ -16,9 +17,10 @@ public interface SysRoleResourceMapper {
     @Delete(SysRoleResourceSql.DELBYID_SQL)
     int deleteById(Long id);
 
-    List<SysRoleResource> listByParams4Page(Map<String, Object> params);
-
+    @Select(SysRoleResourceSql.FINDBYID_SQL)
     SysRoleResource findOne(Long id);
+
+    List<SysRoleResource> listByParams4Page(Map<String, Object> params);
 
     List<SysRoleResource> listByParams(Map<String, Object> params);
 

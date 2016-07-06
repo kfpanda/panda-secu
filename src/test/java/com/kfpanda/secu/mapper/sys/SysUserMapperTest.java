@@ -1,6 +1,7 @@
 package com.kfpanda.secu.mapper.sys;
 
 import com.kfpanda.secu.bean.sys.SysUser;
+import com.kfpanda.secu.shiro.MD5;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,22 +21,21 @@ public class SysUserMapperTest {
 	
 	@Resource
 	private SysUserMapper sysUserMapper;
-	
-	@Test
-	public void save(){
+
+	private SysUser createSysUser(String userName, String password){
 		SysUser sysUser = new SysUser();
 		sysUser.setCreateTime(new Timestamp(System.currentTimeMillis()));
 		sysUser.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-		sysUser.setUserName("kfpanda");
-		sysUser.setPassword("123456");
-		sysUser.setNkName("kfpanda");
+		sysUser.setUserName(userName);
+		sysUser.setPassword(MD5.MD5Salt(sysUser.getUserName(), password));
+		sysUser.setNkName(userName);
 		sysUser.setStatus(1);
 		sysUser.setType(1);
 		sysUser.setName("lhl");
 		sysUser.setEmail("liuhualuo@163.com");
 		sysUser.setTelNo("18989893671");
 //		sysUser.setIdCard("");
-		sysUser.setSex(true);
+		sysUser.setSex(0);
 		sysUser.setBirth(new Date());
 		sysUser.setIntegral(0);
 		sysUser.setAddress("");
@@ -44,14 +44,24 @@ public class SysUserMapperTest {
 		sysUser.setFace(null);
 		sysUser.setRemark("remark");
 		sysUser.setOpenId(null);
-		
+
+		return sysUser;
+	}
+
+	@Test
+	public void save(){
+		SysUser sysUser = createSysUser("kfpanda", "123456");
 		int result = sysUserMapper.save(sysUser);
 		Assert.assertTrue(result == 1);
 	}
 	
 	@Test
 	public void deleteById(){
-		int result = sysUserMapper.deleteById(new Long(33384));
+		SysUser sysUser = createSysUser("test1", "123456");
+		sysUserMapper.save(sysUser);
+		sysUser = sysUserMapper.findByUserName("test1");
+
+		int result = sysUserMapper.deleteById(sysUser.getId());
 		Assert.assertTrue(result == 1);
 	}
 	
@@ -63,7 +73,12 @@ public class SysUserMapperTest {
 	
 	@Test
 	public void findByUserName(){
-		SysUser sysUser = sysUserMapper.findByUserName("superadmin");
+		SysUser sysUser = createSysUser("superadmin", "123456");
+		if(sysUserMapper.findByUserName("superadmin") == null) {
+			sysUserMapper.save(sysUser);
+		}
+
+		sysUser = sysUserMapper.findByUserName("superadmin");
 		Assert.assertTrue(sysUser != null);
 	}
 	
@@ -71,5 +86,9 @@ public class SysUserMapperTest {
 	public void findURR(){
 		List<SysUser> sysUserList = sysUserMapper.findURR("superadmin");
 		Assert.assertTrue(sysUserList.size() > 0);
+
+		SysUser sysUser = sysUserList.get(0);
+		Assert.assertTrue(sysUser.getRoles().size() > 0);
+		Assert.assertTrue(sysUser.getResources().size() > 0);
 	}
 }

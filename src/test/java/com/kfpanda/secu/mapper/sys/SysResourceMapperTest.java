@@ -17,19 +17,24 @@ public class SysResourceMapperTest {
 	
 	@Resource
 	private SysResourceMapper sysResourceMapper;
-	
-	@Test
-	public void save(){
+
+	private SysResource createSysResource(String name, String code, String url){
 		SysResource sysResource = new SysResource();
 		sysResource.setCreateTime(new Timestamp(System.currentTimeMillis()));
-		sysResource.setPId(new Long(0));
-		sysResource.setName("资源添加");
-		sysResource.setCode("resource add");
+		sysResource.setPid(new Long(0));
+		sysResource.setName(name);
+		sysResource.setCode(code);
 		sysResource.setType("url");
-		sysResource.setUrl("/resource/add");
+		sysResource.setUrl(url);
 		sysResource.setStatus(1);
-		sysResource.setOrder(0);
+		sysResource.setSort(0);
 		sysResource.setRemark("remark");
+		return sysResource;
+	}
+
+	@Test
+	public void save(){
+		SysResource sysResource = createSysResource("资源添加", "resource_add", "/resource/add");
 		
 		int result = sysResourceMapper.save(sysResource);
 		
@@ -38,8 +43,10 @@ public class SysResourceMapperTest {
 	
 	@Test
 	public void deleteById(){
-		
-		int result = sysResourceMapper.deleteById(new Long(21));
+		SysResource sysResource = createSysResource("资源添加111", "resource_add1111", "/resource/add1111");
+		sysResourceMapper.save(sysResource);
+
+		int result = sysResourceMapper.deleteById(new Long(2));
 		Assert.assertTrue(result == 1);
 	}
 	

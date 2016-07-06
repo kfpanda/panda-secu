@@ -3,17 +3,17 @@ package com.kfpanda.secu.bean.sys;
 public class SysUserResource {
 	
 	private Long id;
-	private Long uId;
-	private Long rId;
+	private Long uid;
+	private Long rid;
 
 	public SysUserResource() {
 		super();
 	}
-	public SysUserResource(Long id, Long uId, Long rId) {
+	public SysUserResource(Long id, Long uid, Long rid) {
 		super();
 		this.id = id;
-		this.uId = uId;
-		this.rId = rId;
+		this.uid = uid;
+		this.rid = rid;
 	}
 	
 	public Long getId() {
@@ -22,17 +22,20 @@ public class SysUserResource {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getuId() {
-		return uId;
+
+	public Long getUid() {
+		return uid;
 	}
-	public void setuId(Long uId) {
-		this.uId = uId;
+
+	public void setUid(Long uid) {
+		this.uid = uid;
 	}
-	public void setrId(Long rId) {
-		this.rId = rId;
+
+	public Long getRid() {
+		return rid;
 	}
-	public Long getrId() {
-		return rId;
+
+	public void setRid(Long rid) {
+		this.rid = rid;
 	}
-	
 }

@@ -21,9 +21,9 @@ public class SysUserSql {
 	public static final String FINDBYUSERNAME_SQL = "SELECT " + FIELDS + " FROM " + TABLE_NAME + " WHERE username=#{userName}";
 	
 	public static final String FINDURR_SQL = "SELECT u.*, r.id AS sr_id, r.createtime AS sr_createtime, r.name AS sr_name, r.code AS sr_code, "
-			+ "r.status AS sr_status, r.order AS sr_order, r.remark AS sr_remark, rs.id AS rs_id, rs.createtime AS rs_createtime, rs.pid AS rs_pid," 
-			+ " rs.name AS rs_name, rs.code AS rs_code, rs.type AS rs_type, rs.url AS rs_url, rs.status AS rs_status, rs.order AS rs_order, " 
-			+ "rs.remark AS rs_remark FROM sys_user u LEFT JOIN sys_user_role ur ON u.id=ur.uid LEFT JOIN sys_role r ON ur.roleid=r.id " 
+			+ "r.status AS sr_status, r.sort AS sr_sort, r.remark AS sr_remark, rs.id AS rs_id, rs.createtime AS rs_createtime, rs.pid AS rs_pid,"
+			+ " rs.name AS rs_name, rs.code AS rs_code, rs.type AS rs_type, rs.url AS rs_url, rs.status AS rs_status, rs.sort AS rs_sort, "
+			+ "rs.remark AS rs_remark FROM sys_user u LEFT JOIN sys_user_role ur ON u.id=ur.uid LEFT JOIN sys_role r ON ur.rid=r.id "
 			+ "LEFT JOIN sys_role_resource rr ON r.id=rr.roleid LEFT JOIN sys_resource rs ON rr.rid=rs.id WHERE u.username=#{userName}";
 	
 }

@@ -24,7 +24,8 @@ public class SysSessionMapperTest {
 	public void save(){
 		SysSession sysSession = new SysSession();
 		sysSession.setCreateTime(new Timestamp(System.currentTimeMillis()));
-		sysSession.setSessionId("123");
+		sysSession.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+		sysSession.setSessionId("1234");
 		sysSession.setSession("资源添加");
 		
 		int result = sysSessionMapper.save(sysSession);
@@ -35,7 +36,7 @@ public class SysSessionMapperTest {
 	@Test
 	public void deleteById(){
 		
-		int result = sysSessionMapper.deleteById(new Long(21));
+		int result = sysSessionMapper.deleteById(new Long(3));
 		Assert.assertTrue(result == 1);
 	}
 	

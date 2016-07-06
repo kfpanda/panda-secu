@@ -17,7 +17,7 @@ public class SysUser {
     private String email;				//邮箱账号
     private String telNo;				//手机号码
     private String idCard;				//身份证号
-    private Byte sex;				//性别
+    private Integer sex;				//性别 0为女人，1为男人
     private Date birth;					//生日
     private Integer integral;			//积分
     private String address;				//地址
@@ -126,11 +126,11 @@ public class SysUser {
 		this.idCard = idCard;
 	}
 	
-	public Byte getSex() {
+	public Integer getSex() {
 		return sex;
 	}
 
-	public void setSex(Byte sex) {
+	public void setSex(Integer sex) {
 		this.sex = sex;
 	}
 
