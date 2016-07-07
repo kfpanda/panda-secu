@@ -12,6 +12,7 @@ public class SysRole implements Serializable {
 
 	private Long id;
 	private Timestamp createTime;			//创建时间
+	private Timestamp updateTime;
 	private String name;
 	private String code;
 	private Integer status;
@@ -32,6 +33,14 @@ public class SysRole implements Serializable {
 	}
 	public void setCreateTime(Timestamp createTime) {
 		this.createTime = createTime;
+	}
+
+	public Timestamp getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Timestamp updateTime) {
+		this.updateTime = updateTime;
 	}
 
 	public String getName() {
@@ -78,21 +87,23 @@ public class SysRole implements Serializable {
 		super();
 	}
 
-	public SysRole(Long id, Timestamp createTime, String name, String code, Integer status,
+	public SysRole(Long id, Timestamp createTime, Timestamp updateTime, String name, String code, Integer status,
 			Integer sort, String remark) {
 		super();
 		this.id = id;
 		this.createTime = createTime;
+		this.updateTime = updateTime;
 		this.name = name;
 		this.code = code;
 		this.status = status;
 		this.sort = sort;
 		this.remark = remark;
 	}
-	public SysRole( Timestamp createTime, String name, String code, Integer status,
+	public SysRole( Timestamp createTime, Timestamp updateTime, String name, String code, Integer status,
 			Integer sort, String remark) {
 		super();
 		this.createTime = createTime;
+		this.updateTime = updateTime;
 		this.name = name;
 		this.code = code;
 		this.status = status;

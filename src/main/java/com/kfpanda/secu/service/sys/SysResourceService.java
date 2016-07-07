@@ -8,100 +8,84 @@
 
 package com.kfpanda.secu.service.sys;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.Resource;
 
+import com.kfpanda.secu.mapper.sys.SysRoleResourceMapper;
+import com.kfpanda.secu.mapper.sys.SysUserResourceMapper;
 import com.kfpanda.secu.service.BaseService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.kfpanda.core.page.Pageable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
-import com.kfpanda.secu.action.ResultDTO;
 import com.kfpanda.secu.bean.sys.SysResource;
 import com.kfpanda.secu.mapper.sys.SysResourceMapper;
-import com.util.common.ResultUtil;
-import com.util.common.ValidateUtil;
-
 
 @Service("sysResourceService")
 public class SysResourceService extends BaseService {
-    private static final Logger logger = LoggerFactory
-            .getLogger(SysResourceService.class);
+    private static final Logger logger = LogManager.getLogger(SysResourceService.class);
+
     @Resource
     private SysResourceMapper sysResourceMapper;
-    /**
-     * 说明:list by page and params
-     * @return
-     * @return List<Role>
-     * @author dozen.zhang
-     * @date 2015年11月15日下午12:36:24
-     */
-    public List<SysResource> listByParams4Page(Map<String,Object> params) {
-//        return sysResourceMapper.listByParams4Page(params);
-        return null;
-    }
-     public List<SysResource> listByParams(Map<String,Object> params) {
-//        return sysResourceMapper.listByParams(params);
-         return null;
+    @Resource
+    private SysRoleResourceMapper roleResourceMapper;
+    @Resource
+    private SysUserResourceMapper userResourceMapper;
+
+    public SysResource findOne(Long id){
+        return sysResourceMapper.findOne(id);
     }
 
-    /*
-     * 说明:
-     * @param SysResource
-     * @return
-     * @return Object
-     * @author dozen.zhang
-     * @date 2015年11月15日下午1:33:54
-     */
-    public ResultDTO save(SysResource sysResource) {
-        // 进行字段验证
-       ValidateUtil<SysResource> vu = new ValidateUtil<SysResource>();
-        ResultDTO result = 
-        		vu.valid(sysResource);
-        if (result.getR() != 1) {
-            return result;
-        }
-         //逻辑业务判断判断
-       
-       //判断是更新还是插入
-        if (sysResource.getId()==null) {
-            sysResourceMapper.save(sysResource);
-        } else {
-//             sysResourceMapper.updateById(sysResource);
-        }
-        return ResultUtil.getSuccResult();
+    public int save(SysResource sysResource) {
+        return sysResourceMapper.save(sysResource);
     }
-    /**
-    * 说明:根据主键删除数据
-    * description:delete by key
-    * @param id
-    * @return void
-    * @author dozen.zhang
-    * @date 2015年12月27日下午10:56:38
-    */
+
+    public int update(SysResource sysResource) {
+        return sysResourceMapper.update(sysResource);
+    }
+
     public void delete(Long  id){
-        sysResourceMapper.deleteById(id);
-    }   
-    /**
-    * 说明:根据主键获取数据
-    * description:delete by key
-    * @param id
-    * @return void
-    * @author dozen.zhang
-    * @date 2015年12月27日下午10:56:38
-    */
-    public SysResource selectByPrimaryKey(Long id){
-       return sysResourceMapper.findOne(id);
+        List<Long> ridList = new ArrayList<>();
+        ridList.add(id);
+        //删除用户资源关系
+        userResourceMapper.mutiDeleteRid(ridList);
+        //删除角色资源关系
+        roleResourceMapper.mutiDeleteRid(ridList);
+        //删除资源
+        sysResourceMapper.deleteOne(id);
     }
-    /**多id删除
-     * @param idAry
+
+    /**
+     * 分页查询资源。
+     * @param pid
+     * @param name
+     * @param code
+     * @param type
+     * @param url
+     * @param status
+     * @param page
      * @return
-     * @author dozen.zhang
      */
-    public ResultDTO multilDelete(Long[] idAry) {
-        for(int i=0;i<idAry.length;i++){
-            sysResourceMapper.deleteById(idAry[i]);
+    public List<SysResource> pageFind(Long pid, String name, String code, String type, String url,
+                                               Integer status, Pageable page) {
+        return sysResourceMapper.pageFind(pid, name, code, type, url, status, page);
+    }
+
+    /**
+     * 删除多条记录。
+     * @param ids
+     * @return
+     */
+    public void multilDelete(List<Long> ids) {
+        if(ids == null || ids.size() < 1){
+            return ;
         }
-        return ResultUtil.getSuccResult();
+        //删除用户跟资源关系
+        userResourceMapper.mutiDeleteRid(ids);
+        //删除角色跟资源关系
+        roleResourceMapper.mutiDeleteRid(ids);
+        //删除资源
+        sysResourceMapper.multiDelete(ids);
     }
 }

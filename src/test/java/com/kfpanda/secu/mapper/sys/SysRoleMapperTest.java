@@ -44,8 +44,7 @@ public class SysRoleMapperTest {
 		sysRoleMapper.save(sysRole);
 		sysRole = sysRoleMapper.findRole("test1");
 
-		int result = sysRoleMapper.deleteById(sysRole.getId());
-		Assert.assertTrue(result == 1);
+		sysRoleMapper.deleteOne(sysRole.getId());
 	}
 
 	@Test

@@ -19,31 +19,43 @@ public class SysSessionMapperTest {
 	
 	@Resource
 	private SysSessionMapper sysSessionMapper;
-	
-	@Test
-	public void save(){
+
+	private SysSession createSession(String sessionId, String session){
 		SysSession sysSession = new SysSession();
 		sysSession.setCreateTime(new Timestamp(System.currentTimeMillis()));
 		sysSession.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-		sysSession.setSessionId("1234");
-		sysSession.setSession("资源添加");
+		sysSession.setSessionId(sessionId);
+		sysSession.setSession(session);
+		return sysSession;
+	}
+
+	@Test
+	public void save(){
+		SysSession sysSession = createSession("12345", "session session");
 		
 		int result = sysSessionMapper.save(sysSession);
-		
+
+		sysSessionMapper.deleteOne(sysSession.getId());
 		Assert.assertTrue(result == 1);
 	}
 	
 	@Test
 	public void deleteById(){
-		
-		int result = sysSessionMapper.deleteById(new Long(3));
+		SysSession sysSession = createSession("12345", "session session");
+		sysSessionMapper.save(sysSession);
+
+		int result = sysSessionMapper.deleteOne(sysSession.getId());
 		Assert.assertTrue(result == 1);
 	}
 	
 	@Test
 	public void findOne(){
-		
-		SysSession sysReousrce = sysSessionMapper.findOne(new Long(1));
+		SysSession sysSession = createSession("12345", "session session");
+		sysSessionMapper.save(sysSession);
+
+		SysSession sysReousrce = sysSessionMapper.findOne(sysSession.getId());
+
+		sysSessionMapper.deleteOne(sysSession.getId());
 		Assert.assertTrue(sysReousrce != null);
 	}
 }

@@ -18,7 +18,7 @@ public class SysUser {
     private String telNo;				//手机号码
     private String idCard;				//身份证号
     private Integer sex;				//性别 0为女人，1为男人
-    private Date birth;					//生日
+    private String birth;					//生日
     private Integer integral;			//积分
     private String address;				//地址
     private String weiChat;				//微信号
@@ -134,11 +134,11 @@ public class SysUser {
 		this.sex = sex;
 	}
 
-	public Date getBirth() {
+	public String getBirth() {
 		return birth;
 	}
 	
-	public void setBirth(Date birth) {
+	public void setBirth(String birth) {
 		this.birth = birth;
 	}
 	

@@ -1,7 +1,14 @@
 package com.kfpanda.secu.mapper.sys;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
+
+import com.kfpanda.core.json.JsonUtils;
+import com.kfpanda.core.page.Pageable;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +27,6 @@ public class SysResourceMapperTest {
 
 	private SysResource createSysResource(String name, String code, String url){
 		SysResource sysResource = new SysResource();
-		sysResource.setCreateTime(new Timestamp(System.currentTimeMillis()));
 		sysResource.setPid(new Long(0));
 		sysResource.setName(name);
 		sysResource.setCode(code);
@@ -34,26 +40,74 @@ public class SysResourceMapperTest {
 
 	@Test
 	public void save(){
-		SysResource sysResource = createSysResource("资源添加", "resource_add", "/resource/add");
+		SysResource sysResource = createSysResource("测试资源添加", "test_resource_add", "/test/resource/add");
 		
 		int result = sysResourceMapper.save(sysResource);
-		
+
+		sysResourceMapper.deleteOne(sysResource.getId());
 		Assert.assertTrue(result == 1);
 	}
 	
 	@Test
-	public void deleteById(){
-		SysResource sysResource = createSysResource("资源添加111", "resource_add1111", "/resource/add1111");
+	public void deleteOne(){
+		SysResource sysResource = createSysResource("测试资源添加", "test_resource_add", "/test/resource/add");
 		sysResourceMapper.save(sysResource);
 
-		int result = sysResourceMapper.deleteById(new Long(2));
-		Assert.assertTrue(result == 1);
+		sysResourceMapper.deleteOne(sysResource.getId());
 	}
 	
 	@Test
 	public void findOne(){
-		
-		SysResource sysReousrce = sysResourceMapper.findOne(new Long(1));
-		Assert.assertTrue(sysReousrce != null);
+		SysResource sysResource = createSysResource("测试资源添加", "test_resource_add", "/test/resource/add");
+		sysResourceMapper.save(sysResource);
+
+		sysResource = sysResourceMapper.findOne(sysResource.getId());
+
+		sysResourceMapper.deleteOne(sysResource.getId());
+		Assert.assertTrue(sysResource != null);
+	}
+
+	@Test
+	public void update(){
+		SysResource sysResource = createSysResource("测试资源添加", "test_resource_add", "/test/resource/add");
+		sysResourceMapper.save(sysResource);
+
+		sysResource.setRemark("modify modify modify");
+		sysResource.setCode("test1111111");
+		sysResourceMapper.update(sysResource);
+
+		sysResource = sysResourceMapper.findOne(sysResource.getId());
+
+		sysResourceMapper.deleteOne(sysResource.getId());
+		Assert.assertTrue(sysResource.getCode().equals("test1111111"));
+	}
+
+	@Test
+	public void multiDelete(){
+		List<Long> ids = new ArrayList<>();
+
+		SysResource sysResource = createSysResource("测试资源添加1", "test_resource_add1", "/test/resource/add");
+		sysResourceMapper.save(sysResource);
+		ids.add(sysResource.getId());
+		sysResource = createSysResource("测试资源添加2", "test_resource_add2", "/test/resource/add");
+		sysResourceMapper.save(sysResource);
+		ids.add(sysResource.getId());
+		sysResource = createSysResource("测试资源添加3", "test_resource_add3", "/test/resource/add");
+		sysResourceMapper.save(sysResource);
+		ids.add(sysResource.getId());
+
+		sysResourceMapper.multiDelete(ids);
+	}
+
+	@Test
+	public void pageFind(){
+		SysResource sysResource = createSysResource("测试资源添加", "test_resource_add", "/test/resource/add");
+		sysResourceMapper.save(sysResource);
+
+		Pageable page = new Pageable(0, 1, null);
+		List<SysResource> sysResourceList = sysResourceMapper.pageFind(null, sysResource.getName(), sysResource.getCode(), null, null, null, page);
+
+		sysResourceMapper.deleteOne(sysResource.getId());
+		Assert.assertTrue(sysResourceList.size() > 0);
 	}
 }

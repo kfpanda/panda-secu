@@ -1,19 +1,19 @@
 package com.kfpanda.secu.mapper.sys;
 
 import java.util.List;
-import java.util.Map;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
+
+import com.kfpanda.core.page.Pageable;
+import org.apache.ibatis.annotations.*;
 import com.kfpanda.secu.bean.sys.SysRole;
 
 public interface SysRoleMapper {
 	
 	@Insert(SysRoleSql.SAVE_SQL)
+    @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Long.class)
     int save(SysRole sysRole);
 	
     @Delete(SysRoleSql.DELBYID_SQL)
-    int deleteById(Long id);
+    int deleteOne(Long id);
     
     @Select(SysRoleSql.FINDBYID_SQL)
     SysRole findOne(Long id);
@@ -24,9 +24,13 @@ public interface SysRoleMapper {
     @Select(SysRoleSql.FINDROLES_SQL)
     List<SysRole> findRoles(String userName);
 
-    List<SysRole> listByParams4Page(Map<String, Object> params);
+    @UpdateProvider(type = SysRoleSql.class, method = "getUpdateSql")
+    int update(SysRole sysRole);
 
-    List<SysRole> listByParams(Map<String, Object> params);
+    @SelectProvider(type = SysRoleSql.class, method = "getMutiDeleteSql")
+    void multiDelete(List<Long> ids);
 
-    void updateById(SysRole sysRole);
+    @SelectProvider(type = SysRoleSql.class, method = "getPagefindSql")
+    List<SysRole> pageFind(@Param("name") String name, @Param("code") String code, @Param("status") Integer status, @Param("page")Pageable page);
+
 }

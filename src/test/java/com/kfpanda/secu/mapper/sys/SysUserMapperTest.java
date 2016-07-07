@@ -36,7 +36,7 @@ public class SysUserMapperTest {
 		sysUser.setTelNo("18989893671");
 //		sysUser.setIdCard("");
 		sysUser.setSex(0);
-		sysUser.setBirth(new Date());
+		sysUser.setBirth("20160102");
 		sysUser.setIntegral(0);
 		sysUser.setAddress("");
 		sysUser.setWeiChat(null);
@@ -52,33 +52,39 @@ public class SysUserMapperTest {
 	public void save(){
 		SysUser sysUser = createSysUser("kfpanda", "123456");
 		int result = sysUserMapper.save(sysUser);
+
+		sysUserMapper.deleteOne(sysUser.getId());
 		Assert.assertTrue(result == 1);
 	}
 	
 	@Test
-	public void deleteById(){
+	public void deleteOne(){
 		SysUser sysUser = createSysUser("test1", "123456");
 		sysUserMapper.save(sysUser);
-		sysUser = sysUserMapper.findByUserName("test1");
 
-		int result = sysUserMapper.deleteById(sysUser.getId());
+		int result = sysUserMapper.deleteOne(sysUser.getId());
 		Assert.assertTrue(result == 1);
 	}
 	
 	@Test
 	public void findOne(){
-		SysUser sysUser = sysUserMapper.findOne(new Long(1));
+		SysUser sysUser = createSysUser("test1", "123456");
+		sysUserMapper.save(sysUser);
+
+		sysUser = sysUserMapper.findOne(sysUser.getId());
+
+		sysUserMapper.deleteOne(sysUser.getId());
 		Assert.assertTrue(sysUser != null);
 	}
 	
 	@Test
 	public void findByUserName(){
-		SysUser sysUser = createSysUser("superadmin", "123456");
-		if(sysUserMapper.findByUserName("superadmin") == null) {
-			sysUserMapper.save(sysUser);
-		}
+		SysUser sysUser = createSysUser("test2222", "123456");
+		sysUserMapper.save(sysUser);
 
-		sysUser = sysUserMapper.findByUserName("superadmin");
+		sysUser = sysUserMapper.findByUserName("test2222");
+
+		sysUserMapper.deleteOne(sysUser.getId());
 		Assert.assertTrue(sysUser != null);
 	}
 	

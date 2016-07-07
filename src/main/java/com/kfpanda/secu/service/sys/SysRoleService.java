@@ -8,98 +8,79 @@
 
 package com.kfpanda.secu.service.sys;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.Resource;
 
-import com.kfpanda.secu.service.BaseService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import com.kfpanda.secu.action.ResultDTO;
+import com.kfpanda.core.page.Pageable;
 import com.kfpanda.secu.bean.sys.SysRole;
+import com.kfpanda.secu.mapper.sys.SysRoleResourceMapper;
+import com.kfpanda.secu.mapper.sys.SysUserRoleMapper;
+import com.kfpanda.secu.service.BaseService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
 import com.kfpanda.secu.mapper.sys.SysRoleMapper;
-import com.util.common.ResultUtil;
-import com.util.common.ValidateUtil;
 
 @Service("sysRoleService")
 public class SysRoleService extends BaseService {
-    private static final Logger logger = LoggerFactory
-            .getLogger(SysRoleService.class);
+    private static final Logger logger = LogManager.getLogger(SysRoleService.class);
     @Resource
     private SysRoleMapper sysRoleMapper;
-    /**
-     * 说明:list by page and params
-     * @param page
-     * @return
-     * @return List<Role>
-     * @author dozen.zhang
-     * @date 2015年11月15日下午12:36:24
-     */
-    public List<SysRole> listByParams4Page(Map<String,Object> params) {
-        return sysRoleMapper.listByParams4Page(params);
-    }
-     public List<SysRole> listByParams(Map<String,Object> params) {
-        return sysRoleMapper.listByParams(params);
+    @Resource
+    private SysRoleResourceMapper roleResourceMapper;
+    @Resource
+    private SysUserRoleMapper userRoleMapper;
+
+    public SysRole findOne(Long id){
+        return sysRoleMapper.findOne(id);
     }
 
-    /*
-     * 说明:
-     * @param SysRole
-     * @return
-     * @return Object
-     * @author dozen.zhang
-     * @date 2015年11月15日下午1:33:54
-     */
-    public ResultDTO save(SysRole sysRole) {
-        // 进行字段验证
-       ValidateUtil<SysRole> vu = new ValidateUtil<SysRole>();
-        ResultDTO result = vu.valid(sysRole);
-        if (result.getR() != 1) {
-            return result;
-        }
-         //逻辑业务判断判断
-       
-       //判断是更新还是插入
-        if (sysRole.getId()==null) {
-               
-            sysRoleMapper.save(sysRole);
-        } else {
-             sysRoleMapper.updateById(sysRole);
-        }
-        return ResultUtil.getSuccResult();
+    public int save(SysRole SysRole) {
+        return sysRoleMapper.save(SysRole);
     }
-    /**
-    * 说明:根据主键删除数据
-    * description:delete by key
-    * @param id
-    * @return void
-    * @author dozen.zhang
-    * @date 2015年12月27日下午10:56:38
-    */
+
+    public int update(SysRole sysRole){
+        return sysRoleMapper.update(sysRole);
+    }
+
     public void delete(Long  id){
-        sysRoleMapper.deleteById(id);
-    }   
-    /**
-    * 说明:根据主键获取数据
-    * description:delete by key
-    * @param id
-    * @return void
-    * @author dozen.zhang
-    * @date 2015年12月27日下午10:56:38
-    */
-    public SysRole selectByPrimaryKey(Long id){
-       return sysRoleMapper.findOne(id);
+        List<Long> ridList = new ArrayList<>();
+        ridList.add(id);
+        //删除用户角色关系
+        userRoleMapper.mutiDeleteRid(ridList);
+        //删除角色资源关系
+        roleResourceMapper.mutiDeleteRoleId(ridList);
+        //删除资源
+        sysRoleMapper.deleteOne(id);
     }
-    /**多id删除
-     * @param idAry
+
+    /**
+     * 分页查询角色信息。
+     * @param name
+     * @param code
+     * @param status
+     * @param page
      * @return
-     * @author dozen.zhang
      */
-    public ResultDTO multilDelete(Long[] idAry) {
-        for(int i=0;i<idAry.length;i++){
-            sysRoleMapper.deleteById(idAry[i]);
+    public List<SysRole> pageFind(String name, String code, Integer status, Pageable page) {
+        return sysRoleMapper.pageFind(name, code, status, page);
+    }
+
+    /**
+     * 删除多条记录。
+     * @param ids
+     * @return
+     */
+    public void multilDelete(List<Long> ids) {
+        if(ids == null || ids.size() < 1){
+            return ;
         }
-        return ResultUtil.getSuccResult();
+        //删除用户角色关系
+        userRoleMapper.mutiDeleteRid(ids);
+        //删除角色资源关系
+        roleResourceMapper.mutiDeleteRoleId(ids);
+        //删除资源
+        sysRoleMapper.multiDelete(ids);
     }
 }

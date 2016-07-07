@@ -1,153 +1,180 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/7/5 17:35:54                            */
+/* Created on:     2016/7/7 9:53:39                             */
 /*==============================================================*/
 
 
-DROP INDEX idx_code ON sys_resource;
+drop index idx_code on sys_resource;
 
-DROP TABLE IF EXISTS sys_resource;
+drop table if exists sys_resource;
 
-DROP INDEX idx_status ON sys_role;
+drop index idx_status on sys_role;
 
-DROP INDEX idex_code ON sys_role;
+drop index idex_code on sys_role;
 
-DROP TABLE IF EXISTS sys_role;
+drop table if exists sys_role;
 
-DROP INDEX idx_roleid_rid ON sys_role_resource;
+drop index idx_roleid_rid on sys_role_resource;
 
-DROP TABLE IF EXISTS sys_role_resource;
+drop table if exists sys_role_resource;
 
-DROP INDEX idx_idcard ON sys_user;
+drop index idx_session_id on sys_session;
 
-DROP INDEX idx_telphone ON sys_user;
+drop table if exists sys_session;
 
-DROP INDEX idx_type ON sys_user;
+drop index idx_idcard on sys_user;
 
-DROP INDEX idx_status ON sys_user;
+drop index idx_telphone on sys_user;
 
-DROP INDEX idx_username ON sys_user;
+drop index idx_type on sys_user;
 
-DROP TABLE IF EXISTS sys_user;
+drop index idx_status on sys_user;
 
-DROP INDEX idx_uid_rid ON sys_user_resource;
+drop index idx_username on sys_user;
 
-DROP TABLE IF EXISTS sys_user_resource;
+drop table if exists sys_user;
 
-DROP INDEX idx_uid_rid ON sys_user_role;
+drop index idx_uid_rid on sys_user_resource;
 
-DROP TABLE IF EXISTS sys_user_role;
+drop table if exists sys_user_resource;
+
+drop index idx_uid_rid on sys_user_role;
+
+drop table if exists sys_user_role;
 
 /*==============================================================*/
 /* Table: sys_resource                                          */
 /*==============================================================*/
-CREATE TABLE sys_resource
+create table sys_resource
 (
-   id                   BIGINT(15) NOT NULL AUTO_INCREMENT,
-   createtime           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-   pid                  BIGINT(15) NOT NULL DEFAULT 0,
-   NAME                 VARCHAR(30) NOT NULL,
-   CODE                 VARCHAR(30) NOT NULL,
-   TYPE                 VARCHAR(10),
-   url                  VARCHAR(255),
-   STATUS               INT,
-   sort                 INT,
-   remark               VARCHAR(200),
-   PRIMARY KEY (id)
+   id                   Bigint(15) not null auto_increment,
+   createtime           timestamp not null default CURRENT_TIMESTAMP,
+   updatetime           timestamp not null default CURRENT_TIMESTAMP,
+   pid                  bigint(15) not null default 0,
+   name                 varchar(30) not null,
+   code                 varchar(30) not null,
+   type                 varchar(10),
+   url                  varchar(255),
+   status               int,
+   sort                 int,
+   remark               varchar(200),
+   primary key (id)
 );
 
 /*==============================================================*/
 /* Index: idx_code                                              */
 /*==============================================================*/
-CREATE UNIQUE INDEX idx_code ON sys_resource
+create unique index idx_code on sys_resource
 (
-   CODE
+   code
 );
 
 /*==============================================================*/
 /* Table: sys_role                                              */
 /*==============================================================*/
-CREATE TABLE sys_role
+create table sys_role
 (
-   id                   BIGINT(10) NOT NULL AUTO_INCREMENT,
-   createtime           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-   NAME                 VARCHAR(30) NOT NULL,
-   CODE                 VARCHAR(30) NOT NULL,
-   STATUS               INT(11),
-   sort                 INT(11),
-   remark               VARCHAR(200),
-   PRIMARY KEY (id)
+   id                   Bigint(10) not null auto_increment,
+   createtime           timestamp not null default CURRENT_TIMESTAMP,
+   updatetime           timestamp not null default CURRENT_TIMESTAMP,
+   name                 varchar(30) not null,
+   code                 varchar(30) not null,
+   status               int(11),
+   sort                 int(11),
+   remark               varchar(200),
+   primary key (id)
 );
 
 /*==============================================================*/
 /* Index: idex_code                                             */
 /*==============================================================*/
-CREATE UNIQUE INDEX idex_code ON sys_role
+create unique index idex_code on sys_role
 (
-   CODE
+   code
 );
 
 /*==============================================================*/
 /* Index: idx_status                                            */
 /*==============================================================*/
-CREATE INDEX idx_status ON sys_role
+create index idx_status on sys_role
 (
-   STATUS
+   status
 );
 
 /*==============================================================*/
 /* Table: sys_role_resource                                     */
 /*==============================================================*/
-CREATE TABLE sys_role_resource
+create table sys_role_resource
 (
-   id                   BIGINT(15) NOT NULL AUTO_INCREMENT,
-   roleid               BIGINT(15) NOT NULL,
-   rid                  BIGINT(15) NOT NULL,
-   PRIMARY KEY (id)
+   id                   bigint(15) not null auto_increment,
+   roleid               bigint(15) not null,
+   rid                  bigint(15) not null,
+   primary key (id)
 );
 
 /*==============================================================*/
 /* Index: idx_roleid_rid                                        */
 /*==============================================================*/
-CREATE UNIQUE INDEX idx_roleid_rid ON sys_role_resource
+create unique index idx_roleid_rid on sys_role_resource
 (
    roleid,
    rid
 );
 
 /*==============================================================*/
+/* Table: sys_session                                           */
+/*==============================================================*/
+create table sys_session
+(
+   id                   bigint not null auto_increment,
+   createtime           timestamp,
+   updatetime           timestamp,
+   sessionid            varchar(64) not null,
+   session              text not null,
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Index: idx_session_id                                        */
+/*==============================================================*/
+create unique index idx_session_id on sys_session
+(
+   sessionid
+);
+
+/*==============================================================*/
 /* Table: sys_user                                              */
 /*==============================================================*/
-CREATE TABLE sys_user
+create table sys_user
 (
-   id                   BIGINT NOT NULL AUTO_INCREMENT,
-   createtime           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-   updatetime           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-   username             VARCHAR(20) NOT NULL,
-   PASSWORD             VARCHAR(50) NOT NULL,
-   nkname               VARCHAR(20),
-   STATUS               TINYINT NOT NULL DEFAULT 0,
-   TYPE                 TINYINT DEFAULT 0,
-   NAME                 VARCHAR(12),
-   email                VARCHAR(50),
-   telno                VARCHAR(11),
-   idcard               VARCHAR(18),
-   sex                  TINYINT,
-   birth                DATE,
-   integral             INT(11),
-   address              VARCHAR(50),
-   weichat              VARCHAR(30),
-   qq                   BIGINT(11),
-   face                 VARCHAR(100),
-   remark               VARCHAR(400),
-   openid               VARCHAR(20),
-   PRIMARY KEY (id)
+   id                   bigint not null auto_increment,
+   createtime           timestamp not null default CURRENT_TIMESTAMP,
+   updatetime           timestamp not null default CURRENT_TIMESTAMP,
+   username             varchar(20) not null,
+   password             varchar(50) not null,
+   nkname               varchar(20),
+   status               tinyint not null default 0,
+   type                 tinyint default 0,
+   name                 varchar(12),
+   email                varchar(50),
+   telno                varchar(11),
+   idcard               varchar(18),
+   sex                  tinyint,
+   birth                varchar(10),
+   integral             int(11),
+   address              varchar(50),
+   weichat              varchar(30),
+   qq                   bigint(11),
+   face                 varchar(100),
+   remark               varchar(400),
+   openid               varchar(20),
+   primary key (id)
 );
 
 /*==============================================================*/
 /* Index: idx_username                                          */
 /*==============================================================*/
-CREATE UNIQUE INDEX idx_username ON sys_user
+create unique index idx_username on sys_user
 (
    username
 );
@@ -155,23 +182,23 @@ CREATE UNIQUE INDEX idx_username ON sys_user
 /*==============================================================*/
 /* Index: idx_status                                            */
 /*==============================================================*/
-CREATE INDEX idx_status ON sys_user
+create index idx_status on sys_user
 (
-   STATUS
+   status
 );
 
 /*==============================================================*/
 /* Index: idx_type                                              */
 /*==============================================================*/
-CREATE INDEX idx_type ON sys_user
+create index idx_type on sys_user
 (
-   TYPE
+   type
 );
 
 /*==============================================================*/
 /* Index: idx_telphone                                          */
 /*==============================================================*/
-CREATE INDEX idx_telphone ON sys_user
+create index idx_telphone on sys_user
 (
    telno
 );
@@ -179,7 +206,7 @@ CREATE INDEX idx_telphone ON sys_user
 /*==============================================================*/
 /* Index: idx_idcard                                            */
 /*==============================================================*/
-CREATE INDEX idx_idcard ON sys_user
+create index idx_idcard on sys_user
 (
    idcard
 );
@@ -187,18 +214,18 @@ CREATE INDEX idx_idcard ON sys_user
 /*==============================================================*/
 /* Table: sys_user_resource                                     */
 /*==============================================================*/
-CREATE TABLE sys_user_resource
+create table sys_user_resource
 (
-   id                   BIGINT(10) NOT NULL AUTO_INCREMENT,
-   uid                  BIGINT(10) NOT NULL,
-   rid                  BIGINT(10) NOT NULL,
-   PRIMARY KEY (id)
+   id                   bigint(10) not null auto_increment,
+   uid                  bigint(10) not null,
+   rid                  bigint(10) not null,
+   primary key (id)
 );
 
 /*==============================================================*/
 /* Index: idx_uid_rid                                           */
 /*==============================================================*/
-CREATE UNIQUE INDEX idx_uid_rid ON sys_user_resource
+create unique index idx_uid_rid on sys_user_resource
 (
    uid,
    rid
@@ -207,49 +234,20 @@ CREATE UNIQUE INDEX idx_uid_rid ON sys_user_resource
 /*==============================================================*/
 /* Table: sys_user_role                                         */
 /*==============================================================*/
-CREATE TABLE sys_user_role
+create table sys_user_role
 (
-   id                   BIGINT(10) NOT NULL AUTO_INCREMENT,
-   uid                  BIGINT(10) NOT NULL,
-   rid                  BIGINT(10) NOT NULL,
-   PRIMARY KEY (id)
+   id                   Bigint(10) not null auto_increment,
+   uid                  Bigint(10) not null,
+   rid                  Bigint(10) not null,
+   primary key (id)
 );
 
 /*==============================================================*/
 /* Index: idx_uid_rid                                           */
 /*==============================================================*/
-CREATE UNIQUE INDEX idx_uid_rid ON sys_user_role
+create unique index idx_uid_rid on sys_user_role
 (
    uid,
    rid
 );
 
-
-
-
-
-
-DROP INDEX idx_session_id ON sys_session;
-
-DROP TABLE IF EXISTS sys_session;
-
-/*==============================================================*/
-/* Table: sys_session                                           */
-/*==============================================================*/
-CREATE TABLE sys_session
-(
-   id                   BIGINT NOT NULL AUTO_INCREMENT,
-   createtime           TIMESTAMP,
-   updatetime           TIMESTAMP,
-   sessionid            VARCHAR(64) NOT NULL,
-   SESSION              TEXT NOT NULL,
-   PRIMARY KEY (id)
-);
-
-/*==============================================================*/
-/* Index: idx_session_id                                        */
-/*==============================================================*/
-CREATE UNIQUE INDEX idx_session_id ON sys_session
-(
-   sessionid
-);

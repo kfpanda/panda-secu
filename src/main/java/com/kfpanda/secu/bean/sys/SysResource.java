@@ -7,6 +7,7 @@ public class SysResource implements Serializable {
 	private static final long serialVersionUID = -3167749849144835451L;
 	private Long id;
 	private Timestamp createTime;			//创建时间
+	private Timestamp updateTime;
 	private Long pid;
 	private String name;
 	private String code;
@@ -19,11 +20,12 @@ public class SysResource implements Serializable {
 	public SysResource() {
 		super();
 	}
-	public SysResource(Long id, Timestamp createTime, Long pid, String name, String code,
+	public SysResource(Long id, Timestamp createTime, Timestamp updateTime, Long pid, String name, String code,
 			String type, String url, Integer status, Integer sort,
 			String remark) {
 		super();
 		this.createTime = createTime;
+		this.updateTime = updateTime;
 		this.id = id;
 		this.pid = pid;
 		this.name = name;
@@ -34,11 +36,12 @@ public class SysResource implements Serializable {
 		this.sort = sort;
 		this.remark = remark;
 	}
-	public SysResource( Timestamp createTime, Long pid, String name, String code,
+	public SysResource( Timestamp createTime, Timestamp updateTime, Long pid, String name, String code,
 			String type, String url, Integer status, Integer sort,
 			String remark) {
 		super();
 		this.createTime = createTime;
+		this.updateTime = updateTime;
 		this.pid = pid;
 		this.name = name;
 		this.code = code;
@@ -73,6 +76,14 @@ public class SysResource implements Serializable {
 	}
 	public String getName() {
 		return name;
+	}
+
+	public Timestamp getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Timestamp updateTime) {
+		this.updateTime = updateTime;
 	}
 
 	public void setName(String name) {

@@ -1,61 +1,108 @@
-/**
- * 版权所有：公众信息
- * 项目名称:calendar
- * 创建者: dozen.zhang
- * 创建日期: 2015年11月15日
- * 文件说明: 
- */
-
 package com.kfpanda.secu.action.sys;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
+
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.kfpanda.core.page.Pageable;
+import com.kfpanda.secu.action.ErrorEnum;
+import com.kfpanda.secu.bean.sys.SysUser;
+import com.kfpanda.secu.shiro.MD5;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.kfpanda.core.page.Page;
 import com.kfpanda.secu.action.BaseAction;
 import com.kfpanda.secu.bean.sys.SysRole;
-import com.kfpanda.secu.bean.sys.SysUser;
-import com.kfpanda.secu.bean.sys.SysUserRole;
-import com.kfpanda.secu.service.sys.SysRoleService;
-import com.kfpanda.secu.service.sys.SysUserRoleService;
 import com.kfpanda.secu.service.sys.SysUserService;
-import com.kfpanda.util.DateUtil;
-import com.util.common.RequestUtil;
-import com.util.common.ResultUtil;
-import com.util.common.StringUtil;
-import com.util.common.ValidateUtil;
-import com.util.common.rule.CheckBox;
-import com.util.common.rule.DateValue;
-import com.util.common.rule.Digits;
-import com.util.common.rule.EmailRule;
-import com.util.common.rule.Length;
-import com.util.common.rule.NotEmpty;
-import com.util.common.rule.PhoneRule;
-import com.util.common.rule.Rule;
+
 @Controller
-@RequestMapping("/sysUser")
+@RequestMapping("/user")
 public class SysUserAction extends BaseAction{
-	/** 日志 **/
-	private Logger logger = LoggerFactory.getLogger(SysUserAction.class);
+	private Logger logger = LogManager.getLogger(SysUserAction.class);
 	/** 权限service **/
 	@Autowired
 	private SysUserService sysUserService;
 
-	@Autowired
-	private SysUserRoleService sysUserRoleService;
+	/**
+	 * 分页查询。
+	 * @return Object
+	 * @author kfpanda
+	 * @date 2016年11月15日下午12:31:55
+	 */
+	@RequestMapping(value = "/find")
+	public @ResponseBody Object pageFind( @RequestParam(value = "username", required = false) String userName, @RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "telno", required = false) String telNo, @RequestParam(value = "type", required = false) Integer type,
+			@RequestParam(value = "status", required = false) Integer status, @ModelAttribute Pageable page) {
 
-	@Autowired
-	private SysRoleService sysRoleService;
+		List<SysUser> sysUsers = sysUserService.pageFind(userName, name, telNo, status, type, page);
+		return this.getResult(sysUsers, page);
+	}
+
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public @ResponseBody Object add(
+			@RequestParam(value = "username") String userName, @RequestParam(value = "password") String password,
+			@RequestParam(value = "name", required = false) String name, @RequestParam(value = "nkname", required = false) String nkName,
+			@RequestParam(value = "telno") String telNo, @RequestParam(value = "status") Integer status,
+			@RequestParam(value = "type") Integer type, @RequestParam(value = "email", required = false) String email,
+			@RequestParam(value = "idcard", required = false) String idCard, @RequestParam(value = "sex", required = false) Integer sex,
+			@RequestParam(value = "birth", required = false) String birth, @RequestParam(value = "address", required = false) String address) {
+
+		if(StringUtils.isBlank(userName) || StringUtils.isBlank(password) || StringUtils.isBlank(name) || StringUtils.isBlank(nkName)){
+			return this.getErrorResult(ErrorEnum.NOTNULL, "username, password, name, nkname");
+		}
+		SysUser sysUser = new SysUser();
+		sysUser.setUserName(userName);
+		sysUser.setPassword(MD5.MD5Salt(userName, password));
+		sysUser.setName(name);
+		sysUser.setNkName(nkName);
+		sysUser.setTelNo(telNo);
+		sysUser.setStatus(status);
+		sysUser.setType(type);
+		sysUser.setEmail(email);
+		sysUser.setIdCard(idCard);
+		sysUser.setSex(sex);
+		sysUser.setBirth(birth);
+		sysUser.setAddress(address);
+		Integer result = sysUserService.save(sysUser);
+		if(result == 1){
+			return this.getResult();
+		}
+		return this.getErrorResult(ErrorEnum.SQLUPDATE, result.toString());
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public @ResponseBody Object update(@RequestParam(value = "username") String userName,
+									   @RequestParam(value = "name", required = false) String name, @RequestParam(value = "nkname", required = false) String nkName,
+									   @RequestParam(value = "telno", required = false) String telNo, @RequestParam(value = "status", required = false) Integer status,
+									   @RequestParam(value = "type", required = false) Integer type, @RequestParam(value = "email", required = false) String email,
+									   @RequestParam(value = "idcard", required = false) String idCard, @RequestParam(value = "sex", required = false) Integer sex,
+									   @RequestParam(value = "birth", required = false) String birth, @RequestParam(value = "address", required = false) String address) {
+
+		if(StringUtils.isBlank(userName)){
+			return this.getErrorResult(ErrorEnum.NOTNULL, "username");
+		}
+		SysUser sysUser = new SysUser();
+		sysUser.setUserName(userName);
+		sysUser.setName(name);
+		sysUser.setNkName(nkName);
+		sysUser.setTelNo(telNo);
+		sysUser.setStatus(status);
+		sysUser.setType(type);
+		sysUser.setEmail(email);
+		sysUser.setIdCard(idCard);
+		sysUser.setSex(sex);
+		sysUser.setBirth(birth);
+		sysUser.setAddress(address);
+		Integer result = sysUserService.update(sysUser);
+		if(result == 1){
+			return this.getResult(result);
+		}
+		return this.getErrorResult(ErrorEnum.SQLUPDATE, result.toString());
+	}
+
 	/**
 	 * 说明:ajax请求角色信息
 	 * 
@@ -64,7 +111,7 @@ public class SysUserAction extends BaseAction{
 	 * @author dozen.zhang
 	 * @date 2015年11月15日下午12:31:55
 	 */
-	@RequestMapping(value = "/list")
+	/*@RequestMapping(value = "/list")
 	@ResponseBody
 	public Object list(HttpServletRequest request) {
 		Page page = RequestUtil.getPage(request);
@@ -229,13 +276,13 @@ public class SysUserAction extends BaseAction{
 			List<SysUserRole> childMaps =sysUserRoleService.listByParams(params);
 			result.put("childMaps", childMaps);
 		}
-		List<SysRole> childs =sysRoleService.listByParams(new HashMap<String,Object>());
+		List<SysRole> childs =SysUserService.listByParams(new HashMap<String,Object>());
 		result.put("childs", childs);
 		return this.getResult(result);
 	}
 
 
-	/**
+	*//**
 	 * 说明:保存角色信息
 	 * 
 	 * @param request
@@ -244,7 +291,7 @@ public class SysUserAction extends BaseAction{
 	 * @return Object
 	 * @author dozen.zhang
 	 * @date 2015年11月15日下午1:33:00
-	 */
+	 *//*
 	// @RequiresPermissions(value={"auth:edit" ,"auth:add" },logical=Logical.OR)
 	@RequestMapping(value = "/save")
 	@ResponseBody
@@ -386,12 +433,12 @@ public class SysUserAction extends BaseAction{
 			return this.getResult(1);
 		}
 	}
-	/**
+	*//**
 	 * 多行删除
 	 * @param request
 	 * @return
 	 * @author dozen.zhang
-	 */
+	 *//*
 	@RequestMapping(value = "/mdel")
 	@ResponseBody
 	public Object multiDelete(HttpServletRequest request) {
@@ -421,5 +468,5 @@ public class SysUserAction extends BaseAction{
 			idAry[i]=Long.valueOf(idStrAry[i]);
 		}
 		return  sysUserService.multilDelete(idAry);
-	}
+	}*/
 }

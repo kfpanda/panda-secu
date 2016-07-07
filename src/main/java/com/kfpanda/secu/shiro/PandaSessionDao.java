@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 import javax.annotation.Resource;
+
+import org.apache.logging.log4j.LogManager;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.ValidatingSession;
 import org.apache.shiro.session.mgt.eis.CachingSessionDAO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import com.kfpanda.secu.bean.sys.SysSession;
 import com.kfpanda.secu.mapper.sys.SysSessionMapper;
@@ -16,7 +16,8 @@ import com.util.common.SerializableUtils;
 
 @Repository
 public class PandaSessionDao extends CachingSessionDAO {
-	private static final Logger logger = LoggerFactory.getLogger(PandaSessionDao.class);
+	private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(PandaSessionDao.class);
+
 	@Resource
 	private SysSessionMapper sysSessionMapper;
 	
