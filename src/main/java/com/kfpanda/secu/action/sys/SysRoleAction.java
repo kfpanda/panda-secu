@@ -5,9 +5,11 @@ import java.util.List;
 import com.kfpanda.core.page.Pageable;
 import com.kfpanda.secu.action.ErrorEnum;
 import com.kfpanda.secu.bean.sys.SysRole;
+import com.kfpanda.secu.bean.sys.SysUserRole;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +37,7 @@ public class SysRoleAction extends BaseAction{
 	 * @author kfpanda
 	 * @date 2016年11月15日下午12:31:55
 	 */
+	@RequiresPermissions(value={"role:find"})
 	@RequestMapping(value = "/find")
 	public @ResponseBody Object pageFind(
 			@RequestParam(value = "name", required = false) String name, @RequestParam(value = "code", required = false) String code,
@@ -45,6 +48,7 @@ public class SysRoleAction extends BaseAction{
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequiresPermissions(value={"role:add"})
 	public @ResponseBody Object add(
 			@RequestParam(value = "name") String name, @RequestParam(value = "code") String code,
 			@RequestParam(value = "sort", required = false) Integer sort, @RequestParam(value = "status") Integer status,
@@ -67,6 +71,7 @@ public class SysRoleAction extends BaseAction{
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@RequiresPermissions(value={"role:update"})
 	public @ResponseBody Object update(@RequestParam(value = "id") Long id,
 			@RequestParam(value = "pid", required = false) Long pid, @RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "code") String code, @RequestParam(value = "type", required = false) String type,
@@ -91,6 +96,7 @@ public class SysRoleAction extends BaseAction{
 	}
 
 	@RequestMapping(value = "/del")
+	@RequiresPermissions(value={"role:del"})
 	public @ResponseBody Object delete(@RequestParam(value = "id") Long id) {
 		if(id == null || id < 1){
 			return this.getResult(0);
@@ -100,6 +106,7 @@ public class SysRoleAction extends BaseAction{
 	}
 
 	@RequestMapping(value = "/mdel")
+	@RequiresPermissions(value={"role:mdel"})
 	public @ResponseBody Object multiDelete(@RequestParam(value = "ids") String ids) {
 		if(StringUtils.isBlank(ids)){
 			return this.getResult(0);
@@ -118,4 +125,23 @@ public class SysRoleAction extends BaseAction{
 		sysRoleService.multilDelete(idList);
 		return  this.getResult(idList.size());
 	}
+
+	/**
+	 * 批量角色批量分配资源。
+	 * @return Object
+	 * @author kfpanda
+	 * @date 2016年11月15日下午12:31:55
+	 */
+	@RequestMapping(value = "/resource/adds")
+	@RequiresPermissions(value={"role:resource:add"})
+	public @ResponseBody Object roleResourceAdd( @RequestParam(value = "roleids", required = false) String roleIds,
+												 @RequestParam(value = "rids", required = false) String rids) {
+
+		if(StringUtils.isBlank(roleIds) || StringUtils.isBlank(rids)){
+			return this.getErrorResult(ErrorEnum.NOTNULL, "roleids, rids");
+		}
+		int result = sysRoleService.roleResourceAdds(roleIds, rids);
+		return this.getResult(result);
+	}
+
 }

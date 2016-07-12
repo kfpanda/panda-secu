@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kfpanda.secu.action.ErrorEnum;
 import com.kfpanda.util.VerifyCodeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -52,7 +53,7 @@ public class LoginAction extends BaseAction {
 		String verifyCode = VerifyCodeUtil.generateTextCode(VerifyCodeUtil.TYPE_NUM_ONLY, 4, null);
 		// 将验证码放到HttpSession里面
 		request.getSession().setAttribute(VERIFY_CODE_ATTR, verifyCode);
-		System.out.println("本次生成的验证码为[" + verifyCode + "],已存放到HttpSession中");
+		logger.debug("本次生成的验证码为[{}],已存放到HttpSession中", verifyCode);
 		// 设置输出的内容的类型为JPEG图像
 		response.setContentType("image/jpeg");
 		BufferedImage bufferedImage = VerifyCodeUtil.generateImageCode(verifyCode, 90, 30, 3, true, Color.WHITE,
@@ -73,13 +74,10 @@ public class LoginAction extends BaseAction {
 		// 获取HttpSession中的验证码
 		String verifyCode = (String) request.getSession().getAttribute(VERIFY_CODE_ATTR);
 		// 获取用户请求表单中输入的验证码
-		String submitCode = WebUtils.getCleanParam(request, "verifyCode");
-		System.out.println("用户[" + username + "]登录时输入的验证码为[" + submitCode + "],HttpSession中的验证码为[" + verifyCode + "]");
-		if (StringUtils.isEmpty(submitCode) || !StringUtils.equals(verifyCode, submitCode.toLowerCase())) {
+		if (StringUtils.isEmpty(captcha) || !StringUtils.equals(verifyCode, captcha.toLowerCase())) {
 			request.setAttribute("message_login", "验证码不正确");
-			return getResult(-10, "验证码不正确.");
+			return this.getErrorResult(ErrorEnum.VERIFYCODE, captcha);
 		}
-
 		return login(username, password, remember);
 	}
 	/**
@@ -92,7 +90,7 @@ public class LoginAction extends BaseAction {
 						   @RequestParam(value = "remember", required = false, defaultValue = "2") Integer remember) {
 
 		UsernamePasswordToken token = new UsernamePasswordToken(username, MD5.MD5Salt(username, password));
-		token.setRememberMe(true);
+//		token.setRememberMe(true);
 		// 获取当前的Subject
 		Subject currentUser = SecurityUtils.getSubject();
 		try {
@@ -102,28 +100,29 @@ public class LoginAction extends BaseAction {
 			currentUser.login(token);
 		} catch (UnknownAccountException uae) {
 			logger.info("user({}) is not exists.", username);
-			return getResult(-2, "用户帐号不存在.");
+			return getErrorResult(ErrorEnum.USERNOTEXIST, username);
 		} catch (IncorrectCredentialsException ice) {
 			logger.info("user({}) password({}) is error.", username, password);
-			return getResult(-3, "用户密码不正确.");
+			return getResult(ErrorEnum.PASSERROR);
 		} catch (LockedAccountException lae) {
 			logger.info("user({}) is lock.", username);
-			return getResult(-4, "用户账户锁定.");
+			return getErrorResult(ErrorEnum.ACCOUNTLOCK, username);
 		} catch (ExcessiveAttemptsException eae) {
 			logger.info("user({}) error more.", username);
-			return getResult(-5, "错误次数过多.");
+			return getErrorResult(ErrorEnum.ERRORMORE);
 		} catch (AuthenticationException ae) {
 			// 通过处理Shiro的运行时AuthenticationException就可以控制用户登录失败或密码错误时的情景
 			logger.info("user({}) or password({}) error.", username, password);
-			return getResult(-6, "用户名或密码不正确.");
+			return getErrorResult(ErrorEnum.USERPASSERROR);
 		}
 		// 验证是否登录成功
 		if (currentUser.isAuthenticated()) {
+			/*currentUser.getSession().setAttribute(NutShiro.SessionKey, currentUser.getPrincipal());*/
 			return getResult(currentUser.getSession().getAttribute(SessionConfig.USER_SESSION_KEY));
 		} else {
 			token.clear();
 		}
-		return getResult(-1, "认证错误.");
+		return getErrorResult(ErrorEnum.AUTHERROR);
 	}
 
 	/**

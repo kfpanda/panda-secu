@@ -41,7 +41,7 @@
             <appender-ref ref="Console"/>
         </Logger>
         <!-- http 日志 -->
-        <Logger name="org.apache" additivity="false" level="DEBUG">
+        <Logger name="org.apache.http" additivity="false" level="INFO">
             <appender-ref ref="Console"/>
         </Logger>
         <!-- http 日志 -->

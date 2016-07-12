@@ -41,7 +41,7 @@
 <script>
 $(document).ready(function(){
     // 回车登录
-    $('#code').on('keypress', function(e){
+    $('#captcha').on('keypress', function(e){
         if(e.keyCode == 13){ // Enter
             $(this).blur();
             $('#login_btn').click();
@@ -90,10 +90,11 @@ $(document).ready(function(){
                 captcha: captcha
             }
         ).done(function(data) {
-        	if(data.code == "success"){
-        		 window.location.href = data.data;
+        	if(data.r == 0){
+//        		 window.location.href = data.url;
+                window.location.href = "/secu/html/intro.html";
         	}else{
-                $showError.text(data.message);
+                $showError.text(data.msg);
         	}
         	return ;
         })

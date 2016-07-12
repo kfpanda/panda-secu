@@ -13,6 +13,10 @@ public class SysUserResourceSql {
 	public static final String DELBYID_SQL = "DELETE FROM " + TABLE_NAME + " WHERE id=#{id}";
 	public static final String FINDBYID_SQL = "SELECT " + FIELDS + " FROM " + TABLE_NAME + " WHERE id=#{id}";
 
+	public static final String FINDBYUSERNAME_SQL = "SELECT r.* FROM sys_user u, sys_user_resource ur, sys_resource r WHERE u.id=ur.uid AND ur.rid=r.id AND u.username=#{userName}";
+
+	public static final String FINDBYUID_SQL = "SELECT r.* FROM sys_user_resource ur, sys_resource r WHERE ur.rid=r.id AND ur.uid=#{userId}";
+
 	///List<Long> -> list[0..len]   Long[] -> array[0..len]
 	public String getMutiDeleteRidSql(Map<String, List<Long>> param){
 		StringBuffer sql = new StringBuffer("DELETE ");

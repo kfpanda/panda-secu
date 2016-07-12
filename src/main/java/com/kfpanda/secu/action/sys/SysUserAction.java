@@ -10,6 +10,8 @@ import com.kfpanda.secu.shiro.MD5;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +35,7 @@ public class SysUserAction extends BaseAction{
 	 * @date 2016年11月15日下午12:31:55
 	 */
 	@RequestMapping(value = "/find")
+	@RequiresPermissions(value={"user:find"}, logical= Logical.OR)
 	public @ResponseBody Object pageFind( @RequestParam(value = "username", required = false) String userName, @RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "telno", required = false) String telNo, @RequestParam(value = "type", required = false) Integer type,
 			@RequestParam(value = "status", required = false) Integer status, @ModelAttribute Pageable page) {
@@ -42,6 +45,7 @@ public class SysUserAction extends BaseAction{
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequiresPermissions(value={"user:add"})
 	public @ResponseBody Object add(
 			@RequestParam(value = "username") String userName, @RequestParam(value = "password") String password,
 			@RequestParam(value = "name", required = false) String name, @RequestParam(value = "nkname", required = false) String nkName,
@@ -74,6 +78,7 @@ public class SysUserAction extends BaseAction{
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@RequiresPermissions(value={"user:update"})
 	public @ResponseBody Object update(@RequestParam(value = "username") String userName,
 									   @RequestParam(value = "name", required = false) String name, @RequestParam(value = "nkname", required = false) String nkName,
 									   @RequestParam(value = "telno", required = false) String telNo, @RequestParam(value = "status", required = false) Integer status,
@@ -101,6 +106,42 @@ public class SysUserAction extends BaseAction{
 			return this.getResult(result);
 		}
 		return this.getErrorResult(ErrorEnum.SQLUPDATE, result.toString());
+	}
+
+	/**
+	 * 批量用户批量分配角色。
+	 * @return Object
+	 * @author kfpanda
+	 * @date 2016年11月15日下午12:31:55
+	 */
+	@RequestMapping(value = "/role/adds")
+	@RequiresPermissions(value={"user:role:adds"})
+	public @ResponseBody Object userRoleAdd( @RequestParam(value = "uids", required = false) String uids,
+										  @RequestParam(value = "roleids", required = false) String rids) {
+
+		if(StringUtils.isBlank(uids) || StringUtils.isBlank(rids)){
+			return this.getErrorResult(ErrorEnum.NOTNULL, "uids, rids");
+		}
+		int result = sysUserService.userRoleAdds(uids, rids);
+		return this.getResult(result);
+	}
+
+	/**
+	 * 批量用户批量分配资源。
+	 * @return Object
+	 * @author kfpanda
+	 * @date 2016年11月15日下午12:31:55
+	 */
+	@RequestMapping(value = "/resource/adds")
+	@RequiresPermissions(value={"user:resource:adds"})
+	public @ResponseBody Object userResourceAdd( @RequestParam(value = "uids", required = false) String uids,
+											 @RequestParam(value = "rids", required = false) String rids) {
+
+		if(StringUtils.isBlank(uids) || StringUtils.isBlank(rids)){
+			return this.getErrorResult(ErrorEnum.NOTNULL, "uids, rids");
+		}
+		int result = sysUserService.userResourceAdds(uids, rids);
+		return this.getResult(result);
 	}
 
 	/**

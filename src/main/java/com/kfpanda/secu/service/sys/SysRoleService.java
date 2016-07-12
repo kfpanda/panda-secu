@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 
 import com.kfpanda.core.page.Pageable;
 import com.kfpanda.secu.bean.sys.SysRole;
+import com.kfpanda.secu.bean.sys.SysRoleResource;
 import com.kfpanda.secu.mapper.sys.SysRoleResourceMapper;
 import com.kfpanda.secu.mapper.sys.SysUserRoleMapper;
 import com.kfpanda.secu.service.BaseService;
@@ -82,5 +83,25 @@ public class SysRoleService extends BaseService {
         roleResourceMapper.mutiDeleteRoleId(ids);
         //删除资源
         sysRoleMapper.multiDelete(ids);
+    }
+
+    public int roleResourceAdds(String roleIds, String rids){
+        String[] roleIdArr = roleIds.split(",");
+        String[] ridArr = rids.split(",");
+        int result = 0;
+        for(int i = 0; i < roleIdArr.length; i++){
+            for(int j = 0; j < ridArr.length; j++){
+                try {
+                    SysRoleResource roleResource = new SysRoleResource();
+                    roleResource.setRoleId(Long.parseLong(roleIdArr[i]));
+                    roleResource.setRid(Long.parseLong(ridArr[j]));
+                    roleResourceMapper.save(roleResource);
+                }catch (Exception ex){
+                    logger.error("sys_user_role add error.", ex);
+                }
+                result++;
+            }
+        }
+        return result;
     }
 }

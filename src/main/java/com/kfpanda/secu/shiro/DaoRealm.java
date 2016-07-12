@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 
+import com.kfpanda.core.json.JsonUtils;
 import com.kfpanda.secu.config.SessionConfig;
+import com.kfpanda.secu.mapper.sys.SysUserResourceMapper;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.logging.log4j.LogManager;
@@ -24,7 +26,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Repository;
 
-import com.alibaba.fastjson.JSON;
 import com.kfpanda.secu.bean.sys.SysResource;
 import com.kfpanda.secu.bean.sys.SysRole;
 import com.kfpanda.secu.bean.sys.SysUser;
@@ -37,6 +38,8 @@ public class DaoRealm extends AuthorizingRealm{
 	
 	@Resource
 	private SysUserMapper sysUserMapper;
+	@Resource
+	private SysUserResourceMapper sysUserResourceMapper;
 	
 	 /** 
      * 为当前登录的Subject授予角色和权限 
@@ -54,6 +57,14 @@ public class DaoRealm extends AuthorizingRealm{
 		// 从数据库中获取当前登录用户的详细信息
 		List<SysUser> sysUserList = sysUserMapper.findURR(userName);
 		for (SysUser sysUser : sysUserList) {
+			List<SysResource> resources = sysUserResourceMapper.findResourcesByUid(sysUser.getId());
+			if(resources != null){
+				for (SysResource res : resources){
+					if (StringUtils.isNotEmpty(res.getCode())) {
+						permissionList.add(res.getCode());
+					}
+				}
+			}
 			if (null != sysUser) {
 				// 实体类User中包含有用户角色的实体类信息
 				if (null != sysUser.getRoles() && sysUser.getRoles().size() > 0) {
@@ -79,7 +90,8 @@ public class DaoRealm extends AuthorizingRealm{
 		SimpleAuthorizationInfo simpleAuthorInfo = new SimpleAuthorizationInfo();
 		simpleAuthorInfo.addRoles(roleList);
 		simpleAuthorInfo.addStringPermissions(permissionList);
-		logger.debug("current user rolelist:(", JSON.toJSONString(roleList), "); permissionlist:(", JSON.toJSONString(permissionList),")");
+//		logger.debug("current user rolelist:(", JsonUtils.toJsonString(roleList), "); permissionlist:(", JsonUtils.toJsonString(permissionList),")");
+
 		/*
 		 * SimpleAuthorizationInfo simpleAuthorInfo = new
 		 * SimpleAuthorizationInfo(); //实际中可能会像上面注释的那样从数据库取得
@@ -112,6 +124,7 @@ public class DaoRealm extends AuthorizingRealm{
 				+ ReflectionToStringBuilder.toString(token, ToStringStyle.MULTI_LINE_STYLE));
 		
 		SysUser sysUser = sysUserMapper.findByUserName(token.getUsername());
+
 		if (null != sysUser) {
 			AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(sysUser.getUserName(), sysUser.getPassword(),
 					sysUser.getNkName());

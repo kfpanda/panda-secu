@@ -3,6 +3,8 @@ package com.kfpanda.secu.mapper.sys;
 import java.sql.Timestamp;
 import java.util.List;
 import javax.annotation.Resource;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,5 +68,10 @@ public class SysRoleMapperTest {
 		
 		List<SysRole> sysRoleList = sysRoleMapper.findRoles("superadmin");
 		Assert.assertTrue(sysRoleList != null && sysRoleList.size() > 0);
+	}
+
+	@Resource
+	private ObjectMapper notNullObjectMapper;
+	public void test(){
 	}
 }

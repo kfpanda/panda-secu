@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.kfpanda.core.page.Pageable;
 import com.kfpanda.secu.bean.sys.SysUser;
+import com.kfpanda.secu.bean.sys.SysUserResource;
+import com.kfpanda.secu.bean.sys.SysUserRole;
 import com.kfpanda.secu.mapper.sys.SysUserMapper;
 import com.kfpanda.secu.mapper.sys.SysUserResourceMapper;
 import com.kfpanda.secu.mapper.sys.SysUserRoleMapper;
@@ -21,7 +23,7 @@ public class SysUserService extends BaseService {
 	@Resource
 	private SysUserMapper sysUserMapper;
 	@Resource
-	private SysUserResourceMapper roleResourceMapper;
+	private SysUserResourceMapper userResourceMapper;
 	@Resource
 	private SysUserRoleMapper userRoleMapper;
 
@@ -49,6 +51,46 @@ public class SysUserService extends BaseService {
      */
 	public List<SysUser> pageFind(String userName, String name, String telNo, Integer status, Integer type, Pageable page) {
 		return sysUserMapper.pageFind(userName, name, telNo, status, type, page);
+	}
+
+	public int userRoleAdds(String uids, String roleIds){
+		String[] uidArr = uids.split(",");
+		String[] ridArr = roleIds.split(",");
+		int result = 0;
+		for(int i = 0; i < uidArr.length; i++){
+			for(int j = 0; j < ridArr.length; j++){
+				try {
+					SysUserRole userRole = new SysUserRole();
+					userRole.setUid(Long.parseLong(uidArr[i]));
+					userRole.setRid(Long.parseLong(ridArr[j]));
+					userRoleMapper.save(userRole);
+				}catch (Exception ex){
+					logger.error("sys_user_role add error.", ex);
+				}
+				result++;
+			}
+		}
+		return result;
+	}
+
+	public int userResourceAdds(String uids, String rids){
+		String[] uidArr = uids.split(",");
+		String[] ridArr = rids.split(",");
+		int result = 0;
+		for(int i = 0; i < uidArr.length; i++){
+			for(int j = 0; j < ridArr.length; j++){
+				try {
+					SysUserResource userResource = new SysUserResource();
+					userResource.setUid(Long.parseLong(uidArr[i]));
+					userResource.setRid(Long.parseLong(ridArr[j]));
+					userResourceMapper.save(userResource);
+				}catch (Exception ex){
+					logger.error("sys_user_resource add error.", ex);
+				}
+				result++;
+			}
+		}
+		return result;
 	}
 
 }

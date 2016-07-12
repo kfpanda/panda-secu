@@ -12,6 +12,13 @@ public enum ErrorEnum {
     ERROR(-1,"请求失败"),
     FORMAT(-2,"{}({})参数格式错误."),
     NOTNULL(-3,"({})中的参数不能为空."),
+    VERIFYCODE(-4,"验证码({})不正确."),
+    USERNOTEXIST(-5, "用户帐号({})不存在."),
+    PASSERROR(-6, "用户密码不正确."),
+    ACCOUNTLOCK(-7, "用户账户({})锁定."),
+    ERRORMORE(-8, "错误次数过多."),
+    USERPASSERROR(-9, "用户名或密码不正确."),
+    AUTHERROR(-10, "认证错误."),
 
     SQLUPDATE(-100, "数据库更新结果：{}."),
 

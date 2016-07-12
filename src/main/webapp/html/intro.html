@@ -162,6 +162,14 @@
 		<input class="sub_btn" type="submit" value="提交" onclick="formSubmit(this);" />
 	</form>
 
+	<div>
+		<h3>2.6角色分配资源接口（GET请求）</h3>
+	</div>
+	<form action="secu/role/resource/adds" method="GET" target="_blank">
+		<span class="field_span">roleids:</span><input type="text" name="roleids" value="1,2,3" />
+		<span class="field_span">rids:</span><input type="text" name="rids" value="1,2,3" /><br /><br />
+		<input class="sub_btn" type="submit" value="提交" onclick="formSubmit(this);" />
+	</form>
 
 
 
@@ -210,13 +218,31 @@
 		<h3>3.3用户查询接口（GET请求）</h3>
 	</div>
 	<form action="secu/user/find" method="GET" target="_blank">
-		<span class="field_span">userName:</span><input type="text" name="userName" value="18989893677" />
+		<span class="field_span">username:</span><input type="text" name="username" value="18989893677" />
 		<span class="field_span">name:</span><input type="text" name="name" value="刘总" /><br /><br />
 		<span class="field_span">telno:</span><input type="text" name="telno" value="18989893677" />
 		<span class="field_span">type:</span><input type="text" name="type" value="1" /><br /><br />
 		<span class="field_span">status:</span><input type="text" name="status" value="1" />
 		<span class="field_span">offset:</span><input type="text" name="offset" value="0" /><br /><br />
 		<span class="field_span">pageSize:</span><input type="text" name="pageSize" value="10" /><br /><br />
+		<input class="sub_btn" type="submit" value="提交" onclick="formSubmit(this);" />
+	</form>
+
+	<div>
+		<h3>3.4用户分配角色接口（GET请求）</h3>
+	</div>
+	<form action="secu/user/role/adds" method="GET" target="_blank">
+		<span class="field_span">uids:</span><input type="text" name="uids" value="1,2,3" />
+		<span class="field_span">roleids:</span><input type="text" name="roleids" value="1,2,3" /><br /><br />
+		<input class="sub_btn" type="submit" value="提交" onclick="formSubmit(this);" />
+	</form>
+
+	<div>
+		<h3>3.5用户分配资源接口（GET请求）</h3>
+	</div>
+	<form action="secu/user/resource/adds" method="GET" target="_blank">
+		<span class="field_span">uids:</span><input type="text" name="uids" value="1,2,3" />
+		<span class="field_span">rids:</span><input type="text" name="rids" value="1,2,3" /><br /><br />
 		<input class="sub_btn" type="submit" value="提交" onclick="formSubmit(this);" />
 	</form>
 

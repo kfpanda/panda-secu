@@ -2,11 +2,8 @@ package com.kfpanda.secu.mapper.sys;
 
 
 import com.kfpanda.secu.bean.sys.SysResource;
-import com.util.common.StringUtil;
 import org.apache.commons.lang3.StringUtils;
-import sun.org.mozilla.javascript.internal.ObjToIntMap;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 

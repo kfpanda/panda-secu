@@ -9,6 +9,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,7 @@ public class SysResourceAction extends BaseAction{
 	 * @author kfpanda
 	 * @date 2016年11月15日下午12:31:55
 	 */
+	@RequiresPermissions("resource:find")
 	@RequestMapping(value = "/find")
 	public @ResponseBody Object pageFind(
 			@RequestParam(value = "pid", required = false) Long pid, @RequestParam(value = "name", required = false) String name,
@@ -53,6 +55,7 @@ public class SysResourceAction extends BaseAction{
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequiresPermissions(value={"resource:add"})
 	public @ResponseBody Object add(
 			@RequestParam(value = "pid", required = false) Long pid, @RequestParam(value = "name") String name,
 			@RequestParam(value = "code") String code, @RequestParam(value = "type") String type,
@@ -79,6 +82,7 @@ public class SysResourceAction extends BaseAction{
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@RequiresPermissions(value={"resource:update"})
 	public @ResponseBody Object update(@RequestParam(value = "id") Long id,
 			@RequestParam(value = "pid", required = false) Long pid, @RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "code") String code, @RequestParam(value = "type", required = false) String type,
@@ -106,6 +110,7 @@ public class SysResourceAction extends BaseAction{
 	}
 
 	@RequestMapping(value = "/del")
+	@RequiresPermissions(value={"resource:del"})
 	public @ResponseBody Object delete(@RequestParam(value = "id") Long id) {
 		if(id == null || id < 1){
 			return this.getResult(0);
@@ -115,6 +120,7 @@ public class SysResourceAction extends BaseAction{
 	}
 
 	@RequestMapping(value = "/mdel")
+	@RequiresPermissions(value={"resource:mdel"})
 	public @ResponseBody Object multiDelete(@RequestParam(value = "ids") String ids) {
 		if(StringUtils.isBlank(ids)){
 			return this.getResult(0);
@@ -135,8 +141,8 @@ public class SysResourceAction extends BaseAction{
 	}
 
     @RequestMapping(value = "/export")
-    @ResponseBody   
-    public Object exportExcel(@RequestParam(value = "pid", required = false) Long pid, @RequestParam(value = "name", required = false) String name,
+	@RequiresPermissions(value={"resource:export"})
+    public @ResponseBody Object exportExcel(@RequestParam(value = "pid", required = false) Long pid, @RequestParam(value = "name", required = false) String name,
 							  @RequestParam(value = "code") String code, @RequestParam(value = "type") String type,
 							  @RequestParam(value = "url", required = false) String url, @RequestParam(value = "status") Integer status,
 							  @RequestParam(value = "sort", required = false) Integer sort, @RequestParam(value = "remark", required = false) String remark,
